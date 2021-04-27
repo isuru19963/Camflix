@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "777673650559",
+    "project_id": "camflix-ca765",
+    "storage_bucket": "camflix-ca765.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:777673650559:android:6a83d88853588cdd086a4a",
+        "android_client_info": {
+          "package_name": "live.camflix.movies"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "777673650559-2h8oasa23danqns1lroabt6pksfqg1uv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuDwrHNPAx8bb3unnBLNeICZmUQhnKzMk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "777673650559-2h8oasa23danqns1lroabt6pksfqg1uv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
