@@ -8,6 +8,7 @@ import 'package:nexthour/common/apipath.dart';
 import 'package:nexthour/common/global.dart';
 import 'package:nexthour/common/route_paths.dart';
 import 'package:nexthour/providers/user_profile_provider.dart';
+import 'package:nexthour/ui/shared/ContactUsPage.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 import 'package:nexthour/providers/app_config.dart';
@@ -406,6 +407,32 @@ class _MenuScreenState extends State<MenuScreen> {
           ),
         ));
   }
+  //  Contact Us
+  Widget contactus() {
+    return InkWell(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) =>
+                ContactUsPage()),
+          );
+        },
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(20.0, 12.0, 10.0, 12.0),
+          child: Row(
+            children: <Widget>[
+              Text(
+                "Contact Us",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Colors.white70,
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.w400),
+              ),
+            ],
+          ),
+        ));
+  }
 
   // Blog
   Widget blog() {
@@ -609,6 +636,7 @@ class _MenuScreenState extends State<MenuScreen> {
           appConfig.blogs.length != 0 ? blog() : SizedBox.shrink(),
           subscribe(),
           help(),
+          contactus(),
           rateUs(),
           shareApp(),
           signOut(),

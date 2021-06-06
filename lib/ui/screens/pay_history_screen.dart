@@ -9,45 +9,45 @@ class PaymentHistoryScreen extends StatefulWidget {
 
 class _PaymentHistoryScreenState extends State<PaymentHistoryScreen> {
 
-  //  Text on container to select stripe history
-  Widget stripeText(){
-    return Expanded(
-      flex: 4,
-      child: Text("Stripe Payment History"),
-    );
-  }
-
-//  Container to select stripe payment history
-  Widget goToStripeHistory(){
-    return InkWell(
-      child: Container(
-        height: 80.0,
-        child: Card(
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(35.0, 0.0, 10.0, 0.0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    flex: 4,
-                    child: Text("Stripe Payment History"),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Icon(Icons.arrow_forward_ios, size: 15.0,),
-                  )
-                ],
-              ),
-            )),
-      ),
-
-//   This onTap take you to the next screen that contains stripe payment history.
-      onTap: (){
-        Navigator.pushNamed(context, RoutePaths.stripeHistory);
-      },
-    );
-  }
+//   //  Text on container to select stripe history
+//   Widget stripeText(){
+//     return Expanded(
+//       flex: 4,
+//       child: Text("Stripe Payment History"),
+//     );
+//   }
+//
+// //  Container to select stripe payment history
+//   Widget goToStripeHistory(){
+//     return InkWell(
+//       child: Container(
+//         height: 80.0,
+//         child: Card(
+//             child: Padding(
+//               padding: EdgeInsets.fromLTRB(35.0, 0.0, 10.0, 0.0),
+//               child: Row(
+//                 crossAxisAlignment: CrossAxisAlignment.center,
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 children: <Widget>[
+//                   Expanded(
+//                     flex: 4,
+//                     child: Text("Stripe Payment History"),
+//                   ),
+//                   Expanded(
+//                     flex: 1,
+//                     child: Icon(Icons.arrow_forward_ios, size: 15.0,),
+//                   )
+//                 ],
+//               ),
+//             )),
+//       ),
+//
+// //   This onTap take you to the next screen that contains stripe payment history.
+//       onTap: (){
+//         Navigator.pushNamed(context, RoutePaths.stripeHistory);
+//       },
+//     );
+//   }
 
 //  Container to choose other payment history
   Widget goToOtherHistory(){
@@ -63,7 +63,7 @@ class _PaymentHistoryScreenState extends State<PaymentHistoryScreen> {
                 children: <Widget>[
                   Expanded(
                     flex: 3,
-                    child: Text("Other Payment History"),
+                    child: Text("Camflix Payment History"),
                   ),
                   Expanded(
                     flex: 1,
@@ -89,7 +89,7 @@ class _PaymentHistoryScreenState extends State<PaymentHistoryScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          goToStripeHistory(),
+          // goToStripeHistory(),
           Container(
             height: 2.0,
           ),

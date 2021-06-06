@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:nexthour/ui/shared/ContactUsPage.dart';
 import 'package:share/share.dart';
 
 // Share tab
-class SharePage extends StatelessWidget {
-  SharePage(this.shareType, this.shareId);
+class ContactUs extends StatelessWidget {
+  ContactUs(this.shareType, this.shareId);
   final shareType;
   final shareId;
 
   Widget shareText(){
     return Text(
-      "Share",
+      "Contact Us",
       style: TextStyle(
           fontFamily: 'Lato',
           fontSize: 12.0,
@@ -27,7 +28,7 @@ class SharePage extends StatelessWidget {
       MainAxisAlignment.center,
       children: <Widget>[
         Icon(
-          Icons.share,
+          Icons.phone,
           size: 30.0,
           color: Colors.white,
         ),
@@ -48,7 +49,11 @@ class SharePage extends StatelessWidget {
           child:  new InkWell(
             onTap: () {
               // Share.share('$shareType'+'$shareId');
-              Share.share('$shareType');
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) =>
+                    ContactUsPage()),
+              );
             },
             child: shareTabColumn(),
           ),

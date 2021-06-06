@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:nexthour/ui/gateways/CinetPay/cinet_payment.dart';
 import 'package:nexthour/ui/gateways/in_app_payment.dart';
 import 'package:nexthour/ui/screens/actors_movies_grid.dart';
 import 'package:nexthour/ui/screens/apply_coupon_screen.dart';
 import 'package:nexthour/ui/screens/change_password_screen.dart';
 import 'package:nexthour/ui/screens/create_screen_profile.dart';
 import 'package:nexthour/ui/screens/forgot_password_screen.dart';
+import 'package:nexthour/ui/screens/home_screen.dart';
 import 'package:nexthour/ui/screens/live_video_grid.dart';
 import 'package:nexthour/ui/screens/manage_profile_screen.dart';
 import 'package:nexthour/ui/screens/notification_detail_screen.dart';
@@ -57,6 +59,8 @@ class RouteGenerator {
         return PageTransition(child: IntroScreen(), type: PageTransitionType.rightToLeft);
       case RoutePaths.loginHome:
         return PageTransition(child: LoginHome(), type: PageTransitionType.rightToLeft);
+      case RoutePaths.home:
+        return MaterialPageRoute(builder: (context) => HomeScreen());
       case RoutePaths.login:
         return MaterialPageRoute(builder: (context) => LoginScreen());
       case RoutePaths.register:
@@ -141,6 +145,18 @@ class RouteGenerator {
       case RoutePaths.inApp:
         InApp argument = args;
         return MaterialPageRoute(builder: (context) => InApp(argument.index));
+      case RoutePaths.cinetPay:
+        CinetPayment argument = args;
+        return MaterialPageRoute(builder: (context) => CinetPayment(
+          onFinish: argument.onFinish,
+          currency: argument.currency,
+          userFirstName: argument.userFirstName,
+          userLastName: argument.userLastName,
+          userEmail: argument.userEmail,
+          payAmount: argument.payAmount,
+          planIndex: argument.planIndex,
+
+        ));
       case RoutePaths.forgotPassword:
         ForgotPassword argument = args;
         return MaterialPageRoute(builder: (context) => ForgotPassword(argument.email));

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -8,9 +10,11 @@ import 'package:nexthour/providers/login_provider.dart';
 import 'package:nexthour/providers/user_profile_provider.dart';
 import 'package:nexthour/ui/shared/appbar.dart';
 import 'package:nexthour/ui/shared/logo.dart';
+import 'package:nexthour/ui/widgets/TextFieldContainer.dart';
 import 'package:nexthour/ui/widgets/register_here.dart';
 import 'package:provider/provider.dart';
-
+import 'package:searchable_dropdown/searchable_dropdown.dart';
+import 'package:http/http.dart' as http;
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -21,14 +25,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController _nameController = new TextEditingController();
   TextEditingController _emailController = new TextEditingController();
   TextEditingController _passController = new TextEditingController();
+  TextEditingController _mobileController = new TextEditingController();
+
   final scaffoldKey = new GlobalKey<ScaffoldState>();
   final _formKey = new GlobalKey<FormState>();
   bool _showPassword = false;
   bool _isLoading = false;
+  List dataCountry = List();
+  String selectedCountry;
+  String selectedCountryName;
+  String selectedCountryShortCode;
+  String countryCode='01';
+  String mobileNo;
+  var countryDetails;
 
 
 // Sign up button
-
+  @override
+  void initState() {
+    getCountries();
+    super.initState();
+  }
   void _signUp() async{
     setState(() {
       _isLoading = true;
@@ -38,7 +55,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     form.save();
     if (form.validate() == true) {
       try {
-        await loginProvider.register(_nameController.text ,_emailController.text, _passController.text, context);
+        await loginProvider.register(_nameController.text ,_emailController.text, _passController.text,mobileNo,selectedCountryName,selectedCountryShortCode, context);
         if (loginProvider.loginStatus == true) {
           final userDetails = Provider.of<UserProfileProvider>(context, listen: false).userProfileModel;
           if(userDetails.active == 1 || userDetails.active == "1"){
@@ -56,6 +73,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             _nameController.text = '';
             _emailController.text = '';
             _passController.text = '';
+            _mobileController.text = '';
           });
           showAlertDialog(context, loginProvider.emailVerifyMsg);
         }else {
@@ -105,7 +123,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
     });
     }
   }
+  Future<String> getCountries() async {
+    var res=await http.get( 'https://restcountries.eu/rest/v2/all')
+        .then((result) {
+      setState(() {
+        dataCountry=json.decode(result.body);
+        print(result.body);
+      });
 
+    }).catchError((error) {
+      Fluttertoast.showToast(
+          msg: error.toString(),
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+    });
+
+    return "Sucess";
+  }
   showAlertDialog(BuildContext context, String msg) {
     var msg1 = msg.replaceAll('"', "");
     Widget okButton = FlatButton(
@@ -183,6 +221,43 @@ class _RegisterScreenState extends State<RegisterScreen> {
       ),
     );
   }
+  Widget mobileNoField(){
+    return Padding(
+      padding: EdgeInsets.all(15.0),
+      child: TextFormField(
+        controller: _mobileController,
+        validator: (value) {
+          if (value.length == 0) {
+            return 'Mobile No can not be empty';
+          } else {
+
+              return null;
+
+          }
+        },
+        keyboardType: TextInputType.phone,
+
+        decoration: InputDecoration(
+          prefixIcon: Icon(
+            Icons.phone_android,
+            color: primaryBlue,
+          ),
+          prefixText: '+'+countryCode.toString(),
+          prefixStyle: TextStyle(color: Colors.lightBlueAccent,fontSize: 16),
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.white),
+          ),
+          labelText: 'Mobile No',
+          labelStyle: TextStyle(color: Colors.grey[400]),
+        ),
+        onChanged: (value){
+          setState(() {
+            mobileNo=(countryCode+value).toString();
+          });
+        },
+      ),
+    );
+  }
 
   Widget nameField(){
     return Padding(
@@ -256,7 +331,60 @@ class _RegisterScreenState extends State<RegisterScreen> {
       ),
     );
   }
-
+  Widget CountryFieldText() {
+    return Row(children: [
+    Padding(
+    padding: EdgeInsets.all(15.0),
+    child: new Text(
+      'Select Country',
+      textAlign: TextAlign.start,
+      style: new TextStyle(fontSize: 20,color: Colors.white,),
+    ),
+    )
+    ],);
+  }
+  Widget CountryField() {
+    return Padding(
+      padding: EdgeInsets.all(15.0),
+      child: new SearchableDropdown.single(
+          items: dataCountry.map((item) {
+            return new DropdownMenuItem(
+              // child: new Text(item['name']),
+              child: Row(children: [
+                Text(item['name'])
+              ],),
+              value: item['name'].toString(),
+            );
+          }).toList(),
+          isExpanded: true,
+        underline: Container(
+          height: 1.0,
+          decoration: BoxDecoration(
+              border:
+              Border(bottom: BorderSide(color: Colors.deepPurpleAccent, width: 1.0))),
+        ),
+          value: selectedCountry,
+          hint: new Text(
+            'Select Country',
+            style: new TextStyle(fontSize: 20,color: Colors.white),
+          ),
+          searchHint: new Text(
+            'Select Country',
+            style: new TextStyle(fontSize: 30,color: Colors.white),
+          ),
+          onChanged: (value) {
+            setState(() {
+              countryDetails= dataCountry.where((item) => item['name']==value).toList();
+              countryCode=countryDetails[0]['callingCodes'][0];
+              selectedCountryShortCode=countryDetails[0]['alpha2Code'];
+              selectedCountryName=countryDetails[0]['name'];
+              selectedCountry = value;
+              print(selectedCountryShortCode);
+            });
+          },
+      )
+    );
+  }
   @override
   Widget build(BuildContext context) {
     final myModel = Provider.of<AppConfig>(context, listen: false);
@@ -275,6 +403,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   nameField(),
                   emailField(),
                   passwordField(),
+                  CountryField(),
+                  mobileNoField(),
                   SizedBox(height: 30,),
                   Padding(padding: EdgeInsets.symmetric(horizontal: 15.0),
                     child: Row(

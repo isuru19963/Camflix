@@ -19,6 +19,7 @@ import 'package:nexthour/ui/gateways/paytm_payment.dart';
 import 'package:nexthour/ui/gateways/razor_payment.dart';
 import 'package:nexthour/ui/gateways/stripe_payment.dart';
 import 'package:nexthour/ui/screens/apply_coupon_screen.dart';
+import 'package:nexthour/ui/gateways/CinetPay/cinet_payment.dart';
 import 'package:provider/provider.dart';
 
 
@@ -161,7 +162,8 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
       });
       _paymentTabController = TabController(vsync: this,
           length: listPaymentGateways != null
-              ? listPaymentGateways.length
+              // ? listPaymentGateways.length
+          ?1
               : 0,
           initialIndex: 0);
     });
@@ -210,49 +212,53 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
           indicatorColor: activeDotColor,
           isScrollable: true,
           tabs: List<Tab>.generate(
-            listPaymentGateways == null ? 0 : listPaymentGateways.length,
+            // listPaymentGateways == null ? 0 : listPaymentGateways.length,
+            1,
                 (int index) {
-              if (listPaymentGateways[index].title == 'stripe') {
-                return Tab(
-                  child: tabLabelText('Stripe'),
-                );
-              }
-              if (listPaymentGateways[index].title == 'btree') {
-                return Tab(
-                  child: tabLabelText('Braintree'),
-                );
-              }
-
-              if (listPaymentGateways[index].title == 'paystack') {
-                return Tab(
-                  child: tabLabelText('Paystack'),
-                );
-              }
-              if (listPaymentGateways[index].title == 'bankPayment') {
-                return Tab(
-                  child: tabLabelText('Bank Payment'),
-                );
-              }
-              if (listPaymentGateways[index].title == 'razorPayment') {
-                return Tab(
-                  child: tabLabelText('RazorPay'),
-                );
-              }
-              if (listPaymentGateways[index].title == 'paytmPayment') {
-                return Tab(
-                  child: tabLabelText('Paytm'),
-                );
-              }
-              if (listPaymentGateways[index].title == 'paypalPayment') {
-                return Tab(
-                  child: tabLabelText('PayPal'),
-                );
-              }
-              if (listPaymentGateways[index].title == 'inapp') {
-                return Tab(
-                  child: tabLabelText('In App'),
-                );
-              }
+          return Tab(
+          child: tabLabelText('Cinetpay'),
+          );
+              // if (listPaymentGateways[index].title == 'stripe') {
+              //   return Tab(
+              //     child: tabLabelText('Stripe'),
+              //   );
+              // }
+              // if (listPaymentGateways[index].title == 'btree') {
+              //   return Tab(
+              //     child: tabLabelText('Braintree'),
+              //   );
+              // }
+              //
+              // if (listPaymentGateways[index].title == 'paystack') {
+              //   return Tab(
+              //     child: tabLabelText('Paystack'),
+              //   );
+              // }
+              // if (listPaymentGateways[index].title == 'bankPayment') {
+              //   return Tab(
+              //     child: tabLabelText('Bank Payment'),
+              //   );
+              // }
+              // if (listPaymentGateways[index].title == 'razorPayment') {
+              //   return Tab(
+              //     child: tabLabelText('RazorPay'),
+              //   );
+              // }
+              // if (listPaymentGateways[index].title == 'paytmPayment') {
+              //   return Tab(
+              //     child: tabLabelText('Paytm'),
+              //   );
+              // }
+              // if (listPaymentGateways[index].title == 'paypalPayment') {
+              //   return Tab(
+              //     child: tabLabelText('PayPal'),
+              //   );
+              // }
+              // if (listPaymentGateways[index].title == 'inapp') {
+              //   return Tab(
+              //     child: tabLabelText('In App'),
+              //   );
+              // }
               return null;
             },
           ),
@@ -628,7 +634,7 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
 //  Swipe down text
   Widget swipeDownText() {
     return Text(
-      "Swipe down wallet to pay",
+      "Click the wallet to pay",
       style: TextStyle(
           fontSize: 16.0,
           color: Colors.white.withOpacity(0.7)),
@@ -652,49 +658,86 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
           children: <Widget>[
             Padding(padding: EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 0.0)
             ),
-            swipeDownRow(),
-            Dismissible(
-                direction: DismissDirection.down,
-                key: Key("$indexPer"),
-                confirmDismiss: (direction) async {
-                  if (direction == DismissDirection.startToEnd) {
-                    return false;
-                  } else if (direction == DismissDirection.endToStart) {
-                    return true;
+            // swipeDownRow(),
+            new RaisedButton(
+              onPressed: () async {
+                // if (direction == DismissDirection.startToEnd) {
+                //   return false;
+                // } else if (direction == DismissDirection.endToStart) {
+                //   return true;
+                // }
+                if (couponCode == '') {
+                  if(genCoupon == null ){
+                    Navigator.pushReplacement(
+                        context, MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            BankPayment()
+                    )
+                    );
+                  }else {
+                    Navigator.pushReplacement(
+                        context, MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            BankPayment()
+                    )
+                    );
                   }
-                  if (couponCode == '') {
-                    if(genCoupon == null ){
-                      Navigator.pushReplacement(
-                          context, MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              BankPayment()
-                      )
-                      );
-                    }else {
-                      Navigator.pushReplacement(
-                          context, MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              BankPayment()
-                      )
-                      );
-                    }
 
-                  }
-                  else {
-                    Future.delayed(Duration(seconds: 1)).then((_) {
-                      Fluttertoast.showToast(
-                          msg: "Coupon is only applicable to Stripe");
-                    });
-                  }
-                  return null;
-                },
-
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(
-                      120.0, 0.0, 100.0, 0.0),
-                  child: Image.asset("assets/bankwallets.png"),
-                )
-            ),
+                }
+                else {
+                  Future.delayed(Duration(seconds: 1)).then((_) {
+                    Fluttertoast.showToast(
+                        msg: "Coupon is only applicable to Stripe");
+                  });
+                }
+                return null;
+              },
+              color: Colors.green,
+              shape: new RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+              child: new Text("Pay by Cinetpay", style: new TextStyle(color: Colors.white, fontSize: 20.0)),
+            )
+            // Dismissible(
+            //     direction: DismissDirection.down,
+            //     key: Key("$indexPer"),
+            //     confirmDismiss: (direction) async {
+            //       if (direction == DismissDirection.startToEnd) {
+            //         return false;
+            //       } else if (direction == DismissDirection.endToStart) {
+            //         return true;
+            //       }
+            //       if (couponCode == '') {
+            //         if(genCoupon == null ){
+            //           Navigator.pushReplacement(
+            //               context, MaterialPageRoute(
+            //               builder: (BuildContext context) =>
+            //                   BankPayment()
+            //           )
+            //           );
+            //         }else {
+            //           Navigator.pushReplacement(
+            //               context, MaterialPageRoute(
+            //               builder: (BuildContext context) =>
+            //                   BankPayment()
+            //           )
+            //           );
+            //         }
+            //
+            //       }
+            //       else {
+            //         Future.delayed(Duration(seconds: 1)).then((_) {
+            //           Fluttertoast.showToast(
+            //               msg: "Coupon is only applicable to Stripe");
+            //         });
+            //       }
+            //       return null;
+            //     },
+            //
+            //     child: Padding(
+            //       padding: EdgeInsets.fromLTRB(
+            //           120.0, 0.0, 100.0, 0.0),
+            //       child: Image.asset("assets/bankwallets.png"),
+            //     )
+            // ),
           ],
         ),
       ),
@@ -1010,6 +1053,219 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
           ],
         ),
       ),
+    );
+  }
+  // //  Cinet payment wallet
+  // Widget cinetPayment(indexPer) {
+  //   return Container(
+  //     width: double.infinity,
+  //     height: double.infinity,
+  //     color: Theme
+  //         .of(context)
+  //         .backgroundColor,
+  //
+  //     child: SingleChildScrollView(
+  //       child: Column(
+  //         crossAxisAlignment: CrossAxisAlignment.center,
+  //         mainAxisAlignment: MainAxisAlignment.center,
+  //         mainAxisSize: MainAxisSize.min,
+  //         children: <Widget>[
+  //           Padding(padding: EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 0.0)
+  //           ),
+  //           Row(
+  //             crossAxisAlignment: CrossAxisAlignment.center,
+  //             mainAxisAlignment: MainAxisAlignment.center,
+  //             children: <Widget>[
+  //               Container(
+  //                 height: 100.0,
+  //               ),
+  //               Container(
+  //                 height: 25.0,
+  //                 width: 25.0,
+  //                 decoration: BoxDecoration(
+  //                   border: Border.all(
+  //                       width: 2.0,
+  //                       color: Color.fromRGBO(
+  //                           125, 183, 91, 1.0)),
+  //                   shape: BoxShape.circle,
+  //                   color: Theme
+  //                       .of(context)
+  //                       .backgroundColor,
+  //                 ),
+  //                 child: Icon(Icons.keyboard_arrow_down,
+  //                     size: 21.0,
+  //                     color: Colors.white.withOpacity(0.7)),
+  //               ),
+  //               SizedBox(
+  //                 width: 10.0,
+  //               ),
+  //               Text(
+  //                 "Swipe down wallet to pay",
+  //                 style: TextStyle(
+  //                     fontSize: 16.0,
+  //                     color: Colors.white.withOpacity(0.7)),
+  //               ),
+  //             ],
+  //           ),
+  //
+  //           Dismissible(
+  //               direction: DismissDirection.down,
+  //               key: Key('$indexPer'),
+  //               confirmDismiss: (direction) async {
+  //                 if (direction == DismissDirection.startToEnd) {
+  //                   return false;
+  //                 } else if (direction == DismissDirection.endToStart) {
+  //                   return true;
+  //                 }
+  //                 if (couponCode == '') {
+  //                   if(genCoupon == null){
+  //                     Navigator.pushNamed(context, RoutePaths.cinetPay, arguments: CinetPayment(indexPer));
+  //                   }else{
+  //                     Navigator.pushNamed(context, RoutePaths.cinetPay, arguments: CinetPayment(indexPer));
+  //                   }
+  //                 } else {
+  //                   Future.delayed(Duration(seconds: 1)).then((_) {
+  //                     Fluttertoast.showToast(
+  //                         msg: "Coupon is only applicable to Stripe");
+  //                   });
+  //                 }
+  //                 return null;
+  //               },
+  //               child: Padding(
+  //                 padding: EdgeInsets.fromLTRB(
+  //                     120.0, 0.0, 100.0, 0.0),
+  //                 child: Image.asset("assets/cinetpay.png"),
+  //               )
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
+  //  paypal payment wallet
+  Widget cinetPayment(indexPer) {
+    var userDetails = Provider
+        .of<UserProfileProvider>(context, listen: false)
+        .userProfileModel;
+    var appConfig = Provider
+        .of<AppConfig>(context, listen: false)
+        .appModel;
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      color: Theme
+          .of(context)
+          .backgroundColor,
+
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Padding(padding: EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 0.0)
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                // Container(
+                //   height: 60.0,
+                // ),
+                SizedBox(
+                  width: 13.0,
+                ),
+                Padding(padding: EdgeInsets.all(30.0),
+                  child: Image.asset("assets/cinetpay.png", scale: 1.0, width: 150.0,),
+                ),
+
+                SizedBox(
+                  width: 10.0,
+                ),
+                // Text(
+                //   "Swipe down wallet to pay",
+                //   style: TextStyle(
+                //       fontSize: 16.0,
+                //       color: Colors.white.withOpacity(0.7)),
+                // ),
+              ],
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                // Container(
+                //   height: 60.0,
+                // ),
+                new RaisedButton(
+                  onPressed: () async {
+                    if (couponCode == '') {
+                      if(genCoupon == null){
+                        onPayWithCinetPay(appConfig, userDetails, indexPer, null);
+                      }else{
+                        onPayWithCinetPay(appConfig, userDetails, indexPer, genCoupon);
+                      }
+                    } else {
+                      Future.delayed(Duration(seconds: 1)).then((_) {
+                        Fluttertoast.showToast(
+                            msg: "Coupon is only applicable to Stripe");
+                      });
+                    }
+                    return null;
+
+                  },
+                  color: Colors.green,
+                  shape: new RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                  child: new Text("Pay by Cinetpay", style: new TextStyle(color: Colors.white, fontSize: 20.0)),
+                )
+              ],
+            ),
+
+            // Dismissible(
+            //     direction: DismissDirection.down,
+            //     key: Key('$indexPer'),
+            //     confirmDismiss: (direction) async {
+            //       if (direction == DismissDirection.startToEnd) {
+            //         return false;
+            //       } else if (direction == DismissDirection.endToStart) {
+            //         return true;
+            //       }
+            //       if (couponCode == '') {
+            //         if(genCoupon == null){
+            //           onPayWithCinetPay(appConfig, userDetails, indexPer, null);
+            //         }else{
+            //           onPayWithCinetPay(appConfig, userDetails, indexPer, genCoupon);
+            //         }
+            //       } else {
+            //         Future.delayed(Duration(seconds: 1)).then((_) {
+            //           Fluttertoast.showToast(
+            //               msg: "Coupon is only applicable to Stripe");
+            //         });
+            //       }
+            //       return null;
+            //     },
+            //     child: Padding(
+            //       padding: EdgeInsets.fromLTRB(
+            //           120.0, 0.0, 100.0, 0.0),
+            //       child: Image.asset("assets/cinetpay.png"),
+            //     )
+            // ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void onPayWithCinetPay(appConfig, userDetails, indexPer, amount) {
+    Navigator.pushNamed(context, RoutePaths.cinetPay, arguments: CinetPayment(
+      onFinish: (number) async {},
+      currency: "${appConfig.config.currencyCode}",
+      userFirstName: userDetails.user.name,
+      userLastName: "",
+      userEmail: userDetails.user.email,
+      payAmount: amount == null ? "${appConfig.plans[indexPer].amount}" : "$amount",
+      planIndex: appConfig.plans[widget.planIndex].id,
+    ),
     );
   }
 
@@ -1433,48 +1689,52 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
         controller: _paymentTabController,
         physics: PageScrollPhysics(),
         children: List<Widget>.generate(
-            listPaymentGateways == null ? 0 : listPaymentGateways.length,
+            // listPaymentGateways == null ? 0 : listPaymentGateways.length,
+                1,
                 (int index) {
-              if (listPaymentGateways[index].title == 'btree') {
-                return InkWell(
-                  child: braintreePayment(widget.planIndex),
-                );
-              }
-              if (listPaymentGateways[index].title == 'stripe') {
-                return InkWell(
-                  child: stripePaymentWallet(widget.planIndex),
-                );
-              }
-              if (listPaymentGateways[index].title == 'paystack') {
-                return InkWell(
-                  child: paystackPaymentWallet(widget.planIndex),
-                );
-              }
-              if (listPaymentGateways[index].title == 'bankPayment') {
-                return InkWell(
-                  child: bankPaymentWallet(widget.planIndex),
-                );
-              }
-              if (listPaymentGateways[index].title == 'razorPayment') {
-                return InkWell(
-                  child: razorPaymentWallet(widget.planIndex),
-                );
-              }
-              if (listPaymentGateways[index].title == 'paytmPayment') {
-                return InkWell(
-                  child: paytmPaymentWallet(widget.planIndex),
-                );
-              }
-              if (listPaymentGateways[index].title == 'paypalPayment') {
-                return InkWell(
-                  child: paypalPayment(widget.planIndex),
-                );
-              }
-              if (listPaymentGateways[index].title == 'inapp') {
-                return InkWell(
-                  child: inappPayment(widget.planIndex),
-                );
-              }
+                  return InkWell(
+                          child: cinetPayment(widget.planIndex),
+                        );
+              // if (listPaymentGateways[index].title == 'btree') {
+              //   return InkWell(
+              //     child: braintreePayment(widget.planIndex),
+              //   );
+              // }
+              // if (listPaymentGateways[index].title == 'stripe') {
+              //   return InkWell(
+              //     child: stripePaymentWallet(widget.planIndex),
+              //   );
+              // }
+              // if (listPaymentGateways[index].title == 'paystack') {
+              //   return InkWell(
+              //     child: paystackPaymentWallet(widget.planIndex),
+              //   );
+              // }
+              // if (listPaymentGateways[index].title == 'bankPayment') {
+              //   return InkWell(
+              //     child: bankPaymentWallet(widget.planIndex),
+              //   );
+              // }
+              // if (listPaymentGateways[index].title == 'razorPayment') {
+              //   return InkWell(
+              //     child: razorPaymentWallet(widget.planIndex),
+              //   );
+              // }
+              // if (listPaymentGateways[index].title == 'paytmPayment') {
+              //   return InkWell(
+              //     child: paytmPaymentWallet(widget.planIndex),
+              //   );
+              // }
+              // if (listPaymentGateways[index].title == 'paypalPayment') {
+              //   return InkWell(
+              //     child: paypalPayment(widget.planIndex),
+              //   );
+              // }
+              // if (listPaymentGateways[index].title == 'inapp') {
+              //   return InkWell(
+              //     child: inappPayment(widget.planIndex),
+              //   );
+              // }
               return null;
             })
     );
@@ -1520,7 +1780,7 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
     return SafeArea(
       child: WillPopScope(
           child: DefaultTabController(
-            length: 2,
+            length: 1,
             child: Scaffold(
               key: _scaffoldKey,
               body: loading == true ? Center(

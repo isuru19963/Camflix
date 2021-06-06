@@ -1,6 +1,7 @@
 
 class RoutePaths {
   static const String appTitle = 'Next Hour';
+  static const String home = 'Home Screen';
   static const String splashScreen = 'splash';
   static const String introSlider = 'intro';
   static const String login = 'login';
@@ -48,4 +49,5 @@ class RoutePaths {
   static const String watchHistory = 'watchHistory';
   static const String createScreen = 'createScreen';
   static const String applyCoupon = 'applyCoupon';
+  static const String cinetPay = 'cinetPay';
 }

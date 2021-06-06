@@ -39,6 +39,7 @@ class APIData {
   static const String userProfileUpdate = domainApiLink+"profileupdate";
   static const String stripeProfileApi = domainApiLink+"stripeprofile";
   static const String stripeDetailApi = domainApiLink+"stripedetail";
+  static const String cinetpaydetail = domainApiLink+"cinetpaydetail";
   static const String clientNonceApi = domainApiLink+"bttoken";
   static const String sendPaymentNonceApi = domainApiLink+"btpayment";
   static const String stripeUpdateApi = domainApiLink+"stripeupdate/";

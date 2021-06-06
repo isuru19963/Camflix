@@ -25,6 +25,7 @@ import 'package:nexthour/services/download/download_episode_page.dart';
 import 'package:nexthour/services/download/download_page.dart';
 import 'package:nexthour/ui/shared/artist_list.dart';
 import 'package:nexthour/ui/shared/color_loader.dart';
+import 'package:nexthour/ui/shared/contactUs.dart';
 import 'package:nexthour/ui/shared/container_border.dart';
 import 'package:nexthour/ui/shared/description_text.dart';
 import 'package:nexthour/ui/shared/rate_us.dart';
@@ -139,10 +140,12 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>  with TickerProvi
                     children: [
                       WishListView(widget.videoDetail),
                       RateUs(widget.videoDetail.type, widget.videoDetail.id),
-                      SharePage(APIData.shareMovieUri, widget.videoDetail.id),
-                      widget.videoDetail.type == DatumType.M
-                          ? DownloadPage(widget.videoDetail)
-                          : SizedBox.shrink(),
+                      // SharePage(APIData.shareMovieUri, widget.videoDetail.id),
+                      SharePage('https://play.google.com/store/apps/details?id=live.camflix.movies', widget.videoDetail.id),
+                     // ContactUs('https://play.google.com/store/apps/details?id=live.camflix.movies', widget.videoDetail.id),
+                      // widget.videoDetail.type == DatumType.M
+                      //     ? DownloadPage(widget.videoDetail)
+                      //     : SizedBox.shrink(),
                     ],
                   ),
                   SizedBox(
@@ -1415,7 +1418,9 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>  with TickerProvi
                         children: [
                           WishListView(widget.videoDetail),
                           RateUs(widget.videoDetail.type, widget.videoDetail.id),
-                          SharePage(APIData.shareMovieUri, widget.videoDetail.id),
+                          // SharePage(APIData.shareMovieUri, widget.videoDetail.id),
+                          SharePage('https://play.google.com/store/apps/details?id=live.camflix.movies', widget.videoDetail.id),
+
                           widget.videoDetail.type == DatumType.M
                               ? DownloadPage(widget.videoDetail)
                               : SizedBox.shrink(),

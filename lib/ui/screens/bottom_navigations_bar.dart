@@ -22,7 +22,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
     HomeScreen(),
     SearchScreen(),
     WishListScreen(),
-    DownloadScreen(),
+    //DownloadScreen(),
     MenuScreen(),
   ];
 
@@ -53,7 +53,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
               BottomNavigationBarItem(title: Text("Home"), icon: Icon(Icons.home)),
               BottomNavigationBarItem(title: Text("Search"), icon: Icon(Icons.search)),
               BottomNavigationBarItem(title: Text("Wishlist"), icon: Icon(Icons.favorite_border)),
-              BottomNavigationBarItem(title: Text("Download"), icon: Icon(Icons.file_download)),
+              //BottomNavigationBarItem(title: Text("Download"), icon: Icon(Icons.file_download)),
               BottomNavigationBarItem(title: Text('Menu'), icon: Icon(Icons.menu)),
             ],
             currentIndex: _selectedIndex,

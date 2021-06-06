@@ -5,7 +5,7 @@ import 'package:nexthour/ui/screens/select_payment_screen.dart';
 import 'package:nexthour/ui/shared/appbar.dart';
 import 'package:nexthour/ui/shared/color_loader.dart';
 import 'package:provider/provider.dart';
-
+import 'package:nexthour/providers/user_profile_provider.dart';
 class SubPlanScreen extends StatefulWidget {
   @override
   _SubPlanScreenState createState() => _SubPlanScreenState();
@@ -16,6 +16,7 @@ class _SubPlanScreenState extends State<SubPlanScreen> {
 //  List used to show all the plans using home API
   List<Widget> _buildCards(int count) {
     var planDetails=Provider.of<AppConfig>(context,listen: false).planList;
+    var userDetails = Provider.of<UserProfileProvider>(context, listen: false).userProfileModel;
     List<Widget> cards = List.generate(count, (int index) {
       dynamic planAm = planDetails[index].amount;
       switch (planAm.runtimeType) {
@@ -40,9 +41,12 @@ class _SubPlanScreenState extends State<SubPlanScreen> {
       dynamic mPlanStatus = planDetails[index].status;
       if(mPlanStatus.runtimeType == int){
         if(planDetails[index].status == 1){
+          print(planDetails[index].name);
+          print(userDetails.currentSubscription);
+
           return planDetails[index].deleteStatus == 0 ? SizedBox.shrink() : Container(
             margin: EdgeInsets.only(top: 10.0),
-            child: subscriptionCards(index, dailyAmountAp),
+            child: planDetails[index].name!=userDetails.currentSubscription?subscriptionCards(index, dailyAmountAp):alreadysubscriptionCards(index, dailyAmountAp),
           );
         }else{
           return SizedBox.shrink();
@@ -61,6 +65,17 @@ class _SubPlanScreenState extends State<SubPlanScreen> {
 
 
   Widget subscribeButton(index){
+
+
+      // return Row(
+      //   crossAxisAlignment: CrossAxisAlignment.center,
+      //   mainAxisAlignment: MainAxisAlignment.center,
+      //   children: <Widget>[
+      //
+      //     Text("Active Plans : ", style: TextStyle(fontSize: 16.0,fontWeight: FontWeight.w400)),
+      //     Text(userDetails.currentSubscription == null ?  userDetails.payment == "Free" ? "Free Trial" : 'N/A' : '${userDetails.currentSubscription}', style: TextStyle(fontSize: 16.0,fontWeight: FontWeight.w800),),
+      //   ],
+      // );
     return Padding(
       padding: EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
       child: Column(
@@ -110,6 +125,68 @@ class _SubPlanScreenState extends State<SubPlanScreen> {
       ),
     );
   }
+  Widget alreadySubscribeButton(index){
+
+
+    // return Row(
+    //   crossAxisAlignment: CrossAxisAlignment.center,
+    //   mainAxisAlignment: MainAxisAlignment.center,
+    //   children: <Widget>[
+    //
+    //     Text("Active Plans : ", style: TextStyle(fontSize: 16.0,fontWeight: FontWeight.w400)),
+    //     Text(userDetails.currentSubscription == null ?  userDetails.payment == "Free" ? "Free Trial" : 'N/A' : '${userDetails.currentSubscription}', style: TextStyle(fontSize: 16.0,fontWeight: FontWeight.w800),),
+    //   ],
+    // );
+    return Padding(
+      padding: EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Material(
+            borderRadius: BorderRadius.circular(25.0),
+            child: Container(
+              height: 40.0,
+              width: 150.0,
+              decoration: BoxDecoration(
+                borderRadius: new BorderRadius.circular(20.0),
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomRight,
+                  stops: [0.1, 0.5, 0.7, 0.9],
+                  colors: [
+                    Color.fromRGBO(72, 163, 198, 0.4)
+                        .withOpacity(0.4),
+                    Color.fromRGBO(72, 163, 198, 0.3)
+                        .withOpacity(0.5),
+                    Color.fromRGBO(72, 163, 198, 0.2)
+                        .withOpacity(0.6),
+                    Color.fromRGBO(72, 163, 198, 0.1)
+                        .withOpacity(0.7),
+                  ],
+                ),
+              ),
+              child: new MaterialButton(
+                  height: 50.0,
+                  splashColor: Color.fromRGBO(72, 163, 198, 0.9),
+                  child: Text(
+                    "Subscribe",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onPressed: () {
+                    //   Working after clicking on subscribe button
+                    var router = new MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                        new SelectPaymentScreen(index));
+                    Navigator.of(context).push(router);
+                  }),
+            ),
+          ),
+          SizedBox(height: 8.0),
+        ],
+      ),
+    );
+  }
+
 
 //  Amount with currency
   Widget amountCurrencyText(index){
@@ -202,6 +279,66 @@ class _SubPlanScreenState extends State<SubPlanScreen> {
             ),
           ),
           subscribeButton(index),
+        ],
+      ),
+    );
+  }
+  //  Already Subscription cards
+  Widget alreadysubscriptionCards(index, dailyAmountAp){
+    var userDetails = Provider.of<UserProfileProvider>(context, listen: false).userProfileModel;
+    var date = userDetails.end.toString();
+    String yy = '';
+    if(date == null || userDetails.active != "1"){
+      yy='N/A';
+    }else{
+      yy = date.substring(8,10)+"/"+date.substring(5,7)+"/"+date.substring(0,4);
+    }
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      color: Colors.deepPurple,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          AspectRatio(
+            aspectRatio: 18.0 / 5.0,
+            child: Column(
+              children: <Widget>[
+                planNameText(index),
+                Padding(
+                  padding: EdgeInsets.only(top: 10.0),
+                ),
+                amountCurrencyText(index),
+                dailyAmountIntervalText(dailyAmountAp,index),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Expanded(
+                  child: Text(
+                    'You Already select '+ userDetails.currentSubscription+' Subscription Plan',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ],
+            ),
+
+              ],
+            ),
+          ),
+
+     Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Text("Plan will expired on : ", style: TextStyle(fontSize: 14.0),),
+        Text(yy,style: TextStyle(fontSize: 14.0,fontWeight: FontWeight.w800),) ,
+      ],
+    ),
+          SizedBox(height: 10,)
         ],
       ),
     );

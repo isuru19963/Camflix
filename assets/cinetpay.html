@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <style>
+            @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+              body {
+                width: 100%;
+              }
+            }
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script charset="utf-8" src="https://www.cinetpay.com/cdn/seamless_sdk/latest/cinetpay.prod.min.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+
+        window.addEventListener("flutterInAppWebViewPlatformReady", function(event) {
+            window.flutter_inappwebview.callHandler('elementToSend')
+                .then(function(result) {
+
+                var dataFromJSON = JSON.stringify(result);
+                var apikeyData = result.api_key;
+                var siteIdData = result.site_id;
+                var notificationUrlData = result.notification_url;
+                var amountData = result.amount;
+                var transIdData = result.transaction_id;
+                var currencyData = result.currency;
+                var designationData = result.designation;
+                var cpmCustomData = result.cpmCustom;
+
+                console.log('dataFromJSON '+dataFromJSON);
+
+                initData(apikeyData, siteIdData, notificationUrlData, amountData, transIdData, currencyData, designationData,  cpmCustomData);
+
+            });
+        });
+
+        function onSuccess(transId) {
+            window.flutter_inappwebview.callHandler('success', transId).then(function(result) {});
+        }
+
+        function onError(title, description) {
+            window.flutter_inappwebview.callHandler('error', title, description).then(function(result) {});
+        }
+
+        function init() {
+
+            CinetPay.setConfig({
+                apikey: document.getElementById('api_key').value,
+                site_id: parseInt(document.getElementById('site_id').value),
+                notify_url: document.getElementById('notification_url').value
+            });
+
+            CinetPay.on('error', function (event) {
+              console.log('error found '+JSON.stringify(event));
+
+              var description;
+                if (event.code == "602") {
+                    description = "Your account has insufficient balance to complete the transaction."
+                }
+                else if (event.code == "603") {
+                    description = "The service is unavailable. Please try again later."
+                }
+                else if (event.code == "604") {
+                    description = "Your temporary code is invalid."
+                }
+                else if (event.code == "606") {
+                    description = "Your payment information is incorrect."
+                }
+                else {
+                    description = "Your payment has failed."
+                }
+                onError('Erreur', description);
+            });
+
+            CinetPay.on('ajaxStart', function () {
+               console.log('ajaxStart');
+            });
+
+            CinetPay.on('ajaxStop', function () {
+               console.log('ajaxStop');
+            });
+
+            CinetPay.on('signatureCreated', function (token) {
+                console.log('Token generated: ' + token);
+            });
+
+            CinetPay.on('paymentPending', function (e) {
+                console.log('Payment pending: ' + e);
+            });
+
+            CinetPay.on('paymentSuccessfull', function (paymentInfo) {
+
+                    if(paymentInfo.cpm_result == '00') {
+                        onSuccess(document.getElementById('trans_id').value);
+                    }
+
+                    else {
+                        onError('Sortie', 'Vous avez annulé le paiement.');
+                    }
+
+            });
+
+            CinetPay.setSignatureData({
+                amount: parseInt(document.getElementById('amount').value),
+                trans_id: document.getElementById('trans_id').value,
+                currency: document.getElementById('currency').value,
+                designation: document.getElementById('designation').value,
+                custom: document.getElementById('cpm_custom').value
+            });
+            CinetPay.getSignature();
+
+        }
+
+        function initData(apikeyData, siteIdData, notificationUrlData, amountData, transIdData, currencyData, designationData,  cpmCustomData ) {
+
+            console.log("transId ===>  " + transIdData);
+            console.log("notificationUrlData ===>  " + notificationUrlData);
+            document.getElementById('api_key').value = apikeyData;
+            document.getElementById('site_id').value = siteIdData;
+            document.getElementById('notification_url').value = notificationUrlData;
+
+            document.getElementById('amount').value = amountData;
+            document.getElementById('trans_id').value = transIdData;
+            document.getElementById('currency').value = currencyData;
+            document.getElementById('designation').value = designationData;
+            document.getElementById('cpm_custom').value = cpmCustomData;
+
+            init();
+
+        }
+
+    </script>
+</head>
+
+<body>
+
+<form id="info_paiement">
+
+    <input type="hidden"  id="api_key" value="">
+    <input type="hidden"  id="site_id" value="">
+    <input type="hidden"  id="notification_url" value="">
+    <input type="hidden"  id="amount" value="0">
+    <input type="hidden" id="currency" value="CFA">
+    <input type="hidden" id="trans_id" value="">
+    <input type="hidden" id="cpm_custom" value="">
+    <input type="hidden" id="designation" value="">
+
+</form>
+
+</body>
+</html>
