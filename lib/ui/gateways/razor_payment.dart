@@ -16,7 +16,7 @@ import 'package:nexthour/ui/screens/splash_screen.dart';
 import 'package:nexthour/ui/shared/appbar.dart';
 import 'package:nexthour/ui/shared/success_ticket.dart';
 import 'package:provider/provider.dart';
-import 'package:razorpay_flutter/razorpay_flutter.dart';
+// import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class RazorPayment extends StatefulWidget {
   RazorPayment(this.index, this.payAmount);
@@ -29,7 +29,7 @@ class RazorPayment extends StatefulWidget {
 
 class _RazorPaymentState extends State<RazorPayment> {
   static const platform = const MethodChannel("razorpay_flutter");
-  Razorpay _razorpay;
+  // Razorpay _razorpay;
   bool isBack = false;
   bool isShowing = false;
   var razorResponse;
@@ -219,16 +219,16 @@ class _RazorPaymentState extends State<RazorPayment> {
     setState(() {
       isBack = true;
     });
-    _razorpay = Razorpay();
-    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
-    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
-    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+    // _razorpay = Razorpay();
+    // _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    // _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    // _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
   }
 
   @override
   void dispose() {
     super.dispose();
-    _razorpay.clear();
+    // _razorpay.clear();
   }
 
 
@@ -273,7 +273,7 @@ class _RazorPaymentState extends State<RazorPayment> {
     };
 
     try {
-      _razorpay.open(options);
+      // _razorpay.open(options);
     } catch (e) {
       debugPrint(e);
     }
@@ -304,26 +304,26 @@ class _RazorPaymentState extends State<RazorPayment> {
     }
   }
 
-  void _handlePaymentSuccess(PaymentSuccessResponse response) {
-    Fluttertoast.showToast(
-        msg: "SUCCESS: " + response.paymentId);
-    setState(() {
-      isShowing = true;
-      isBack = false;
-    });
-    sendRazorDetails(response.paymentId);
-  }
+  // void _handlePaymentSuccess(PaymentSuccessResponse response) {
+  //   Fluttertoast.showToast(
+  //       msg: "SUCCESS: " + response.paymentId);
+  //   setState(() {
+  //     isShowing = true;
+  //     isBack = false;
+  //   });
+  //   sendRazorDetails(response.paymentId);
+  // }
+  //
+  // void _handlePaymentError(PaymentFailureResponse response) {
+  //   Fluttertoast.showToast(
+  //       msg: "ERROR: " + response.code.toString() + " - " + response.message,);
+  //
+  // }
 
-  void _handlePaymentError(PaymentFailureResponse response) {
-    Fluttertoast.showToast(
-        msg: "ERROR: " + response.code.toString() + " - " + response.message,);
-
-  }
-
-  void _handleExternalWallet(ExternalWalletResponse response) {
-    Fluttertoast.showToast(
-        msg: "EXTERNAL_WALLET: " + response.walletName);
-  }
+  // void _handleExternalWallet(ExternalWalletResponse response) {
+  //   Fluttertoast.showToast(
+  //       msg: "EXTERNAL_WALLET: " + response.walletName);
+  // }
 
   goToDialog(subdate, time) {
     showDialog(

@@ -14,7 +14,7 @@ import 'package:nexthour/providers/movie_tv_provider.dart';
 import 'package:nexthour/providers/slider_provider.dart';
 import 'package:nexthour/providers/user_profile_provider.dart';
 import 'package:nexthour/ui/screens/multi_screen.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
+// import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
 import 'dart:async';
 
@@ -71,92 +71,92 @@ class SplashScreenState extends State<SplashScreen> with SingleTickerProviderSta
   }
 
   // For One Signal notification
-  Future<void> initPlatformState() async {
-    if (!mounted) return;
+  // Future<void> initPlatformState() async {
+  //   if (!mounted) return;
+  //
+  //   OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
+  //
+  //   OneSignal.shared.setRequiresUserPrivacyConsent(_requireConsent);
+  //
+  //   var settings = {
+  //     OSiOSSettings.autoPrompt: false,
+  //     OSiOSSettings.promptBeforeOpeningPushUrl: true
+  //   };
+  //
+  //   OneSignal.shared
+  //       .setNotificationReceivedHandler((OSNotification notification) {
+  //     this.setState(() {
+  //       _debugLabelString =
+  //       "Received notification: \n${notification.jsonRepresentation().replaceAll("\\n", "\n")}";
+  //     });
+  //   });
+  //
+  //   OneSignal.shared
+  //       .setNotificationOpenedHandler((OSNotificationOpenedResult result) {
+  //     this.setState(() {
+  //       _debugLabelString =
+  //       "Opened notification: \n${result.notification.jsonRepresentation().replaceAll("\\n", "\n")}";
+  //     });
+  //   });
+  //
+  //   OneSignal.shared
+  //       .setInAppMessageClickedHandler((OSInAppMessageAction action) {
+  //     this.setState(() {
+  //       _debugLabelString =
+  //       "In App Message Clicked: \n${action.jsonRepresentation().replaceAll("\\n", "\n")}";
+  //     });
+  //   });
+  //
+  //   OneSignal.shared
+  //       .setSubscriptionObserver((OSSubscriptionStateChanges changes) {});
+  //
+  //   OneSignal.shared
+  //       .setPermissionObserver((OSPermissionStateChanges changes) {});
+  //
+  //   OneSignal.shared.setEmailSubscriptionObserver(
+  //           (OSEmailSubscriptionStateChanges changes) {});
+  //
+  //   await OneSignal.shared.init(APIData.onSignalAppId, iOSSettings: settings);
+  //
+  //   OneSignal.shared
+  //       .setInFocusDisplayType(OSNotificationDisplayType.notification);
+  //
+  //   bool requiresConsent = await OneSignal.shared.requiresUserPrivacyConsent();
+  //
+  //   this.setState(() {
+  //     _enableConsentButton = requiresConsent;
+  //   });
+  //   oneSignalInAppMessagingTriggerExamples();
+  // }
 
-    OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
-
-    OneSignal.shared.setRequiresUserPrivacyConsent(_requireConsent);
-
-    var settings = {
-      OSiOSSettings.autoPrompt: false,
-      OSiOSSettings.promptBeforeOpeningPushUrl: true
-    };
-
-    OneSignal.shared
-        .setNotificationReceivedHandler((OSNotification notification) {
-      this.setState(() {
-        _debugLabelString =
-        "Received notification: \n${notification.jsonRepresentation().replaceAll("\\n", "\n")}";
-      });
-    });
-
-    OneSignal.shared
-        .setNotificationOpenedHandler((OSNotificationOpenedResult result) {
-      this.setState(() {
-        _debugLabelString =
-        "Opened notification: \n${result.notification.jsonRepresentation().replaceAll("\\n", "\n")}";
-      });
-    });
-
-    OneSignal.shared
-        .setInAppMessageClickedHandler((OSInAppMessageAction action) {
-      this.setState(() {
-        _debugLabelString =
-        "In App Message Clicked: \n${action.jsonRepresentation().replaceAll("\\n", "\n")}";
-      });
-    });
-
-    OneSignal.shared
-        .setSubscriptionObserver((OSSubscriptionStateChanges changes) {});
-
-    OneSignal.shared
-        .setPermissionObserver((OSPermissionStateChanges changes) {});
-
-    OneSignal.shared.setEmailSubscriptionObserver(
-            (OSEmailSubscriptionStateChanges changes) {});
-
-    await OneSignal.shared.init(APIData.onSignalAppId, iOSSettings: settings);
-
-    OneSignal.shared
-        .setInFocusDisplayType(OSNotificationDisplayType.notification);
-
-    bool requiresConsent = await OneSignal.shared.requiresUserPrivacyConsent();
-
-    this.setState(() {
-      _enableConsentButton = requiresConsent;
-    });
-    oneSignalInAppMessagingTriggerExamples();
-  }
-
-  oneSignalInAppMessagingTriggerExamples() async {
-    OneSignal.shared.addTrigger("trigger_1", "one");
-
-    Map<String, Object> triggers = new Map<String, Object>();
-    triggers["trigger_2"] = "two";
-    triggers["trigger_3"] = "three";
-    OneSignal.shared.addTriggers(triggers);
-
-    OneSignal.shared.removeTriggerForKey("trigger_2");
-
-    // ignore: unused_local_variable
-    Object triggerValue =
-    await OneSignal.shared.getTriggerValueForKey("trigger_3");
-    List<String> keys = new List<String>();
-    keys.add("trigger_1");
-    keys.add("trigger_3");
-    OneSignal.shared.removeTriggersForKeys(keys);
-
-    OneSignal.shared.pauseInAppMessages(false);
-  }
+  // oneSignalInAppMessagingTriggerExamples() async {
+  //   OneSignal.shared.addTrigger("trigger_1", "one");
+  //
+  //   Map<String, Object> triggers = new Map<String, Object>();
+  //   triggers["trigger_2"] = "two";
+  //   triggers["trigger_3"] = "three";
+  //   OneSignal.shared.addTriggers(triggers);
+  //
+  //   OneSignal.shared.removeTriggerForKey("trigger_2");
+  //
+  //   // ignore: unused_local_variable
+  //   Object triggerValue =
+  //   await OneSignal.shared.getTriggerValueForKey("trigger_3");
+  //   List<String> keys = new List<String>();
+  //   keys.add("trigger_1");
+  //   keys.add("trigger_3");
+  //   OneSignal.shared.removeTriggersForKeys(keys);
+  //
+  //   OneSignal.shared.pauseInAppMessages(false);
+  // }
 
   // For One Signal permission
-  void _handleConsent() {
-    OneSignal.shared.consentGranted(true);
-    this.setState(() {
-      _enableConsentButton = false;
-    });
-  }
+  // void _handleConsent() {
+  //   OneSignal.shared.consentGranted(true);
+  //   this.setState(() {
+  //     _enableConsentButton = false;
+  //   });
+  // }
 
   @override
   void initState() {
@@ -203,8 +203,8 @@ class SplashScreenState extends State<SplashScreen> with SingleTickerProviderSta
     await appConfig.getHomeData(context);
     final all = await storage.read(key: "login");
     if (all == "true") {
-      _handleConsent();
-      initPlatformState();
+      // _handleConsent();
+      // initPlatformState();
       var token = await storage.read(key: "authToken");
       setState(() {
         authToken = token;

@@ -1,4 +1,4 @@
-# nexthour
+# camflix
 
 A new Flutter application.
 

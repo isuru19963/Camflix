@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get_ip/get_ip.dart';
+// import 'package:get_ip/get_ip.dart';
 import 'package:nexthour/common/apipath.dart';
 import 'package:nexthour/common/global.dart';
 import 'package:nexthour/common/route_paths.dart';
@@ -51,7 +51,7 @@ class _MultiScreenState extends State<MultiScreen> {
   Future<void> initPlatformState() async {
     String ipAddress;
     try {
-      ipAddress = await GetIp.ipAddress;
+      // ipAddress = await GetIp.ipAddress;
     } on PlatformException {
       ipAddress = 'Failed to get ipAddress.';
     }

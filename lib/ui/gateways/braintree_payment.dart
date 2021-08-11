@@ -12,7 +12,7 @@ import 'package:nexthour/providers/app_config.dart';
 import 'package:nexthour/ui/screens/splash_screen.dart';
 import 'package:nexthour/ui/shared/appbar.dart';
 import 'package:nexthour/ui/shared/success_ticket.dart';
-import 'package:braintree_payment/braintree_payment.dart';
+// import 'package:braintree_payment/braintree_payment.dart';
 import 'package:provider/provider.dart';
 
 class BraintreePaymentScreen extends StatefulWidget {
@@ -100,18 +100,18 @@ class _BraintreePaymentScreenState extends State<BraintreePaymentScreen> {
 //    var data = await braintreePayment.showDropIn(
 //        nonce: clientNonce, amount: "2.0", enableGooglePay: true, nameRequired:true);
 
-    BraintreePayment braintreePayment = new BraintreePayment();
-    var data = await braintreePayment.showDropIn(
-        nonce: clientNonce,
-        amount: "${planDetails[widget.planIndex].amount}",
-        enableGooglePay: true);
-    print("Payyment: $data");
-    nonceStatus = data['status'];
-    noncePayment = data['paymentNonce'];
-    if (data['status'] == 'success') {
-      goToDialog2();
-      sendPaymentNonce();
-    }
+    // BraintreePayment braintreePayment = new BraintreePayment();
+    // var data = await braintreePayment.showDropIn(
+    //     nonce: clientNonce,
+    //     amount: "${planDetails[widget.planIndex].amount}",
+    //     enableGooglePay: true);
+    // print("Payyment: $data");
+    // nonceStatus = data['status'];
+    // noncePayment = data['paymentNonce'];
+    // if (data['status'] == 'success') {
+    //   goToDialog2();
+    //   sendPaymentNonce();
+    // }
   }
 
 //  Saving payment details to your server so that user details can be updated either user is subscribed or not subscribed.

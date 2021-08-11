@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+// import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:nexthour/common/apipath.dart';
 import 'package:nexthour/common/route_paths.dart';
@@ -22,7 +22,7 @@ class _LoginHomeState extends State<LoginHome> {
   bool _visible = false;
   bool isLoggedIn = false;
   var profileData;
-  var facebookLogin = FacebookLogin();
+  // var facebookLogin = FacebookLogin();
 
 
   void onLoginStatusChanged(bool isLoggedIn, {profileData}) {
