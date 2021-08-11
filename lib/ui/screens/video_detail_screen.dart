@@ -37,7 +37,7 @@ import 'package:nexthour/ui/widgets/seasons_tab.dart';
 import 'package:nexthour/ui/widgets/video_detail_header.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-
+import 'package:nexthour/generated/l10n.dart';
 int episodesCounting = 0;
 int cSeasonIndex = 0;
 
@@ -107,8 +107,8 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>  with TickerProvi
             EdgeInsets.fromLTRB(10, 0, 10, 0),
             unselectedLabelColor: Color.fromRGBO(95, 95, 95, 1.0),
             tabs: [
-              TabWidget('MORE LIKE THIS'),
-              TabWidget('MORE DETAILS'),
+              TabWidget(S.of(context).videomoreliketext),
+              TabWidget(S.of(context).videomoredetailstext),
             ]),
       ],
     ),

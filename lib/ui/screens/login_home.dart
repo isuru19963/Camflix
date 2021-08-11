@@ -6,10 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:nexthour/common/apipath.dart';
 import 'package:nexthour/common/route_paths.dart';
+import 'package:nexthour/my_app.dart';
 import 'package:nexthour/providers/app_config.dart';
 import 'package:nexthour/ui/shared/logo.dart';
 import 'package:provider/provider.dart';
 import 'bottom_navigations_bar.dart';
+import 'package:nexthour/classes/language.dart';
+import 'package:nexthour/localization/language_constants.dart';
+// import 'package:nexthour/router/route_constants.dart';
+import 'package:nexthour/generated/l10n.dart';
+import 'package:nexthour/main.dart';
 
 DateTime currentBackPressTime;
 
@@ -36,7 +42,7 @@ class _LoginHomeState extends State<LoginHome> {
     return Consumer<AppConfig>(builder: (context, myModel, child) {
       return myModel != null
           ? Text(
-              "Welcome to" + ' ' + "${myModel.appModel.config.title}",
+        S.of(context).welcomeText + ' ' + "${myModel.appModel.config.title}",
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontSize: 16.0,
@@ -55,9 +61,51 @@ class _LoginHomeState extends State<LoginHome> {
             height: 50.0,
             color: Colors.white,
             textColor: Colors.black,
-            child: new Text("Register"),
+            child: new Text(S.of(context).registerWelcomeText),
             onPressed: () =>
                 Navigator.pushNamed(context, RoutePaths.register)));
+  }
+  //  Register button
+  void _changeLanguage(Language language) async {
+    Locale _locale = await setLocale(language.languageCode);
+    // MyApp.setLocale(context, _locale);
+    MyApp.setLocale(context, _locale);
+  }
+  Widget changeLanguage() {
+    return ListTile(
+        title:   Align(
+          alignment: Alignment.center,
+          child: DropdownButton<Language>(
+            underline: SizedBox(),
+            hint: Text(S.of(context).formFieldChangeLanguage,
+              style: TextStyle(color: Colors.grey),
+            ),
+            // icon: Icon(
+            //   Icons.language,
+            //   color: Colors.white,
+            // ),
+            onChanged: (Language language) {
+              _changeLanguage(language);
+            },
+            items: Language.languageList()
+                .map<DropdownMenuItem<Language>>(
+                  (e) => DropdownMenuItem<Language>(
+                value: e,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Text(
+                      e.flag,
+                      style: TextStyle(fontSize: 30),
+                    ),
+                    Text(e.name)
+                  ],
+                ),
+              ),
+            )
+                .toList(),
+          ),
+        ));
   }
 
 //  Setting background design of login button
@@ -65,7 +113,7 @@ class _LoginHomeState extends State<LoginHome> {
     return MaterialButton(
         height: 50.0,
         textColor: Colors.white,
-        child: new Text("Login"),
+        child: new Text(S.of(context).loginWelcomeText),
         onPressed: () => Navigator.pushNamed(context, RoutePaths.login));
   }
 
@@ -180,8 +228,7 @@ You can change logo by server
         SizedBox(
           height: 5.0,
         ),
-        Text(
-          "Sign in to continue",
+        Text(S.of(context).signWelcomeText,
           textAlign: TextAlign.center,
           style: TextStyle(color: Colors.grey),
         ),
@@ -193,6 +240,10 @@ You can change logo by server
           height: 5.0,
         ),
         registerButton(),
+        SizedBox(
+          height: 5.0,
+        ),
+        changeLanguage()
       ],
     );
   }

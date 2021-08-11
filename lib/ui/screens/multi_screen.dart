@@ -201,11 +201,11 @@ class _MultiScreenState extends State<MultiScreen> {
                                   ),
                                 ),
                                 onTap: () {
-                                  if ("${screenList[index].screenStatus}" ==
-                                      "YES") {
-                                    Fluttertoast.showToast(
-                                        msg: "Profile already in use.");
-                                  } else {
+                                  // if ("${screenList[index].screenStatus}" ==
+                                  //     "YES") {
+                                  //   Fluttertoast.showToast(
+                                  //       msg: "Profile already in use.");
+                                  // } else {
                                     setState(() {
                                       myActiveScreen =
                                           screenList[index].screenName;
@@ -213,7 +213,7 @@ class _MultiScreenState extends State<MultiScreen> {
                                     });
                                     updateScreens(
                                         myActiveScreen, screenCount, index);
-                                  }
+                                  // }
                                 },
                               );
                             },

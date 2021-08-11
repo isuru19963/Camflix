@@ -26,7 +26,11 @@ import 'package:nexthour/ui/widgets/register_here.dart';
 import 'package:nexthour/ui/widgets/reset_alert_container.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:nexthour/classes/language.dart';
+import 'package:nexthour/localization/language_constants.dart';
+import 'package:nexthour/main.dart';
+// import 'package:nexthour/router/route_constants.dart';
+import 'package:nexthour/generated/l10n.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -48,58 +52,58 @@ class _LoginScreenState extends State<LoginScreen> {
   LoginModel loginModel;
 
   // Initialize login with facebook
-  void initiateFacebookLogin() async {
-    var facebookLoginResult;
-    // var facebookLoginResult2 = await facebookLogin.isLoggedIn;
-    // print(facebookLoginResult2);
-    // if(facebookLoginResult2 == true){
-    //   facebookLoginResult =
-    //   await facebookLogin.currentAccessToken;
-    //
-    //   var graphResponse = await http.get(
-    //       'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email,picture.height(200)&access_token=${facebookLoginResult.token}');
-    //
-    //   var profile = json.decode(graphResponse.body);
-    //   setState(() {
-    //     isShowing = true;
-    //   });
-    //   var name= profile['name'];
-    //   var email= profile['email'];
-    //   var code= profile['id'];
-    //   var password = "password";
-    //   goToDialog();
-    //   socialLogin(APIData.fbLoginApi, email,password,code, name, "code");
-    //
-    //   onLoginStatusChanged(true, profileData: profile);
-    //
-    // }else{
-    //   facebookLoginResult =
-    //   await facebookLogin.logIn(['email']);
-    //
-    //   switch (facebookLoginResult.status) {
-    //     case FacebookLoginStatus.error:
-    //       onLoginStatusChanged(false);
-    //       break;
-    //     case FacebookLoginStatus.cancelledByUser:
-    //       onLoginStatusChanged(false);
-    //       break;
-    //     case FacebookLoginStatus.loggedIn:
-    //
-    //       var graphResponse = await http.get(
-    //           'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email,picture.height(200)&access_token=${facebookLoginResult
-    //               .accessToken.token}');
-    //
-    //       var profile = json.decode(graphResponse.body);
-    //       var name= profile['name'];
-    //       var email= profile['email'];
-    //       var code= profile['id'];
-    //       var password = "password";
-    //       socialLogin(APIData.fbLoginApi, email,password,code, name, "code");
-    //       onLoginStatusChanged(true, profileData: profile);
-    //       break;
-    //   }
-    // }
-  }
+  // void initiateFacebookLogin() async {
+  //   var facebookLoginResult;
+  //   var facebookLoginResult2 = await facebookLogin.isLoggedIn;
+  //   print(facebookLoginResult2);
+  //   if(facebookLoginResult2 == true){
+  //     facebookLoginResult =
+  //     await facebookLogin.currentAccessToken;
+  //
+  //     var graphResponse = await http.get(
+  //         'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email,picture.height(200)&access_token=${facebookLoginResult.token}');
+  //
+  //     var profile = json.decode(graphResponse.body);
+  //     setState(() {
+  //       isShowing = true;
+  //     });
+  //     var name= profile['name'];
+  //     var email= profile['email'];
+  //     var code= profile['id'];
+  //     var password = "password";
+  //     goToDialog();
+  //     socialLogin(APIData.fbLoginApi, email,password,code, name, "code");
+  //
+  //     onLoginStatusChanged(true, profileData: profile);
+  //
+  //   }else{
+  //     facebookLoginResult =
+  //     await facebookLogin.logIn(['email']);
+  //
+  //     switch (facebookLoginResult.status) {
+  //       case FacebookLoginStatus.error:
+  //         onLoginStatusChanged(false);
+  //         break;
+  //       case FacebookLoginStatus.cancelledByUser:
+  //         onLoginStatusChanged(false);
+  //         break;
+  //       case FacebookLoginStatus.loggedIn:
+  //
+  //         var graphResponse = await http.get(
+  //             'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email,picture.height(200)&access_token=${facebookLoginResult
+  //                 .accessToken.token}');
+  //
+  //         var profile = json.decode(graphResponse.body);
+  //         var name= profile['name'];
+  //         var email= profile['email'];
+  //         var code= profile['id'];
+  //         var password = "password";
+  //         socialLogin(APIData.fbLoginApi, email,password,code, name, "code");
+  //         onLoginStatusChanged(true, profileData: profile);
+  //         break;
+  //     }
+  //   }
+  // }
 
   void onLoginStatusChanged(bool isLoggedIn, {profileData}) {
     setState(() {
@@ -315,8 +319,7 @@ class _LoginScreenState extends State<LoginScreen> {
  Widget msgTitle(){
     return Padding(
       padding: const EdgeInsets.all(15.0),
-      child: Text(
-        "Login to watch latest movies TV series, comedy shows and entertainment videos",
+      child: Text(S.of(context).loginpWelcomeText,
         textAlign: TextAlign.center,
         style: TextStyle(
             fontSize: 16,
@@ -351,7 +354,7 @@ class _LoginScreenState extends State<LoginScreen> {
           enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(color: Colors.white),
           ),
-          labelText: 'Email',
+          labelText: S.of(context).loginpemailText,
           labelStyle: TextStyle(color: Colors.grey[400]),
         ),
       ),
@@ -388,7 +391,7 @@ class _LoginScreenState extends State<LoginScreen> {
             onPressed: _toggleVisibility,
             icon: _isHidden ? Text("Show",style: TextStyle(fontSize: 10.0, color: Colors.white),) : Text("Hide",style: TextStyle(fontSize: 10.0, color: Colors.white),),
           ),
-          labelText: 'Password',
+          labelText: S.of(context).loginppasswordText,
           labelStyle: TextStyle(color: Colors.grey[400]),
         ),
       ),
@@ -399,7 +402,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     var myModel = Provider.of<AppConfig>(context).appModel;
     return Scaffold(
-      appBar: customAppBar(context, "Login"),
+      appBar: customAppBar(context, S.of(context).loginpsignInText),
         body: ListView(
         children: [
           Form(
@@ -416,8 +419,7 @@ class _LoginScreenState extends State<LoginScreen> {
                  children: [
                    FlatButton(
                      onPressed: resetPasswordAlertBox,
-                     child: Text(
-                       'Forgot Password ?',
+                     child: Text(S.of(context).loginpforgotpasswordText,
                        style: TextStyle(
                          fontSize: 16,
                          color: Colors.white,
@@ -438,8 +440,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: primaryBlue,
                       child: _isLoading == true
                           ? CircularProgressIndicator()
-                          : Text(
-                        'SIGN IN',
+                          : Text(S.of(context).loginpsignInText,
                         style: TextStyle(fontSize: 16, color: Colors.white),
                       ),
                       onPressed: () {
@@ -508,7 +509,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             color: Color.fromRGBO(60, 90, 153, 1.0),
                             onPressed: () {
-                                initiateFacebookLogin();
+                                // initiateFacebookLogin();
                             }),
                       ),),
                     ],

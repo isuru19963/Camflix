@@ -15,6 +15,8 @@ import 'package:nexthour/ui/widgets/register_here.dart';
 import 'package:provider/provider.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
 import 'package:http/http.dart' as http;
+import 'package:nexthour/generated/l10n.dart';
+
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -178,8 +180,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget msgTitle(){
     return Padding(
       padding: const EdgeInsets.all(15.0),
-      child: Text(
-        "Register to watch latest movies TV series, comedy shows and entertainment videos",
+      child: Text(S.of(context).regiterpwelcometext,
         textAlign: TextAlign.center,
         style: TextStyle(
             fontSize: 16,
@@ -247,7 +248,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(color: Colors.white),
           ),
-          labelText: 'Mobile No',
+          labelText: S.of(context).regiterpmobiletext,
           labelStyle: TextStyle(color: Colors.grey[400]),
         ),
         onChanged: (value){
@@ -284,7 +285,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(color: Colors.white),
           ),
-          labelText: 'Name',
+          labelText: S.of(context).regiterpnametext,
           labelStyle: TextStyle(color: Colors.grey[400]),
         ),
       ),
@@ -325,7 +326,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               setState(() => this._showPassword = !this._showPassword);
             },
           ),
-          labelText: 'Password',
+          labelText: S.of(context).loginppasswordText,
           labelStyle: TextStyle(color: Colors.grey[400]),
         ),
       ),
@@ -415,7 +416,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           child: _isLoading == true
                               ? CircularProgressIndicator()
                               : Text(
-                            'SIGN UP',
+                            S.of(context).loginpsignupText,
                             style: TextStyle(fontSize: 16, color: Colors.white),
                           ),
                           onPressed: () {

@@ -128,7 +128,7 @@ class SplashScreenState extends State<SplashScreen> with SingleTickerProviderSta
   //   });
   //   oneSignalInAppMessagingTriggerExamples();
   // }
-
+  //
   // oneSignalInAppMessagingTriggerExamples() async {
   //   OneSignal.shared.addTrigger("trigger_1", "one");
   //
@@ -149,8 +149,8 @@ class SplashScreenState extends State<SplashScreen> with SingleTickerProviderSta
   //
   //   OneSignal.shared.pauseInAppMessages(false);
   // }
-
-  // For One Signal permission
+  //
+  // // For One Signal permission
   // void _handleConsent() {
   //   OneSignal.shared.consentGranted(true);
   //   this.setState(() {

@@ -7,7 +7,7 @@ import 'download_screen.dart';
 import 'search_screen.dart';
 import 'wishlist_screen.dart';
 import 'home_screen.dart';
-
+import 'package:nexthour/generated/l10n.dart';
 class MyBottomNavigationBar extends StatefulWidget {
   MyBottomNavigationBar({this.pageInd});
   final pageInd;
@@ -49,12 +49,12 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
             unselectedIconTheme: Theme.of(context).iconTheme,
             selectedItemColor: Theme.of(context).textSelectionColor,
             unselectedItemColor: Theme.of(context).hintColor,
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(title: Text("Home"), icon: Icon(Icons.home)),
-              BottomNavigationBarItem(title: Text("Search"), icon: Icon(Icons.search)),
-              BottomNavigationBarItem(title: Text("Wishlist"), icon: Icon(Icons.favorite_border)),
+            items:  <BottomNavigationBarItem>[
+              BottomNavigationBarItem(title: Text(S.of(context).Homebtext), icon: Icon(Icons.home)),
+              BottomNavigationBarItem(title: Text(S.of(context).Searchbtext), icon: Icon(Icons.search)),
+              BottomNavigationBarItem(title: Text(S.of(context).Wishlistbtext), icon: Icon(Icons.favorite_border)),
               //BottomNavigationBarItem(title: Text("Download"), icon: Icon(Icons.file_download)),
-              BottomNavigationBarItem(title: Text('Menu'), icon: Icon(Icons.menu)),
+              BottomNavigationBarItem(title: Text(S.of(context).Menubtext), icon: Icon(Icons.menu)),
             ],
             currentIndex: _selectedIndex,
             unselectedLabelStyle: TextStyle(color: Colors.white),

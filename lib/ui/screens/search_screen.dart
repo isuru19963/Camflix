@@ -7,7 +7,7 @@ import 'package:nexthour/ui/screens/video_detail_screen.dart';
 import 'package:nexthour/ui/shared/card_seperator.dart';
 import 'package:nexthour/ui/shared/ratings.dart';
 import 'package:provider/provider.dart';
-import 'bottom_navigations_bar.dart';
+import 'package:nexthour/generated/l10n.dart';
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -43,7 +43,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       textAlign: TextAlign.left,
                     ),
                     new Padding(padding: EdgeInsets.only(top: 10.0)),
-                    Text("We can't find any item matching your search.",
+                    Text(S.of(context).searchFind1text,
                       style: TextStyle(fontSize: 14.0, color: Colors.white54),
                       textAlign: TextAlign.left,)
                   ],
@@ -70,13 +70,12 @@ class _SearchScreenState extends State<SearchScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start ,
                   children: <Widget>[
-                    Text(
-                      "Find what to watch next.",
+                    Text(S.of(context).searchFind1text,
                       style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
                       textAlign: TextAlign.left,
                     ),
                     new Padding(padding: EdgeInsets.only(top: 10.0)),
-                    Text("Search for shows for the commute, movies to help unwind, or your go-to genres.",
+                    Text(S.of(context).searchFind2text,
                       style: TextStyle(fontSize: 14.0, color: Colors.white54),
                       textAlign: TextAlign.left,
                     )
@@ -239,7 +238,7 @@ class _SearchScreenState extends State<SearchScreen> {
       controller: searchController,
       style: TextStyle(fontSize: 14.0),
       decoration: InputDecoration(
-        hintText: 'Search for a show, movie, etc.',
+        hintText: S.of(context).searchFindtext,
         border: InputBorder.none,
       ),
     );

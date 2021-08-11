@@ -7,12 +7,18 @@ import 'package:launch_review/launch_review.dart';
 import 'package:nexthour/common/apipath.dart';
 import 'package:nexthour/common/global.dart';
 import 'package:nexthour/common/route_paths.dart';
+import 'package:nexthour/my_app.dart';
 import 'package:nexthour/providers/user_profile_provider.dart';
 import 'package:nexthour/ui/shared/ContactUsPage.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 import 'package:nexthour/providers/app_config.dart';
 import 'package:http/http.dart' as http;
+import 'package:nexthour/classes/language.dart';
+import 'package:nexthour/localization/language_constants.dart';
+import 'package:nexthour/main.dart';
+// import 'package:nexthour/router/route_constants.dart';
+import 'package:nexthour/generated/l10n.dart';
 
 class MenuScreen extends StatefulWidget {
   @override
@@ -226,8 +232,7 @@ class _MenuScreenState extends State<MenuScreen> {
                             SizedBox(
                               width: 10.0,
                             ),
-                            Text(
-                              "Manage Profile",
+                            Text(S.of(context).menuManageProfile,
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: Colors.white70,
@@ -260,8 +265,7 @@ class _MenuScreenState extends State<MenuScreen> {
                 SizedBox(
                   width: 10.0,
                 ),
-                Text(
-                  "Notifications",
+                Text(S.of(context).menuNotifications,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       color: Colors.white70,
@@ -292,8 +296,7 @@ class _MenuScreenState extends State<MenuScreen> {
           padding: EdgeInsets.fromLTRB(20.0, 12.0, 10.0, 12.0),
           child: Row(
             children: <Widget>[
-              Text(
-                "App Settings",
+              Text(S.of(context).menuAppSetting,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Colors.white70,
@@ -320,8 +323,7 @@ class _MenuScreenState extends State<MenuScreen> {
               SizedBox(
                 width: 10.0,
               ),
-              Text(
-                "Watch History",
+              Text(S.of(context).menuWatchHistory,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Colors.white70,
@@ -351,8 +353,7 @@ class _MenuScreenState extends State<MenuScreen> {
           padding: EdgeInsets.fromLTRB(20.0, 12.0, 10.0, 12.0),
           child: Row(
             children: <Widget>[
-              Text(
-                "Account",
+              Text(S.of(context).menuAccount,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Colors.white70,
@@ -372,8 +373,7 @@ class _MenuScreenState extends State<MenuScreen> {
           padding: EdgeInsets.fromLTRB(20.0, 12.0, 10.0, 12.0),
           child: Row(
             children: <Widget>[
-              Text(
-                "Subscribe",
+              Text(S.of(context).menuSubscribe,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Colors.white70,
@@ -395,8 +395,7 @@ class _MenuScreenState extends State<MenuScreen> {
           padding: EdgeInsets.fromLTRB(20.0, 12.0, 10.0, 12.0),
           child: Row(
             children: <Widget>[
-              Text(
-                "FAQ",
+              Text(S.of(context).menuFAQ,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Colors.white70,
@@ -421,8 +420,7 @@ class _MenuScreenState extends State<MenuScreen> {
           padding: EdgeInsets.fromLTRB(20.0, 12.0, 10.0, 12.0),
           child: Row(
             children: <Widget>[
-              Text(
-                "Contact Us",
+              Text(S.of(context).menuContactUs,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Colors.white70,
@@ -433,7 +431,58 @@ class _MenuScreenState extends State<MenuScreen> {
           ),
         ));
   }
-
+  void _changeLanguage(Language language) async {
+    Locale _locale = await setLocale(language.languageCode);
+    // MyApp.setLocale(context, _locale);
+    MyApp.setLocale(context, _locale);
+  }
+  //  Contact Us
+  Widget language() {
+    return InkWell(
+        onTap: () {
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(builder: (context) =>
+          //       ContactUsPage()),
+          // );
+        },
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(20.0, 4.0, 4.0, 4.0),
+          child:  Align(
+          alignment: Alignment.centerLeft,
+          child: DropdownButton<Language>(
+            underline: SizedBox(),
+            hint: Text(S.of(context).formFieldChangeLanguage,
+              style: TextStyle(color: Colors.grey),
+            ),
+            // icon: Icon(
+            //   Icons.language,
+            //   color: Colors.white,
+            // ),
+            onChanged: (Language language) {
+              _changeLanguage(language);
+            },
+            items: Language.languageList()
+                .map<DropdownMenuItem<Language>>(
+                  (e) => DropdownMenuItem<Language>(
+                value: e,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Text(
+                      e.flag,
+                      style: TextStyle(fontSize: 30),
+                    ),
+                    Text(e.name)
+                  ],
+                ),
+              ),
+            )
+                .toList(),
+          ),
+        ) ,),
+    );
+  }
   // Blog
   Widget blog() {
     return InkWell(
@@ -506,8 +555,7 @@ class _MenuScreenState extends State<MenuScreen> {
           padding: EdgeInsets.fromLTRB(20.0, 12.0, 10.0, 12.0),
           child: Row(
             children: <Widget>[
-              Text(
-                "Rate Us",
+              Text(S.of(context).menuRateUs,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Colors.white70,
@@ -542,8 +590,7 @@ class _MenuScreenState extends State<MenuScreen> {
           padding: EdgeInsets.fromLTRB(20.0, 12.0, 10.0, 12.0),
           child: Row(
             children: <Widget>[
-              Text(
-                "Share app",
+              Text(S.of(context).menuShareApp,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Colors.white70,
@@ -567,8 +614,7 @@ class _MenuScreenState extends State<MenuScreen> {
             children: <Widget>[
               Expanded(
                 flex: 8,
-                child: Text(
-                  "Sign Out",
+                child: Text(S.of(context).menuSignOut,
                   textAlign: TextAlign.left,
                   style: TextStyle(
                       color: Colors.white70,
@@ -635,6 +681,7 @@ class _MenuScreenState extends State<MenuScreen> {
           appConfig.config.donation == 1 || "${appConfig.config.donation}" == "1" ? donate() : SizedBox.shrink(),
           appConfig.blogs.length != 0 ? blog() : SizedBox.shrink(),
           subscribe(),
+          language(),
           help(),
           contactus(),
           rateUs(),

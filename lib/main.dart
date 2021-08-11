@@ -6,6 +6,9 @@ import 'common/global.dart';
 import 'my_app.dart';
 import 'package:nexthour/services/repository/database_creator.dart';
 
+import 'package:nexthour/generated/l10n.dart';
+import 'localization/language_constants.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   FlutterDownloader.initialize();

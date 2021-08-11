@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
+import 'package:nexthour/generated/l10n.dart';
 class BlankWishList extends StatefulWidget {
   @override
   _BlankWishListState createState() => _BlankWishListState();
@@ -31,8 +31,7 @@ class _BlankWishListState extends State<BlankWishList> {
             children: [
               Expanded(
                 flex: 1,
-                child: Text(
-                  "Add movies & TV shows to your list so you can easily find them later.",
+                child: Text(S.of(context).wishlist1text,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 16.0,
@@ -47,7 +46,7 @@ class _BlankWishListState extends State<BlankWishList> {
         ),
         FlatButton(
           color: Theme.of(context).primaryColorLight.withOpacity(0.8),
-            onPressed: (){}, child: Text("Find Something to watch".toUpperCase(),
+            onPressed: (){}, child: Text(S.of(context).wishlist2text.toUpperCase(),
           style: TextStyle(color: Colors.white70),
         ))
       ],
