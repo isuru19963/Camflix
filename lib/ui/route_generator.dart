@@ -54,11 +54,16 @@ class RouteGenerator {
     switch (settings.name) {
       case RoutePaths.splashScreen:
         SplashScreen argument = args;
-        return MaterialPageRoute(builder: (context) => SplashScreen(token: argument.token,));
+        return MaterialPageRoute(
+            builder: (context) => SplashScreen(
+                  token: argument.token,
+                ));
       case RoutePaths.introSlider:
-        return PageTransition(child: IntroScreen(), type: PageTransitionType.rightToLeft);
+        return PageTransition(
+            child: IntroScreen(), type: PageTransitionType.rightToLeft);
       case RoutePaths.loginHome:
-        return PageTransition(child: LoginHome(), type: PageTransitionType.rightToLeft);
+        return PageTransition(
+            child: LoginHome(), type: PageTransitionType.rightToLeft);
       case RoutePaths.home:
         return MaterialPageRoute(builder: (context) => HomeScreen());
       case RoutePaths.login:
@@ -70,37 +75,52 @@ class RouteGenerator {
       case RoutePaths.membership:
         return MaterialPageRoute(builder: (context) => MembershipScreen());
       case RoutePaths.faq:
-        return PageTransition(child: FAQScreen(), type: PageTransitionType.rightToLeft);
+        return PageTransition(
+            child: FAQScreen(), type: PageTransitionType.rightToLeft);
       case RoutePaths.createScreen:
-        return PageTransition(child: CreateMultiProfile(), type: PageTransitionType.rightToLeft);
+        return PageTransition(
+            child: CreateMultiProfile(), type: PageTransitionType.rightToLeft);
       case RoutePaths.multiScreen:
-        return PageTransition(child: MultiScreen(), type: PageTransitionType.rightToLeft);
+        return PageTransition(
+            child: MultiScreen(), type: PageTransitionType.rightToLeft);
       case RoutePaths.actorScreen:
         ActorScreen argument = args;
-        return MaterialPageRoute(builder: (context) => ActorScreen(argument.actor));
+        return MaterialPageRoute(
+            builder: (context) => ActorScreen(argument.actor));
       case RoutePaths.directorScreen:
         DirectorScreen argument = args;
-        return MaterialPageRoute(builder: (context) => DirectorScreen(argument.index));
+        return MaterialPageRoute(
+            builder: (context) => DirectorScreen(argument.index));
       case RoutePaths.blog:
         BlogScreen argument = args;
-        return MaterialPageRoute(builder: (context) => BlogScreen(argument.index));
+        return MaterialPageRoute(
+            builder: (context) => BlogScreen(argument.index));
       case RoutePaths.blogList:
-        return PageTransition(child: BlogListScreen(), type: PageTransitionType.rightToLeft);
+        return PageTransition(
+            child: BlogListScreen(), type: PageTransitionType.rightToLeft);
       case RoutePaths.donation:
-        return PageTransition(child: DonationScreen(), type: PageTransitionType.rightToLeft);
+        return PageTransition(
+            child: DonationScreen(), type: PageTransitionType.rightToLeft);
       case RoutePaths.notifications:
-        return PageTransition(child: NotificationsScreen(), type: PageTransitionType.rightToLeft);
+        return PageTransition(
+            child: NotificationsScreen(), type: PageTransitionType.rightToLeft);
       case RoutePaths.notificationDetail:
         NotificationDetailScreen argument = args;
-        return PageTransition(child: NotificationDetailScreen(argument.title, argument.message), type: PageTransitionType.rightToLeft);
+        return PageTransition(
+            child: NotificationDetailScreen(argument.title, argument.message),
+            type: PageTransitionType.rightToLeft);
       case RoutePaths.subscriptionPlans:
-        return PageTransition(child: SubPlanScreen(), type: PageTransitionType.rightToLeft);
+        return PageTransition(
+            child: SubPlanScreen(), type: PageTransitionType.rightToLeft);
       case RoutePaths.applyCoupon:
         ApplyCouponScreen argument = args;
-        return PageTransition(child: ApplyCouponScreen(argument.amount), type: PageTransitionType.rightToLeft);
+        return PageTransition(
+            child: ApplyCouponScreen(argument.amount),
+            type: PageTransitionType.rightToLeft);
       case RoutePaths.selectPayment:
         SelectPaymentScreen argument = args;
-        return MaterialPageRoute(builder: (context) => SelectPaymentScreen(argument.planIndex));
+        return MaterialPageRoute(
+            builder: (context) => SelectPaymentScreen(argument.planIndex));
       case RoutePaths.paymentHistory:
         return MaterialPageRoute(builder: (context) => PaymentHistoryScreen());
       case RoutePaths.stripeHistory:
@@ -117,78 +137,94 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => BankPayment());
       case RoutePaths.razorpay:
         RazorPayment argument = args;
-        return MaterialPageRoute(builder: (context) => RazorPayment(argument.index, argument.payAmount));
+        return MaterialPageRoute(
+            builder: (context) =>
+                RazorPayment(argument.index, argument.payAmount));
       case RoutePaths.stripe:
         StripePayment argument = args;
-        return MaterialPageRoute(builder: (context) => StripePayment(argument.index, argument.couponCode));
+        return MaterialPageRoute(
+            builder: (context) =>
+                StripePayment(argument.index, argument.couponCode));
       case RoutePaths.braintree:
         BraintreePaymentScreen argument = args;
-        return MaterialPageRoute(builder: (context) => BraintreePaymentScreen(argument.planIndex, argument.payAmount));
+        return MaterialPageRoute(
+            builder: (context) =>
+                BraintreePaymentScreen(argument.planIndex, argument.payAmount));
       case RoutePaths.paypal:
         PaypalPayment argument = args;
-        return MaterialPageRoute(builder: (context) => PaypalPayment(
-          onFinish: argument.onFinish,
-          currency: argument.currency,
-          userFirstName: argument.userFirstName,
-          userLastName: argument.userLastName,
-          userEmail: argument.userEmail,
-          payAmount: argument.payAmount,
-          planIndex: argument.planIndex,
-
-        ));
+        return MaterialPageRoute(
+            builder: (context) => PaypalPayment(
+                  onFinish: argument.onFinish,
+                  currency: argument.currency,
+                  userFirstName: argument.userFirstName,
+                  userLastName: argument.userLastName,
+                  userEmail: argument.userEmail,
+                  payAmount: argument.payAmount,
+                  planIndex: argument.planIndex,
+                ));
       case RoutePaths.paytm:
         PaytmPayment argument = args;
-        return MaterialPageRoute(builder: (context) => PaytmPayment(argument.index, argument.payAmount));
-      case RoutePaths.paystack:
-        PaystackPayment argument = args;
-        return MaterialPageRoute(builder: (context) => PaystackPayment(argument.index, argument.payAmount));
+        return MaterialPageRoute(
+            builder: (context) =>
+                PaytmPayment(argument.index, argument.payAmount));
+      // case RoutePaths.paystack:
+      //   PaystackPayment argument = args;
+      //   return MaterialPageRoute(builder: (context) => PaystackPayment(argument.index, argument.payAmount));
       case RoutePaths.inApp:
         InApp argument = args;
         return MaterialPageRoute(builder: (context) => InApp(argument.index));
       case RoutePaths.cinetPay:
         CinetPayment argument = args;
-        return MaterialPageRoute(builder: (context) => CinetPayment(
-          onFinish: argument.onFinish,
-          currency: argument.currency,
-          userFirstName: argument.userFirstName,
-          userLastName: argument.userLastName,
-          userEmail: argument.userEmail,
-          payAmount: argument.payAmount,
-          planIndex: argument.planIndex,
-
-        ));
+        return MaterialPageRoute(
+            builder: (context) => CinetPayment(
+                  onFinish: argument.onFinish,
+                  currency: argument.currency,
+                  userFirstName: argument.userFirstName,
+                  userLastName: argument.userLastName,
+                  userEmail: argument.userEmail,
+                  payAmount: argument.payAmount,
+                  planIndex: argument.planIndex,
+                ));
       case RoutePaths.forgotPassword:
         ForgotPassword argument = args;
-        return MaterialPageRoute(builder: (context) => ForgotPassword(argument.email));
+        return MaterialPageRoute(
+            builder: (context) => ForgotPassword(argument.email));
       case RoutePaths.topVideos:
         return MaterialPageRoute(builder: (context) => TopGridView());
       case RoutePaths.liveGrid:
         return MaterialPageRoute(builder: (context) => LiveVideoGrid());
       case RoutePaths.actorMoviesGrid:
         ActorMoviesGrid argument = args;
-        return MaterialPageRoute(builder: (context) => ActorMoviesGrid(argument.actorDetails));
+        return MaterialPageRoute(
+            builder: (context) => ActorMoviesGrid(argument.actorDetails));
       case RoutePaths.genreVideos:
         VideoGridScreen argument = args;
-        return MaterialPageRoute(builder: (context) => VideoGridScreen(argument.id,argument.title, argument.genreDataList));
+        return MaterialPageRoute(
+            builder: (context) => VideoGridScreen(
+                argument.id, argument.title, argument.genreDataList));
       case RoutePaths.gridVideos:
         GridMovieTV argument = args;
-        return MaterialPageRoute(builder: (context) => GridMovieTV(argument.type));
+        return MaterialPageRoute(
+            builder: (context) => GridMovieTV(argument.type));
       case RoutePaths.actorsGrid:
         return MaterialPageRoute(builder: (context) => ActorsGrid());
       case RoutePaths.watchHistory:
-        return PageTransition(child: WatchHistoryScreen(), type: PageTransitionType.rightToLeft);
+        return PageTransition(
+            child: WatchHistoryScreen(), type: PageTransitionType.rightToLeft);
       case RoutePaths.videoDetail:
         VideoDetailScreen argument = args;
-        return MaterialPageRoute(builder: (context) => VideoDetailScreen(argument.videoDetail));
+        return MaterialPageRoute(
+            builder: (context) => VideoDetailScreen(argument.videoDetail));
       case RoutePaths.appSettings:
-        return PageTransition(child: AppSettingsScreen(), type: PageTransitionType.rightToLeft);
+        return PageTransition(
+            child: AppSettingsScreen(), type: PageTransitionType.rightToLeft);
       default:
         return MaterialPageRoute(
-            builder: (_) => Scaffold(
-              body: Center(
-                child: Text('No route defined for ${settings.name}'),
-              ),
+          builder: (_) => Scaffold(
+            body: Center(
+              child: Text('No route defined for ${settings.name}'),
             ),
+          ),
         );
     }
   }

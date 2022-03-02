@@ -22,7 +22,6 @@ import 'package:nexthour/ui/screens/apply_coupon_screen.dart';
 import 'package:nexthour/ui/gateways/CinetPay/cinet_payment.dart';
 import 'package:provider/provider.dart';
 
-
 List listPaymentGateways = new List();
 String couponMSG = '';
 var validCoupon, percentOFF;
@@ -59,7 +58,6 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
 
   bool loading = true;
 
-
   @override
   void initState() {
     super.initState();
@@ -70,100 +68,74 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
     mFlag = 0;
     validCoupon = false;
     couponCode = '';
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp)async {
-      PaymentKeyProvider paymentKeyProvider = Provider.of<PaymentKeyProvider>(context, listen: false);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      PaymentKeyProvider paymentKeyProvider =
+          Provider.of<PaymentKeyProvider>(context, listen: false);
       await paymentKeyProvider.fetchPaymentKeys();
       listPaymentGateways = new List();
-      var stripePayment = Provider
-          .of<AppConfig>(context, listen: false)
+      var stripePayment = Provider.of<AppConfig>(context, listen: false)
           .appModel
           .config
           .stripePayment;
-      var btreePayment = Provider
-          .of<AppConfig>(context, listen: false)
+      var btreePayment = Provider.of<AppConfig>(context, listen: false)
           .appModel
           .config
           .braintree;
-      var paystackPayment = Provider
-          .of<AppConfig>(context, listen: false)
+      var paystackPayment = Provider.of<AppConfig>(context, listen: false)
           .appModel
           .config
           .paystack;
-      var bankPayment = Provider
-          .of<AppConfig>(context, listen: false)
+      var bankPayment = Provider.of<AppConfig>(context, listen: false)
           .appModel
           .config
           .bankdetails;
-      var razorPayPaymentStatus = Provider
-          .of<AppConfig>(context, listen: false)
+      var razorPayPaymentStatus = Provider.of<AppConfig>(context, listen: false)
           .appModel
           .config
           .razorpayPayment;
-      var paytmPaymentStatus = Provider
-          .of<AppConfig>(context, listen: false)
+      var paytmPaymentStatus = Provider.of<AppConfig>(context, listen: false)
           .appModel
           .config
           .paytmPayment;
-      var payPal = Provider
-          .of<AppConfig>(context, listen: false)
+      var payPal = Provider.of<AppConfig>(context, listen: false)
           .appModel
           .config
           .paypalPayment;
 
-      listPaymentGateways.add(PaymentGateInfo(
-          title: 'inapp',
-          status: 1
-      ));
+      listPaymentGateways.add(PaymentGateInfo(title: 'inapp', status: 1));
       if (stripePayment == 1 || "$stripePayment" == "1") {
-        listPaymentGateways.add(PaymentGateInfo(
-            title: 'stripe',
-            status: 1
-        )
-        );
+        listPaymentGateways.add(PaymentGateInfo(title: 'stripe', status: 1));
       }
       if (btreePayment == 1 || "$btreePayment" == "1") {
-        listPaymentGateways.add(PaymentGateInfo(
-            title: 'btree',
-            status: 1
-        ));
+        listPaymentGateways.add(PaymentGateInfo(title: 'btree', status: 1));
       }
       if (paystackPayment == 1 || "$paystackPayment" == "1") {
-        listPaymentGateways.add(PaymentGateInfo(
-            title: 'paystack',
-            status: 1
-        ));
+        listPaymentGateways.add(PaymentGateInfo(title: 'paystack', status: 1));
       }
       if (bankPayment == 1 || "$bankPayment" == "1") {
-        listPaymentGateways.add(PaymentGateInfo(
-            title: 'bankPayment',
-            status: 1
-        ));
+        listPaymentGateways
+            .add(PaymentGateInfo(title: 'bankPayment', status: 1));
       }
       if (razorPayPaymentStatus == 1 || "$razorPayPaymentStatus" == "1") {
-        listPaymentGateways.add(PaymentGateInfo(
-            title: 'razorPayment',
-            status: 1
-        ));
+        listPaymentGateways
+            .add(PaymentGateInfo(title: 'razorPayment', status: 1));
       }
       if (paytmPaymentStatus == 1 || "$paytmPaymentStatus" == "1") {
-        listPaymentGateways.add(PaymentGateInfo(
-            title: 'paytmPayment',
-            status: 1
-        ));
+        listPaymentGateways
+            .add(PaymentGateInfo(title: 'paytmPayment', status: 1));
       }
       if (payPal == 1 || "$payPal" == "1") {
-        listPaymentGateways.add(PaymentGateInfo(
-            title: 'paypalPayment',
-            status: 1
-        ));
+        listPaymentGateways
+            .add(PaymentGateInfo(title: 'paypalPayment', status: 1));
       }
       setState(() {
         loading = false;
       });
-      _paymentTabController = TabController(vsync: this,
+      _paymentTabController = TabController(
+          vsync: this,
           length: listPaymentGateways != null
               // ? listPaymentGateways.length
-          ?1
+              ? 1
               : 0,
           initialIndex: 0);
     });
@@ -174,15 +146,12 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
     await Future.delayed(Duration(seconds: 2));
   }
 
-
 //  Apply coupon forward icon
   Widget applyCouponIcon() {
     return Expanded(
       flex: 1,
       child: Padding(
-        padding:
-        EdgeInsets.only(
-            left: 0.0),
+        padding: EdgeInsets.only(left: 0.0),
         child: Icon(
           Icons.keyboard_arrow_right,
           color: Colors.white70,
@@ -214,10 +183,10 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
           tabs: List<Tab>.generate(
             // listPaymentGateways == null ? 0 : listPaymentGateways.length,
             1,
-                (int index) {
-          return Tab(
-          child: tabLabelText('Cinetpay'),
-          );
+            (int index) {
+              return Tab(
+                child: tabLabelText('Cinetpay'),
+              );
               // if (listPaymentGateways[index].title == 'stripe') {
               //   return Tab(
               //     child: tabLabelText('Stripe'),
@@ -264,12 +233,12 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
           ),
         ),
         automaticallyImplyLeading: false,
-        backgroundColor: Theme
-            .of(context)
-            .primaryColorLight,
+        backgroundColor: Theme.of(context).primaryColorLight,
         pinned: true,
         floating: true,
-      ), preferredSize: Size.fromHeight(0.0),);
+      ),
+      preferredSize: Size.fromHeight(0.0),
+    );
   }
 
 //  App bar material design
@@ -283,14 +252,10 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
             end: Alignment.bottomRight,
             stops: [0.1, 0.5, 0.7, 0.9],
             colors: [
-              Color.fromRGBO(72, 163, 198, 1.0)
-                  .withOpacity(0.3),
-              Color.fromRGBO(72, 163, 198, 1.0)
-                  .withOpacity(0.2),
-              Color.fromRGBO(72, 163, 198, 1.0)
-                  .withOpacity(0.1),
-              Color.fromRGBO(72, 163, 198, 1.0)
-                  .withOpacity(0.0),
+              Color.fromRGBO(72, 163, 198, 1.0).withOpacity(0.3),
+              Color.fromRGBO(72, 163, 198, 1.0).withOpacity(0.2),
+              Color.fromRGBO(72, 163, 198, 1.0).withOpacity(0.1),
+              Color.fromRGBO(72, 163, 198, 1.0).withOpacity(0.0),
             ],
           ),
         ),
@@ -301,14 +266,11 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
 //  Select payment text
   Widget selectPaymentText() {
     return Row(
-      crossAxisAlignment:
-      CrossAxisAlignment.center,
-      mainAxisAlignment:
-      MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.only(
-              left: 20.0, top: 40.0),
+          padding: EdgeInsets.only(left: 20.0, top: 40.0),
         ),
         Expanded(
           child: Text(
@@ -316,8 +278,7 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
             style: TextStyle(
                 color: Colors.white,
                 fontSize: 18.0,
-                fontWeight:
-                FontWeight.w800),
+                fontWeight: FontWeight.w800),
           ),
         ),
       ],
@@ -326,26 +287,17 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
 
 //  Plan name and user name
   Widget planAndUserName(indexPer) {
-    var planDetails = Provider
-        .of<AppConfig>(context)
-        .planList;
-    var name = Provider
-        .of<UserProfileProvider>(context)
-        .userProfileModel
-        .user
-        .name;
+    var planDetails = Provider.of<AppConfig>(context).planList;
+    var name =
+        Provider.of<UserProfileProvider>(context).userProfileModel.user.name;
     return Padding(
-      padding: EdgeInsets.fromLTRB(
-          0.0, 10.0, 0.0, 0.0),
+      padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
       child: Row(
-        crossAxisAlignment:
-        CrossAxisAlignment.center,
-        mainAxisAlignment:
-        MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.only(
-                left: 20.0),
+            padding: EdgeInsets.only(left: 20.0),
           ),
           Expanded(
               flex: 2,
@@ -357,21 +309,16 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
                     "${planDetails[widget.planIndex].name}",
                     style: TextStyle(
                         color: Color.fromRGBO(72, 163, 198, 1.0),
-                        fontSize: 14.0, fontWeight: FontWeight.w600),
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.w600),
                   ),
                   Padding(
-                    padding: EdgeInsets
-                        .only(
-                        top:
-                        15.0),
+                    padding: EdgeInsets.only(top: 15.0),
                   ),
                   Text(
                     name,
                     style: TextStyle(
-                        color: Colors.white,
-                        fontSize:
-                        12.0,
-                        height: 1.3),
+                        color: Colors.white, fontSize: 12.0, height: 1.3),
                   ),
                 ],
               )),
@@ -382,49 +329,35 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
 
 //  Minimum duration
   Widget minDuration(indexPer) {
-    var planDetails = Provider
-        .of<AppConfig>(context)
-        .planList;
+    var planDetails = Provider.of<AppConfig>(context).planList;
     return Expanded(
         flex: 2,
         child: Column(
-          crossAxisAlignment:
-          CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Text(
-              'Min duration ' + '${planDetails[indexPer].intervalCount}' +
+              'Min duration ' +
+                  '${planDetails[indexPer].intervalCount}' +
                   ' days',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 12.0,
-                  height: 1.3),
+              style:
+                  TextStyle(color: Colors.white, fontSize: 12.0, height: 1.3),
             ),
             Padding(
-              padding: EdgeInsets
-                  .only(
-                  top:
-                  10.0),
+              padding: EdgeInsets.only(top: 10.0),
             ),
             Text(
               new DateFormat.yMMMd().format(new DateTime.now()),
-              style: TextStyle(
-                  color: Colors.white70,
-                  fontSize:
-                  12.0,
-                  height: 1.5),
+              style:
+                  TextStyle(color: Colors.white70, fontSize: 12.0, height: 1.5),
             ),
           ],
-        )
-    );
+        ));
   }
-
 
 //  After applying coupon
   Widget couponProcessing(afterDiscountAmount, indexPer) {
-    var planDetails = Provider
-        .of<AppConfig>(context)
-        .planList;
+    var planDetails = Provider.of<AppConfig>(context).planList;
     return Container(
       margin: EdgeInsets.fromLTRB(20.0, 10.0, 20, 10.0),
       child: Column(
@@ -436,12 +369,17 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
               discountText(),
               Expanded(
                   flex: 1,
-                  child: validCoupon == true ? Text(
-                    percentOFF.toString() + " %", style: TextStyle(
-                      color: Colors.white, fontSize: 12.0, height: 1.3),) :
-                  Text("0 %", style: TextStyle(
-                      color: Colors.white, fontSize: 12.0, height: 1.3),)
-              ),
+                  child: validCoupon == true
+                      ? Text(
+                          percentOFF.toString() + " %",
+                          style: TextStyle(
+                              color: Colors.white, fontSize: 12.0, height: 1.3),
+                        )
+                      : Text(
+                          "0 %",
+                          style: TextStyle(
+                              color: Colors.white, fontSize: 12.0, height: 1.3),
+                        )),
             ],
           ),
           SizedBox(
@@ -452,14 +390,14 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
               afterDiscountText(),
               Expanded(
                 flex: 1,
-                child: validCoupon == true ? Text(
-                  afterDiscountAmount.toString() +
-                      " ${planDetails[widget.planIndex].currency}",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12.0,
-                      height: 1.3),) :
-                amountText(indexPer),
+                child: validCoupon == true
+                    ? Text(
+                        afterDiscountAmount.toString() +
+                            " ${planDetails[widget.planIndex].currency}",
+                        style: TextStyle(
+                            color: Colors.white, fontSize: 12.0, height: 1.3),
+                      )
+                    : amountText(indexPer),
               ),
             ],
           )
@@ -470,9 +408,7 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
 
 //  Plan amount
   Widget planAmountText(indexPer, dailyAmountAp) {
-    var planDetails = Provider
-        .of<AppConfig>(context)
-        .planList;
+    var planDetails = Provider.of<AppConfig>(context).planList;
     return Expanded(
       flex: 2,
       child: Column(
@@ -482,15 +418,11 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
           Container(
             child: Text(
               "${planDetails[widget.planIndex].amount}" +
-                  " ${planDetails[widget.planIndex].currency}"
-                      .toUpperCase(),
+                  " ${planDetails[widget.planIndex].currency}".toUpperCase(),
               style: TextStyle(
                   color: Colors.white,
-                  fontSize:
-                  22.0,
-                  fontWeight:
-                  FontWeight
-                      .w600),
+                  fontSize: 22.0,
+                  fontWeight: FontWeight.w600),
             ),
           ),
           SizedBox(
@@ -499,18 +431,13 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
           Container(
             child: Text(
               '( $dailyAmountAp' +
-                  ' ${planDetails[widget.planIndex]
-                      .currency} / ${planDetails[widget.planIndex].currency} )',
+                  ' ${planDetails[widget.planIndex].currency} / ${planDetails[widget.planIndex].currency} )',
               style: TextStyle(
                   color: Colors.white,
-                  fontSize:
-                  10.0,
-                  letterSpacing:
-                  0.8,
+                  fontSize: 10.0,
+                  letterSpacing: 0.8,
                   height: 1.3,
-                  fontWeight:
-                  FontWeight
-                      .w500),
+                  fontWeight: FontWeight.w500),
             ),
           ),
         ],
@@ -520,11 +447,8 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
 
 //  Logo row
   Widget logoRow() {
-    var logo = Provider
-        .of<AppConfig>(context, listen: false)
-        .appModel
-        .config
-        .logo;
+    var logo =
+        Provider.of<AppConfig>(context, listen: false).appModel.config.logo;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.end,
@@ -544,8 +468,10 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
   Widget discountText() {
     return Expanded(
       flex: 5,
-      child: Text("Discount",
-        style: TextStyle(color: Colors.white, fontSize: 12.0, height: 1.3),),
+      child: Text(
+        "Discount",
+        style: TextStyle(color: Colors.white, fontSize: 12.0, height: 1.3),
+      ),
     );
   }
 
@@ -553,25 +479,23 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
   Widget afterDiscountText() {
     return Expanded(
       flex: 5,
-      child: Text("After Discount Amount:", style: TextStyle(
-          color: Colors
-              .white,
-          fontSize: 12.0,
-          height: 1.3),),
+      child: Text(
+        "After Discount Amount:",
+        style: TextStyle(color: Colors.white, fontSize: 12.0, height: 1.3),
+      ),
     );
   }
 
 //  Amount
   Widget amountText(indexPer) {
-    var planDetails = Provider
-        .of<AppConfig>(context)
-        .planList;
-    return Text("${planDetails[indexPer].amount}" +
-        " ${planDetails[indexPer].currency}", style: TextStyle(
-      color: Colors.white,
-      fontSize: 12.0,
-      height: 1.3,
-    ),
+    var planDetails = Provider.of<AppConfig>(context).planList;
+    return Text(
+      "${planDetails[indexPer].amount}" + " ${planDetails[indexPer].currency}",
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: 12.0,
+        height: 1.3,
+      ),
     );
   }
 
@@ -616,18 +540,12 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
       height: 25.0,
       width: 25.0,
       decoration: BoxDecoration(
-          border: Border.all(
-              width: 2.0,
-              color: Color.fromRGBO(
-                  125, 183, 91, 1.0)),
+          border:
+              Border.all(width: 2.0, color: Color.fromRGBO(125, 183, 91, 1.0)),
           shape: BoxShape.circle,
-          color: Theme
-              .of(context)
-              .backgroundColor
-      ),
+          color: Theme.of(context).backgroundColor),
       child: Icon(Icons.keyboard_arrow_down,
-          size: 21.0,
-          color: Colors.white.withOpacity(0.7)),
+          size: 21.0, color: Colors.white.withOpacity(0.7)),
     );
   }
 
@@ -635,9 +553,7 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
   Widget swipeDownText() {
     return Text(
       "Click the wallet to pay",
-      style: TextStyle(
-          fontSize: 16.0,
-          color: Colors.white.withOpacity(0.7)),
+      style: TextStyle(fontSize: 16.0, color: Colors.white.withOpacity(0.7)),
     );
   }
 
@@ -646,18 +562,14 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
     return Container(
       width: double.infinity,
       height: double.infinity,
-      color: Theme
-          .of(context)
-          .backgroundColor,
-
+      color: Theme.of(context).backgroundColor,
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Padding(padding: EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 0.0)
-            ),
+            Padding(padding: EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 0.0)),
             // swipeDownRow(),
             new RaisedButton(
               onPressed: () async {
@@ -667,24 +579,18 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
                 //   return true;
                 // }
                 if (couponCode == '') {
-                  if(genCoupon == null ){
+                  if (genCoupon == null) {
                     Navigator.pushReplacement(
-                        context, MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                            BankPayment()
-                    )
-                    );
-                  }else {
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => BankPayment()));
+                  } else {
                     Navigator.pushReplacement(
-                        context, MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                            BankPayment()
-                    )
-                    );
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => BankPayment()));
                   }
-
-                }
-                else {
+                } else {
                   Future.delayed(Duration(seconds: 1)).then((_) {
                     Fluttertoast.showToast(
                         msg: "Coupon is only applicable to Stripe");
@@ -693,8 +599,10 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
                 return null;
               },
               color: Colors.green,
-              shape: new RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-              child: new Text("Pay by Cinetpay", style: new TextStyle(color: Colors.white, fontSize: 20.0)),
+              shape: new RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
+              child: new Text("Pay by Cinetpay",
+                  style: new TextStyle(color: Colors.white, fontSize: 20.0)),
             )
             // Dismissible(
             //     direction: DismissDirection.down,
@@ -749,20 +657,15 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
     return Container(
       width: double.infinity,
       height: double.infinity,
-      color: Theme
-          .of(context)
-          .backgroundColor,
-
+      color: Theme.of(context).backgroundColor,
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Padding(padding: EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 0.0)
-            ),
+            Padding(padding: EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 0.0)),
             swipeDownRow(),
-
             Dismissible(
                 direction: DismissDirection.down,
                 key: Key("$indexPer"),
@@ -773,13 +676,14 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
                     return true;
                   }
                   if (couponCode == '') {
-                    if(genCoupon == null){
-                      Navigator.pushNamed(context, RoutePaths.razorpay, arguments: RazorPayment(indexPer, null));
-                    }else{
-                      Navigator.pushNamed(context, RoutePaths.razorpay, arguments: RazorPayment(indexPer, genCoupon));
+                    if (genCoupon == null) {
+                      Navigator.pushNamed(context, RoutePaths.razorpay,
+                          arguments: RazorPayment(indexPer, null));
+                    } else {
+                      Navigator.pushNamed(context, RoutePaths.razorpay,
+                          arguments: RazorPayment(indexPer, genCoupon));
                     }
-                  }
-                  else {
+                  } else {
                     Future.delayed(Duration(seconds: 1)).then((_) {
                       Fluttertoast.showToast(
                           msg: "Coupon is only applicable to Stripe");
@@ -787,13 +691,10 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
                   }
                   return null;
                 },
-
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(
-                      120.0, 0.0, 100.0, 0.0),
+                  padding: EdgeInsets.fromLTRB(120.0, 0.0, 100.0, 0.0),
                   child: Image.asset("assets/razorpay.png"),
-                )
-            ),
+                )),
           ],
         ),
       ),
@@ -805,20 +706,15 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
     return Container(
       width: double.infinity,
       height: double.infinity,
-      color: Theme
-          .of(context)
-          .backgroundColor,
-
+      color: Theme.of(context).backgroundColor,
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Padding(padding: EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 0.0)
-            ),
+            Padding(padding: EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 0.0)),
             swipeDownRow(),
-
             Dismissible(
                 direction: DismissDirection.down,
                 key: Key("$indexPer"),
@@ -829,13 +725,14 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
                     return true;
                   }
                   if (couponCode == '') {
-                    if(genCoupon == null){
-                      Navigator.pushNamed(context, RoutePaths.paytm, arguments: PaytmPayment(indexPer, null));
-                    }else{
-                      Navigator.pushNamed(context, RoutePaths.paytm, arguments: PaytmPayment(indexPer, genCoupon));
+                    if (genCoupon == null) {
+                      Navigator.pushNamed(context, RoutePaths.paytm,
+                          arguments: PaytmPayment(indexPer, null));
+                    } else {
+                      Navigator.pushNamed(context, RoutePaths.paytm,
+                          arguments: PaytmPayment(indexPer, genCoupon));
                     }
-                  }
-                  else {
+                  } else {
                     Future.delayed(Duration(seconds: 1)).then((_) {
                       Fluttertoast.showToast(
                           msg: "Coupon is only applicable to Stripe");
@@ -843,13 +740,10 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
                   }
                   return null;
                 },
-
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(
-                      120.0, 0.0, 100.0, 0.0),
+                  padding: EdgeInsets.fromLTRB(120.0, 0.0, 100.0, 0.0),
                   child: Image.asset("assets/paytm.png"),
-                )
-            ),
+                )),
           ],
         ),
       ),
@@ -861,20 +755,15 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
     return Container(
       width: double.infinity,
       height: double.infinity,
-      color: Theme
-          .of(context)
-          .backgroundColor,
-
+      color: Theme.of(context).backgroundColor,
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Padding(padding: EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 0.0)
-            ),
+            Padding(padding: EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 0.0)),
             swipeDownRow(),
-
             Dismissible(
                 direction: DismissDirection.down,
                 key: Key("$indexPer"),
@@ -884,28 +773,25 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
                   } else if (direction == DismissDirection.endToStart) {
                     return true;
                   }
-                  if (couponCode == '') {
-                    if(genCoupon == null) {
-                      Navigator.pushNamed(context, RoutePaths.paystack, arguments: PaystackPayment(indexPer, null));
-                    }else{
-                      Navigator.pushNamed(context, RoutePaths.paystack, arguments: PaystackPayment(indexPer, genCoupon));
-                    }
-                  }
-                  else {
-                    Future.delayed(Duration(seconds: 1)).then((_) {
-                      Fluttertoast.showToast(
-                          msg: "Coupon is only applicable to Stripe");
-                    });
-                  }
+                  // if (couponCode == '') {
+                  //   if(genCoupon == null) {
+                  //     Navigator.pushNamed(context, RoutePaths.paystack, arguments: PaystackPayment(indexPer, null));
+                  //   }else{
+                  //     Navigator.pushNamed(context, RoutePaths.paystack, arguments: PaystackPayment(indexPer, genCoupon));
+                  //   }
+                  // }
+                  // else {
+                  //   Future.delayed(Duration(seconds: 1)).then((_) {
+                  //     Fluttertoast.showToast(
+                  //         msg: "Coupon is only applicable to Stripe");
+                  //   });
+                  // }
                   return null;
                 },
-
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(
-                      120.0, 0.0, 100.0, 0.0),
+                  padding: EdgeInsets.fromLTRB(120.0, 0.0, 100.0, 0.0),
                   child: Image.asset("assets/paystackwallets.png"),
-                )
-            ),
+                )),
           ],
         ),
       ),
@@ -917,19 +803,15 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
     return Container(
       width: double.infinity,
       height: double.infinity,
-      color: Theme
-          .of(context)
-          .backgroundColor,
+      color: Theme.of(context).backgroundColor,
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Padding(padding: EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 0.0)
-            ),
+            Padding(padding: EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 0.0)),
             swipeDownRow(),
-
             Dismissible(
                 direction: DismissDirection.down,
                 key: Key('$indexPer'),
@@ -942,26 +824,27 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
                   }
 
                   if (validCoupon != false || couponCode == '') {
-                    if(genCoupon == null){
-                      Navigator.pushNamed(context, RoutePaths.stripe, arguments: StripePayment(indexPer, couponCode));
-                    }else{
-                      Fluttertoast.showToast(msg: "This coupon can't be applicable for Stripe payment");
+                    if (genCoupon == null) {
+                      Navigator.pushNamed(context, RoutePaths.stripe,
+                          arguments: StripePayment(indexPer, couponCode));
+                    } else {
+                      Fluttertoast.showToast(
+                          msg:
+                              "This coupon can't be applicable for Stripe payment");
                       return false;
                     }
                   }
                   Future.delayed(Duration(seconds: 1)).then((_) {
-                    validCoupon == false ? Fluttertoast.showToast(
-                        msg: couponMSG) : SizedBox.shrink();
+                    validCoupon == false
+                        ? Fluttertoast.showToast(msg: couponMSG)
+                        : SizedBox.shrink();
                   });
                   return null;
                 },
-
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(
-                      120.0, 0.0, 100.0, 0.0),
+                  padding: EdgeInsets.fromLTRB(120.0, 0.0, 100.0, 0.0),
                   child: Image.asset("assets/stripe.png"),
-                )
-            ),
+                )),
           ],
         ),
       ),
@@ -973,18 +856,14 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
     return Container(
       width: double.infinity,
       height: double.infinity,
-      color: Theme
-          .of(context)
-          .backgroundColor,
-
+      color: Theme.of(context).backgroundColor,
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Padding(padding: EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 0.0)
-            ),
+            Padding(padding: EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 0.0)),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -997,17 +876,12 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
                   width: 25.0,
                   decoration: BoxDecoration(
                     border: Border.all(
-                        width: 2.0,
-                        color: Color.fromRGBO(
-                            125, 183, 91, 1.0)),
+                        width: 2.0, color: Color.fromRGBO(125, 183, 91, 1.0)),
                     shape: BoxShape.circle,
-                    color: Theme
-                        .of(context)
-                        .backgroundColor,
+                    color: Theme.of(context).backgroundColor,
                   ),
                   child: Icon(Icons.keyboard_arrow_down,
-                      size: 21.0,
-                      color: Colors.white.withOpacity(0.7)),
+                      size: 21.0, color: Colors.white.withOpacity(0.7)),
                 ),
                 SizedBox(
                   width: 10.0,
@@ -1015,12 +889,10 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
                 Text(
                   "Swipe down wallet to pay",
                   style: TextStyle(
-                      fontSize: 16.0,
-                      color: Colors.white.withOpacity(0.7)),
+                      fontSize: 16.0, color: Colors.white.withOpacity(0.7)),
                 ),
               ],
             ),
-
             Dismissible(
                 direction: DismissDirection.down,
                 key: Key('$indexPer'),
@@ -1031,11 +903,14 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
                     return true;
                   }
                   if (couponCode == '') {
-                   if(genCoupon == null){
-                     Navigator.pushNamed(context, RoutePaths.braintree, arguments: BraintreePaymentScreen(indexPer, null));
-                   }else{
-                     Navigator.pushNamed(context, RoutePaths.braintree, arguments: BraintreePaymentScreen(indexPer, genCoupon));
-                   }
+                    if (genCoupon == null) {
+                      Navigator.pushNamed(context, RoutePaths.braintree,
+                          arguments: BraintreePaymentScreen(indexPer, null));
+                    } else {
+                      Navigator.pushNamed(context, RoutePaths.braintree,
+                          arguments:
+                              BraintreePaymentScreen(indexPer, genCoupon));
+                    }
                   } else {
                     Future.delayed(Duration(seconds: 1)).then((_) {
                       Fluttertoast.showToast(
@@ -1045,16 +920,15 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
                   return null;
                 },
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(
-                      120.0, 0.0, 100.0, 0.0),
+                  padding: EdgeInsets.fromLTRB(120.0, 0.0, 100.0, 0.0),
                   child: Image.asset("assets/braintreewallet.png"),
-                )
-            ),
+                )),
           ],
         ),
       ),
     );
   }
+
   // //  Cinet payment wallet
   // Widget cinetPayment(indexPer) {
   //   return Container(
@@ -1144,27 +1018,20 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
   // }
   //  paypal payment wallet
   Widget cinetPayment(indexPer) {
-    var userDetails = Provider
-        .of<UserProfileProvider>(context, listen: false)
+    var userDetails = Provider.of<UserProfileProvider>(context, listen: false)
         .userProfileModel;
-    var appConfig = Provider
-        .of<AppConfig>(context, listen: false)
-        .appModel;
+    var appConfig = Provider.of<AppConfig>(context, listen: false).appModel;
     return Container(
       width: double.infinity,
       height: double.infinity,
-      color: Theme
-          .of(context)
-          .backgroundColor,
-
+      color: Theme.of(context).backgroundColor,
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Padding(padding: EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 0.0)
-            ),
+            Padding(padding: EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 0.0)),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -1175,8 +1042,13 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
                 SizedBox(
                   width: 13.0,
                 ),
-                Padding(padding: EdgeInsets.all(30.0),
-                  child: Image.asset("assets/cinetpay.png", scale: 1.0, width: 150.0,),
+                Padding(
+                  padding: EdgeInsets.all(30.0),
+                  child: Image.asset(
+                    "assets/cinetpay.png",
+                    scale: 1.0,
+                    width: 150.0,
+                  ),
                 ),
 
                 SizedBox(
@@ -1200,10 +1072,12 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
                 new RaisedButton(
                   onPressed: () async {
                     if (couponCode == '') {
-                      if(genCoupon == null){
-                        onPayWithCinetPay(appConfig, userDetails, indexPer, null);
-                      }else{
-                        onPayWithCinetPay(appConfig, userDetails, indexPer, genCoupon);
+                      if (genCoupon == null) {
+                        onPayWithCinetPay(
+                            appConfig, userDetails, indexPer, null);
+                      } else {
+                        onPayWithCinetPay(
+                            appConfig, userDetails, indexPer, genCoupon);
                       }
                     } else {
                       Future.delayed(Duration(seconds: 1)).then((_) {
@@ -1212,11 +1086,13 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
                       });
                     }
                     return null;
-
                   },
                   color: Colors.green,
-                  shape: new RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-                  child: new Text("Pay by Cinetpay", style: new TextStyle(color: Colors.white, fontSize: 20.0)),
+                  shape: new RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0)),
+                  child: new Text("Pay by Cinetpay",
+                      style:
+                          new TextStyle(color: Colors.white, fontSize: 20.0)),
                 )
               ],
             ),
@@ -1257,41 +1133,38 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
   }
 
   void onPayWithCinetPay(appConfig, userDetails, indexPer, amount) {
-    Navigator.pushNamed(context, RoutePaths.cinetPay, arguments: CinetPayment(
-      onFinish: (number) async {},
-      currency: "${appConfig.config.currencyCode}",
-      userFirstName: userDetails.user.name,
-      userLastName: "",
-      userEmail: userDetails.user.email,
-      payAmount: amount == null ? "${appConfig.plans[indexPer].amount}" : "$amount",
-      planIndex: appConfig.plans[widget.planIndex].id,
-    ),
+    Navigator.pushNamed(
+      context,
+      RoutePaths.cinetPay,
+      arguments: CinetPayment(
+        onFinish: (number) async {},
+        currency: "${appConfig.config.currencyCode}",
+        userFirstName: userDetails.user.name,
+        userLastName: "",
+        userEmail: userDetails.user.email,
+        payAmount:
+            amount == null ? "${appConfig.plans[indexPer].amount}" : "$amount",
+        planIndex: appConfig.plans[widget.planIndex].id,
+      ),
     );
   }
 
   //  paypal payment wallet
   Widget paypalPayment(indexPer) {
-    var userDetails = Provider
-        .of<UserProfileProvider>(context, listen: false)
+    var userDetails = Provider.of<UserProfileProvider>(context, listen: false)
         .userProfileModel;
-    var appConfig = Provider
-        .of<AppConfig>(context, listen: false)
-        .appModel;
+    var appConfig = Provider.of<AppConfig>(context, listen: false).appModel;
     return Container(
       width: double.infinity,
       height: double.infinity,
-      color: Theme
-          .of(context)
-          .backgroundColor,
-
+      color: Theme.of(context).backgroundColor,
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Padding(padding: EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 0.0)
-            ),
+            Padding(padding: EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 0.0)),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -1304,17 +1177,12 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
                   width: 25.0,
                   decoration: BoxDecoration(
                     border: Border.all(
-                        width: 2.0,
-                        color: Color.fromRGBO(
-                            125, 183, 91, 1.0)),
+                        width: 2.0, color: Color.fromRGBO(125, 183, 91, 1.0)),
                     shape: BoxShape.circle,
-                    color: Theme
-                        .of(context)
-                        .backgroundColor,
+                    color: Theme.of(context).backgroundColor,
                   ),
                   child: Icon(Icons.keyboard_arrow_down,
-                      size: 21.0,
-                      color: Colors.white.withOpacity(0.7)),
+                      size: 21.0, color: Colors.white.withOpacity(0.7)),
                 ),
                 SizedBox(
                   width: 10.0,
@@ -1322,12 +1190,10 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
                 Text(
                   "Swipe down wallet to pay",
                   style: TextStyle(
-                      fontSize: 16.0,
-                      color: Colors.white.withOpacity(0.7)),
+                      fontSize: 16.0, color: Colors.white.withOpacity(0.7)),
                 ),
               ],
             ),
-
             Dismissible(
                 direction: DismissDirection.down,
                 key: Key('$indexPer'),
@@ -1338,10 +1204,11 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
                     return true;
                   }
                   if (couponCode == '') {
-                    if(genCoupon == null){
+                    if (genCoupon == null) {
                       onPayWithPayPal(appConfig, userDetails, indexPer, null);
-                    }else{
-                      onPayWithPayPal(appConfig, userDetails, indexPer, genCoupon);
+                    } else {
+                      onPayWithPayPal(
+                          appConfig, userDetails, indexPer, genCoupon);
                     }
                   } else {
                     Future.delayed(Duration(seconds: 1)).then((_) {
@@ -1352,11 +1219,9 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
                   return null;
                 },
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(
-                      120.0, 0.0, 100.0, 0.0),
+                  padding: EdgeInsets.fromLTRB(120.0, 0.0, 100.0, 0.0),
                   child: Image.asset("assets/paypal.png"),
-                )
-            ),
+                )),
           ],
         ),
       ),
@@ -1364,37 +1229,38 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
   }
 
   void onPayWithPayPal(appConfig, userDetails, indexPer, amount) {
-    Navigator.pushNamed(context, RoutePaths.paypal, arguments: PaypalPayment(
-      onFinish: (number) async {},
-      currency: "${appConfig.config.currencyCode}",
-      userFirstName: userDetails.user.name,
-      userLastName: "",
-      userEmail: userDetails.user.email,
-      payAmount: amount == null ? "${appConfig.plans[indexPer].amount}" : "$amount",
-      planIndex: appConfig.plans[widget.planIndex].id,
-    ),
+    Navigator.pushNamed(
+      context,
+      RoutePaths.paypal,
+      arguments: PaypalPayment(
+        onFinish: (number) async {},
+        currency: "${appConfig.config.currencyCode}",
+        userFirstName: userDetails.user.name,
+        userLastName: "",
+        userEmail: userDetails.user.email,
+        payAmount:
+            amount == null ? "${appConfig.plans[indexPer].amount}" : "$amount",
+        planIndex: appConfig.plans[widget.planIndex].id,
+      ),
     );
   }
 
   //  inapp payment wallet
   Widget inappPayment(indexPer) {
-    var userDetails = Provider.of<UserProfileProvider>(context, listen: false).userProfileModel;
+    var userDetails = Provider.of<UserProfileProvider>(context, listen: false)
+        .userProfileModel;
     var appConfig = Provider.of<AppConfig>(context, listen: false).appModel;
     return Container(
       width: double.infinity,
       height: double.infinity,
-      color: Theme
-          .of(context)
-          .backgroundColor,
-
+      color: Theme.of(context).backgroundColor,
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Padding(padding: EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 0.0)
-            ),
+            Padding(padding: EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 0.0)),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -1407,17 +1273,12 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
                   width: 25.0,
                   decoration: BoxDecoration(
                     border: Border.all(
-                        width: 2.0,
-                        color: Color.fromRGBO(
-                            125, 183, 91, 1.0)),
+                        width: 2.0, color: Color.fromRGBO(125, 183, 91, 1.0)),
                     shape: BoxShape.circle,
-                    color: Theme
-                        .of(context)
-                        .backgroundColor,
+                    color: Theme.of(context).backgroundColor,
                   ),
                   child: Icon(Icons.keyboard_arrow_down,
-                      size: 21.0,
-                      color: Colors.white.withOpacity(0.7)),
+                      size: 21.0, color: Colors.white.withOpacity(0.7)),
                 ),
                 SizedBox(
                   width: 10.0,
@@ -1425,12 +1286,10 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
                 Text(
                   "Swipe down wallet to pay",
                   style: TextStyle(
-                      fontSize: 16.0,
-                      color: Colors.white.withOpacity(0.7)),
+                      fontSize: 16.0, color: Colors.white.withOpacity(0.7)),
                 ),
               ],
             ),
-
             Dismissible(
                 direction: DismissDirection.down,
                 key: Key('$indexPer'),
@@ -1441,10 +1300,13 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
                     return true;
                   }
                   if (couponCode == '') {
-                    if(genCoupon == null){
-                      Navigator.pushNamed(context, RoutePaths.inApp, arguments: InApp(indexPer));
-                    }else{
-                      Fluttertoast.showToast(msg: "Coupon can't be applied for this payment gateway");
+                    if (genCoupon == null) {
+                      Navigator.pushNamed(context, RoutePaths.inApp,
+                          arguments: InApp(indexPer));
+                    } else {
+                      Fluttertoast.showToast(
+                          msg:
+                              "Coupon can't be applied for this payment gateway");
                       return false;
                     }
                   } else {
@@ -1456,11 +1318,9 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
                   return null;
                 },
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(
-                      120.0, 0.0, 100.0, 0.0),
+                  padding: EdgeInsets.fromLTRB(120.0, 0.0, 100.0, 0.0),
                   child: Image.asset("assets/inapp.png"),
-                )
-            ),
+                )),
           ],
         ),
       ),
@@ -1470,199 +1330,176 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
 //  Sliver List
   Widget _sliverList(dailyAmountAp, afterDiscountAmount, planDetails) {
     return SliverList(
-        delegate: SliverChildBuilderDelegate(
-                (BuildContext context, int j) {
-              return Container(
-                  child: Column(
+        delegate: SliverChildBuilderDelegate((BuildContext context, int j) {
+      return Container(
+          child: Column(children: <Widget>[
+        new Container(
+          child: Column(
+            children: <Widget>[
+              Stack(
+                children: <Widget>[
+                  appbarMaterialDesign(),
+                  Container(
+                    margin: EdgeInsets.only(top: 60.0),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColorLight,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20.0),
+                          topRight: Radius.circular(20.0)),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        new Container(
+                        AspectRatio(
+                          aspectRatio:
+                              validCoupon == true ? 16.0 / 15.0 : 16.0 / 13.0,
                           child: Column(
                             children: <Widget>[
-                              Stack(
-                                children: <Widget>[
-                                  appbarMaterialDesign(),
-                                  Container(
-                                    margin: EdgeInsets.only(top: 60.0),
-                                    decoration: BoxDecoration(
-                                      color: Theme
-                                          .of(context)
-                                          .primaryColorLight,
-                                      borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(20.0),
-                                          topRight: Radius.circular(20.0)),
+                              Padding(
+                                padding:
+                                    EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
+                              ),
+                              selectPaymentText(),
+                              planAndUserName(widget.planIndex),
+                              Padding(
+                                padding:
+                                    EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: EdgeInsets.only(left: 20.0),
                                     ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        AspectRatio(
-                                          aspectRatio: validCoupon == true
-                                              ? 16.0 / 15.0
-                                              : 16.0 / 13.0,
-                                          child: Column(
+                                    minDuration(widget.planIndex),
+                                    planAmountText(
+                                        widget.planIndex, dailyAmountAp),
+                                  ],
+                                ),
+                              ),
+                              Padding(padding: EdgeInsets.only(top: 40.0)),
+                              InkWell(
+                                child: Container(
+                                  margin:
+                                      EdgeInsets.only(left: 20.0, right: 20.0),
+                                  height: 50.0,
+                                  width: MediaQuery.of(context).size.width,
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      Expanded(
+                                        flex: 5,
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: <Widget>[
+                                            giftIcon(),
+                                            Padding(
+                                                padding:
+                                                    EdgeInsets.only(left: 10.0),
+                                                child: isCouponApplied
+                                                    ? Text("Apply Coupon")
+                                                    : Text(
+                                                        couponCode,
+                                                        textAlign:
+                                                            TextAlign.left,
+                                                      ))
+                                          ],
+                                        ),
+                                      ),
+                                      applyCouponIcon(),
+                                    ],
+                                  ),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      width: 2.0,
+                                      color: Colors.white.withOpacity(0.4),
+                                    ),
+                                  ),
+                                ),
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, RoutePaths.applyCoupon,
+                                      arguments: ApplyCouponScreen(
+                                          planDetails[widget.planIndex]
+                                              .amount));
+                                },
+                              ),
+                              Container(
+                                  height: 30.0,
+                                  child: isCouponApplied
+                                      ? SizedBox.shrink()
+                                      : Padding(
+                                          padding: EdgeInsets.only(left: 40.0),
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
                                             children: <Widget>[
-                                              Padding(
-                                                padding: EdgeInsets.fromLTRB(
-                                                    0.0, 10.0, 0.0, 0.0),
-                                              ),
-
-                                              selectPaymentText(),
-                                              planAndUserName(
-                                                  widget.planIndex),
-                                              Padding(
-                                                padding: EdgeInsets.fromLTRB(
-                                                    0.0, 10.0, 0.0, 0.0),
-                                                child: Row(
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                                  mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                                  children: <Widget>[
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: 20.0),
-                                                    ),
-                                                    minDuration(widget.planIndex),
-                                                    planAmountText(widget.planIndex, dailyAmountAp),
-                                                  ],
-                                                ),
-                                              ),
-                                              Padding(
-                                                  padding: EdgeInsets.only(
-                                                      top: 40.0)),
-
-                                              InkWell(
-                                                child: Container(
-                                                  margin: EdgeInsets.only(left: 20.0, right: 20.0),
-                                                  height: 50.0,
-                                                  width: MediaQuery.of(context).size.width,
-                                                  child: Row(
-                                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                                    children: <Widget>[
-                                                      Expanded(
-                                                          flex: 5,
-                                                          child: Row(
-                                                            crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                            mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                            children: <
-                                                                Widget>[
-                                                              giftIcon(),
-                                                              Padding(
-                                                                  padding: EdgeInsets
-                                                                      .only(
-                                                                      left: 10.0),
-                                                                  child: isCouponApplied
-                                                                      ? Text(
-                                                                      "Apply Coupon")
-                                                                      : Text(
-                                                                    couponCode,
-                                                                    textAlign: TextAlign
-                                                                        .left,
-                                                                  )
-                                                              )
-                                                            ],
-                                                          ),
-                                                      ),
-                                                      applyCouponIcon(),
-                                                    ],
-                                                  ),
-                                                  decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                      width: 2.0,
-                                                      color: Colors.white
-                                                          .withOpacity(0.4),
-                                                    ),
-                                                  ),
-                                                ),
-                                                onTap: (){
-                                                  Navigator.pushNamed(context, RoutePaths.applyCoupon,
-                                                      arguments: ApplyCouponScreen(planDetails[widget.planIndex].amount));
-                                                },
-                                              ),
-
-                                              Container(
-                                                  height: 30.0,
-                                                  child: isCouponApplied
-                                                      ? SizedBox.shrink()
-                                                      : Padding(
-                                                    padding: EdgeInsets.only(
-                                                        left: 40.0),
-                                                    child: Row(
-                                                      crossAxisAlignment: CrossAxisAlignment
-                                                          .center,
-                                                      mainAxisAlignment: MainAxisAlignment
-                                                          .start,
-                                                      children: <Widget>[
-                                                        validCoupon == true
-                                                            ? Icon(
-                                                          FontAwesomeIcons
-                                                              .solidCheckCircle,
-                                                          color: activeDotColor,
-                                                          size: 13.0,)
-                                                            :
-                                                        Icon(FontAwesomeIcons
-                                                            .solidTimesCircle,
-                                                          color: Colors.red,
-                                                          size: 13.0,),
-                                                        SizedBox(
-                                                          width: 10.0,),
-                                                        Text(couponMSG,
-                                                          style: TextStyle(
-                                                              color: validCoupon ==
-                                                                  true
-                                                                  ? Colors.green
-                                                                  : Colors
-                                                                  .red,
-                                                              fontSize: 12.0,
-                                                              letterSpacing: 0.7
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),)
-                                              ),
                                               validCoupon == true
-                                                  ? couponProcessing(
-                                                  afterDiscountAmount,
-                                                  widget.planIndex)
-                                                  : SizedBox.shrink(),
+                                                  ? Icon(
+                                                      FontAwesomeIcons
+                                                          .solidCheckCircle,
+                                                      color: activeDotColor,
+                                                      size: 13.0,
+                                                    )
+                                                  : Icon(
+                                                      FontAwesomeIcons
+                                                          .solidTimesCircle,
+                                                      color: Colors.red,
+                                                      size: 13.0,
+                                                    ),
+                                              SizedBox(
+                                                width: 10.0,
+                                              ),
+                                              Text(
+                                                couponMSG,
+                                                style: TextStyle(
+                                                    color: validCoupon == true
+                                                        ? Colors.green
+                                                        : Colors.red,
+                                                    fontSize: 12.0,
+                                                    letterSpacing: 0.7),
+                                              ),
                                             ],
                                           ),
-                                        ),
-                                        Container(
-                                          height: 2.0,
-                                          color: Colors.white.withOpacity(0.3),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  new Positioned(
-                                    top: 8.0,
-                                    left: 4.0,
-                                    child: new BackButton(
-                                        color: Colors.white
-                                    ),
-                                  ),
-
-                                  logoRow(),
-                                ],
-                              ),
+                                        )),
+                              validCoupon == true
+                                  ? couponProcessing(
+                                      afterDiscountAmount, widget.planIndex)
+                                  : SizedBox.shrink(),
                             ],
                           ),
                         ),
-                      ]));
-            },
+                        Container(
+                          height: 2.0,
+                          color: Colors.white.withOpacity(0.3),
+                        ),
+                      ],
+                    ),
+                  ),
+                  new Positioned(
+                    top: 8.0,
+                    left: 4.0,
+                    child: new BackButton(color: Colors.white),
+                  ),
+                  logoRow(),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ]));
+    },
             addAutomaticKeepAlives: true,
             addRepaintBoundaries: true,
             addSemanticIndexes: true,
-            childCount: 1
-        )
-    );
+            childCount: 1));
   }
 
 //  Scaffold body
@@ -1670,31 +1507,31 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
     return NestedScrollView(
       physics: ClampingScrollPhysics(),
       controller: _scrollViewController,
-      headerSliverBuilder:
-          (BuildContext context, bool innerBoxIsScrolled) {
+      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
         return <Widget>[
           _sliverList(dailyAmountAp, afterDiscountAmount, planDetails),
           paymentMethodTabs(),
         ];
       },
       body: _nestedScrollViewBody(),
-
     );
   }
 
 //  NestedScrollView body
   Widget _nestedScrollViewBody() {
-    return listPaymentGateways.length == 0 ? Center(
-      child: Text("No payment method available"),) : TabBarView(
-        controller: _paymentTabController,
-        physics: PageScrollPhysics(),
-        children: List<Widget>.generate(
-            // listPaymentGateways == null ? 0 : listPaymentGateways.length,
-                1,
-                (int index) {
-                  return InkWell(
-                          child: cinetPayment(widget.planIndex),
-                        );
+    return listPaymentGateways.length == 0
+        ? Center(
+            child: Text("No payment method available"),
+          )
+        : TabBarView(
+            controller: _paymentTabController,
+            physics: PageScrollPhysics(),
+            children: List<Widget>.generate(
+                // listPaymentGateways == null ? 0 : listPaymentGateways.length,
+                1, (int index) {
+              return InkWell(
+                child: cinetPayment(widget.planIndex),
+              );
               // if (listPaymentGateways[index].title == 'btree') {
               //   return InkWell(
               //     child: braintreePayment(widget.planIndex),
@@ -1736,17 +1573,13 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
               //   );
               // }
               return null;
-            })
-    );
+            }));
   }
-
 
 //  Build method
   @override
   Widget build(BuildContext context) {
-    var planDetails = Provider
-        .of<AppConfig>(context)
-        .planList;
+    var planDetails = Provider.of<AppConfig>(context).planList;
     var dailyAmount1;
     var intervalCount;
     dynamic planAm = planDetails[widget.planIndex].amount;
@@ -1772,10 +1605,12 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
     }
     var dailyAmount = dailyAmount1 / intervalCount;
     String dailyAmountAp = dailyAmount.toStringAsFixed(2);
-    var amountOff = validCoupon == true ? (percentOFF / 100) *
-        planDetails[widget.planIndex].amount : 0;
-    var afterDiscountAmount = validCoupon == true ? planDetails[widget
-        .planIndex].amount - amountOff : 0;
+    var amountOff = validCoupon == true
+        ? (percentOFF / 100) * planDetails[widget.planIndex].amount
+        : 0;
+    var afterDiscountAmount = validCoupon == true
+        ? planDetails[widget.planIndex].amount - amountOff
+        : 0;
 
     return SafeArea(
       child: WillPopScope(
@@ -1783,15 +1618,17 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
             length: 1,
             child: Scaffold(
               key: _scaffoldKey,
-              body: loading == true ? Center(
-                child: CircularProgressIndicator(),) : _scaffoldBody(
-                  dailyAmountAp, afterDiscountAmount, planDetails),
+              body: loading == true
+                  ? Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : _scaffoldBody(
+                      dailyAmountAp, afterDiscountAmount, planDetails),
             ),
           ),
           onWillPop: () async {
             return true;
-          }
-      ),
+          }),
     );
   }
 }
@@ -1800,8 +1637,5 @@ class PaymentGateInfo {
   String title;
   int status;
 
-  PaymentGateInfo({
-    this.title,
-    this.status
-  });
+  PaymentGateInfo({this.title, this.status});
 }

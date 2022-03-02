@@ -89,7 +89,7 @@ ThemeData buildLightTheme() {
     appBarTheme: AppBarTheme(
       elevation: 0,
       textTheme: TextTheme(
-        title: TextStyle(
+        subtitle1: TextStyle(
           color: kDarkBG,
           fontSize: 18.0,
           fontWeight: FontWeight.w800,
@@ -103,14 +103,16 @@ ThemeData buildLightTheme() {
 }
 
 TextTheme _buildTextTheme(TextTheme base) {
-  return base.copyWith(
-        headline: base.headline.copyWith(fontWeight: FontWeight.w500, color: Colors.red),
-        title: base.title.copyWith(fontSize: 18.0),
+  return base
+      .copyWith(
+        headline1: base.headline1
+            .copyWith(fontWeight: FontWeight.w500, color: Colors.red),
+        subtitle1: base.headline6.copyWith(fontSize: 18.0),
         caption: base.caption.copyWith(
           fontWeight: FontWeight.w400,
           fontSize: 14.0,
         ),
-        body2: base.body2.copyWith(
+        bodyText2: base.bodyText1.copyWith(
           fontWeight: FontWeight.w400,
           fontSize: 16.0,
         ),
@@ -124,7 +126,7 @@ TextTheme _buildTextTheme(TextTheme base) {
         displayColor: kGrey900,
         bodyColor: kGrey900,
       )
-      .copyWith(headline: base.headline.copyWith(fontFamily: 'Roboto'));
+      .copyWith(headline2: base.headline1.copyWith(fontFamily: 'Roboto'));
 }
 
 //TextTheme dialogTheme(DialogTheme base) {
@@ -172,7 +174,7 @@ ThemeData buildDarkTheme() {
     appBarTheme: AppBarTheme(
       elevation: 0,
       textTheme: TextTheme(
-        title: TextStyle(
+        subtitle1: TextStyle(
           color: kDarkBG,
           fontSize: 18.0,
           fontWeight: FontWeight.w800,

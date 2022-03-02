@@ -15,10 +15,10 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.2+3
+version: 1.1.1+11
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: '>=2.7.0 <3.0.0'
 
 dependencies:
   flutter:
@@ -30,7 +30,7 @@ dependencies:
   http: ^0.12.2
   path_provider: ^1.6.11
   sticky_headers: ^0.1.8+1
-#  flutter_facebook_login: ^3.0.0
+  #  flutter_facebook_login: ^3.0.0
   fluttertoast: ^7.1.1
   flutter_html: ^1.1.1
   intro_slider: ^2.3.1
@@ -58,18 +58,18 @@ dependencies:
   firebase_auth: ^0.18.3+1
   google_sign_in: ^4.5.6
   http_auth: ^0.3.1
-#  braintree_payment: ^1.2.4
-#  razorpay_flutter: ^1.2.1
-  paytm: ^1.0.8
-  flutter_paystack: ^1.0.4+1
+  #  braintree_payment: ^1.2.4
+  #  razorpay_flutter: ^1.2.1
+  # paytm: ^1.0.8
+  # flutter_paystack: ^1.0.4+1
   in_app_update: ^1.1.14
   dio: ^3.0.10
   flutter_inapp_purchase: ^3.0.1
   flutter_rating_bar: ^3.2.0+1
-#  get_ip: ^0.4.0
+  #  get_ip: ^0.4.0
   connectivity: ^2.0.2
-#  onesignal_flutter: ^2.6.3
-#  flutterwave: ^0.0.2
+  #  onesignal_flutter: ^2.6.3
+  #  flutterwave: ^0.0.2
   flutter_widget_from_html: ^0.5.1+5
   firebase_messaging: ^7.0.3
   flutter_launcher_icons: ^0.7.5
@@ -81,9 +81,9 @@ dependencies:
   hexcolor: ^2.0.0
 
 flutter_icons:
-  android: "launcher_icon"
+  android: 'launcher_icon'
   ios: true
-  image_path: "assets/logo.png"
+  image_path: 'assets/logo.png'
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -93,12 +93,14 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+# dependency_overrides:
+#   intl: ^0.17.0-nullsafety.1
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

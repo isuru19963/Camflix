@@ -34,7 +34,14 @@ class VideoDetailHeaderState extends State<VideoDetailHeader>
   var dMsg = '';
   var hdUrl;
   var sdUrl;
-  var mReadyUrl, mIFrameUrl, mUrl360, mUrl480, mUrl720, mUrl1080, youtubeUrl, vimeoUrl;
+  var mReadyUrl,
+      mIFrameUrl,
+      mUrl360,
+      mUrl480,
+      mUrl720,
+      mUrl1080,
+      youtubeUrl,
+      vimeoUrl;
 
   getAllScreens(mVideoUrl, type) async {
     if (type == "CUSTOM") {
@@ -61,13 +68,12 @@ class VideoDetailHeaderState extends State<VideoDetailHeader>
     }
   }
 
-  Future<String> addHistory(vType, id) async{
+  Future<String> addHistory(vType, id) async {
     var type = vType == DatumType.M ? "M" : "T";
-    final response  = await http.get("${APIData.addWatchHistory}/$type/$id", headers: {
-      HttpHeaders.authorizationHeader: "Bearer $authToken"
-    });
-    if(response.statusCode == 200){
-    }else{
+    final response = await http.get("${APIData.addWatchHistory}/$type/$id",
+        headers: {HttpHeaders.authorizationHeader: "Bearer $authToken"});
+    if (response.statusCode == 200) {
+    } else {
       throw "can't added to history";
     }
     return null;
@@ -152,29 +158,29 @@ class VideoDetailHeaderState extends State<VideoDetailHeader>
   }
 
   void _onTapPlay() {
-    if(widget.videoDetail.type == DatumType.T){
-      if(widget.videoDetail.seasons.length != 0 && widget.videoDetail.seasons[0].episodes.length != 0){
+    if (widget.videoDetail.type == DatumType.T) {
+      if (widget.videoDetail.seasons.length != 0 &&
+          widget.videoDetail.seasons[0].episodes.length != 0) {
         var url1 = widget.videoDetail.seasons[0].episodes[0].videoLink.readyUrl;
-        var url2 = widget.videoDetail.seasons[0].episodes[0].videoLink.iframeurl;
-        if(url1 != null){
+        var url2 =
+            widget.videoDetail.seasons[0].episodes[0].videoLink.iframeurl;
+        if (url1 != null) {
           var router = new MaterialPageRoute(
               builder: (BuildContext context) => new MyCustomPlayer(
-                url: url1,
-                title: widget.videoDetail.seasons[0].episodes[0].title,
-                downloadStatus: 1,
-              ));
+                    url: url1,
+                    title: widget.videoDetail.seasons[0].episodes[0].title,
+                    downloadStatus: 1,
+                  ));
           Navigator.of(context).push(router);
-        }else{
+        } else {
           var router = new MaterialPageRoute(
-              builder: (BuildContext context) =>
-                  IFramePlayerPage(url: url2));
+              builder: (BuildContext context) => IFramePlayerPage(url: url2));
           Navigator.of(context).push(router);
         }
-      }
-      else{
+      } else {
         return;
       }
-    }else{
+    } else {
       var videoLink = widget.videoDetail.videoLink;
       mIFrameUrl = videoLink.iframeurl;
       print("Iframe: $mIFrameUrl");
@@ -188,9 +194,14 @@ class VideoDetailHeaderState extends State<VideoDetailHeader>
       print("Url 720: $mUrl720");
       mUrl1080 = videoLink.url1080;
       print("Url 1080: $mUrl1080");
-      if(mIFrameUrl == null && mReadyUrl == null && mUrl360 == null && mUrl480 == null && mUrl720 == null && mUrl1080 == null){
+      if (mIFrameUrl == null &&
+          mReadyUrl == null &&
+          mUrl360 == null &&
+          mUrl480 == null &&
+          mUrl720 == null &&
+          mUrl1080 == null) {
         Fluttertoast.showToast(msg: "Video not available");
-      }else{
+      } else {
         if (mUrl360 != null ||
             mUrl480 != null ||
             mUrl720 != null ||
@@ -203,7 +214,8 @@ class VideoDetailHeaderState extends State<VideoDetailHeader>
               var ind = mIFrameUrl.lastIndexOf('d/');
               var t = "$mIFrameUrl".trim().substring(ind + 2);
               var rep = t.replaceAll('/preview', '');
-              var newurl = "https://www.googleapis.com/drive/v3/files/$rep?alt=media&key=${APIData.googleDriveApi}";
+              var newurl =
+                  "https://www.googleapis.com/drive/v3/files/$rep?alt=media&key=${APIData.googleDriveApi}";
               getAllScreens(newurl, "CUSTOM");
             } else {
               var router = new MaterialPageRoute(
@@ -228,7 +240,8 @@ class VideoDetailHeaderState extends State<VideoDetailHeader>
             } else if (matchUrl == 'https://www.youtube.com/embed') {
               var url = '$mReadyUrl';
               var router = new MaterialPageRoute(
-                  builder: (BuildContext context) => IFramePlayerPage(url: url));
+                  builder: (BuildContext context) =>
+                      IFramePlayerPage(url: url));
               Navigator.of(context).push(router);
             } else if (matchUrl.substring(0, 23) == 'https://www.youtube.com') {
               getAllScreens(mReadyUrl, "JS");
@@ -382,38 +395,38 @@ class VideoDetailHeaderState extends State<VideoDetailHeader>
 
   void _onTapTrailer() {
     var trailerUrl = widget.videoDetail.trailerUrl;
-   if(trailerUrl == null){
-     Fluttertoast.showToast(msg: "Trailer not available");
-   }else{
-     var checkMp4 = trailerUrl.substring(trailerUrl.length - 4);
-     var checkMpd = trailerUrl.substring(trailerUrl.length - 4);
-     var checkWebm = trailerUrl.substring(trailerUrl.length - 5);
-     var checkMkv = trailerUrl.substring(trailerUrl.length - 4);
-     var checkM3u8 = trailerUrl.substring(trailerUrl.length - 5);
-     if (trailerUrl.substring(0, 23) == 'https://www.youtube.com') {
-       var router = new MaterialPageRoute(
-           builder: (BuildContext context) => new PlayerMovieTrailer(
-               id: widget.videoDetail.id, type: widget.videoDetail.type));
-       Navigator.of(context).push(router);
-     } else if (checkMp4 == ".mp4" ||
-         checkMpd == ".mpd" ||
-         checkWebm == ".webm" ||
-         checkMkv == ".mkv" ||
-         checkM3u8 == ".m3u8") {
-       var router = new MaterialPageRoute(
-           builder: (BuildContext context) => new TrailerCustomPlayer(
-             url: trailerUrl,
-             title: widget.videoDetail.title,
-             downloadStatus: 1,
-           ));
-       Navigator.of(context).push(router);
-     } else {
-       var router = new MaterialPageRoute(
-           builder: (BuildContext context) => new PlayerMovieTrailer(
-               id: widget.videoDetail.id, type: widget.videoDetail.type));
-       Navigator.of(context).push(router);
-     }
-   }
+    if (trailerUrl == null) {
+      Fluttertoast.showToast(msg: "Trailer not available");
+    } else {
+      var checkMp4 = trailerUrl.substring(trailerUrl.length - 4);
+      var checkMpd = trailerUrl.substring(trailerUrl.length - 4);
+      var checkWebm = trailerUrl.substring(trailerUrl.length - 5);
+      var checkMkv = trailerUrl.substring(trailerUrl.length - 4);
+      var checkM3u8 = trailerUrl.substring(trailerUrl.length - 5);
+      if (trailerUrl.substring(0, 23) == 'https://www.youtube.com') {
+        var router = new MaterialPageRoute(
+            builder: (BuildContext context) => new PlayerMovieTrailer(
+                id: widget.videoDetail.id, type: widget.videoDetail.type));
+        Navigator.of(context).push(router);
+      } else if (checkMp4 == ".mp4" ||
+          checkMpd == ".mpd" ||
+          checkWebm == ".webm" ||
+          checkMkv == ".mkv" ||
+          checkM3u8 == ".m3u8") {
+        var router = new MaterialPageRoute(
+            builder: (BuildContext context) => new TrailerCustomPlayer(
+                  url: trailerUrl,
+                  title: widget.videoDetail.title,
+                  downloadStatus: 1,
+                ));
+        Navigator.of(context).push(router);
+      } else {
+        var router = new MaterialPageRoute(
+            builder: (BuildContext context) => new PlayerMovieTrailer(
+                id: widget.videoDetail.id, type: widget.videoDetail.type));
+        Navigator.of(context).push(router);
+      }
+    }
   }
 
   @override
@@ -462,7 +475,7 @@ class VideoDetailHeaderState extends State<VideoDetailHeader>
               children: [
                 new Text(
                   widget.videoDetail.title,
-                  style: Theme.of(context).textTheme.subhead,
+                  style: Theme.of(context).textTheme.subtitle1,
                   maxLines: 1,
                   overflow: TextOverflow.fade,
                 ),
@@ -598,20 +611,24 @@ class VideoDetailHeaderState extends State<VideoDetailHeader>
 
   Widget _buildDiagonalImageBackground(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
-    return  widget.videoDetail.poster == null ? Image.asset("assets/placeholder_cover.jpg",
-      height: 225.0,
-      width: screenWidth,
-      fit: BoxFit.cover,) : DiagonallyCutColoredImage(
-      FadeInImage.assetNetwork(
-        image: widget.videoDetail.type == DatumType.M
-            ? "${APIData.movieImageUriPosterMovie}${widget.videoDetail.poster}"
-            : "${APIData.tvImageUriPosterTv}${widget.videoDetail.poster}",
-        placeholder: "assets/placeholder_cover.jpg",
-        width: screenWidth,
-        height: 225.0,
-        fit: BoxFit.cover,
-      ),
-      color: const Color(0x00FFFFFF),
-    );
+    return widget.videoDetail.poster == null
+        ? Image.asset(
+            "assets/placeholder_cover.jpg",
+            height: 225.0,
+            width: screenWidth,
+            fit: BoxFit.cover,
+          )
+        : DiagonallyCutColoredImage(
+            FadeInImage.assetNetwork(
+              image: widget.videoDetail.type == DatumType.M
+                  ? "${APIData.movieImageUriPosterMovie}${widget.videoDetail.poster}"
+                  : "${APIData.tvImageUriPosterTv}${widget.videoDetail.poster}",
+              placeholder: "assets/placeholder_cover.jpg",
+              width: screenWidth,
+              height: 225.0,
+              fit: BoxFit.cover,
+            ),
+            color: const Color(0x00FFFFFF),
+          );
   }
 }

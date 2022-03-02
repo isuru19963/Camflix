@@ -298,13 +298,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.0.3"
-  flutter_paystack:
-    dependency: "direct main"
-    description:
-      name: flutter_paystack
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.4+1"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -602,13 +595,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.0.4+3"
-  paytm:
-    dependency: "direct main"
-    description:
-      name: paytm
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.8"
   pedantic:
     dependency: transitive
     description:

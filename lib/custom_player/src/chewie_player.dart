@@ -74,7 +74,10 @@ class ChewieState extends State<Chewie> {
   Widget build(BuildContext context) {
     return _ChewieControllerProvider(
       controller: widget.controller,
-      child: PlayerWithControls(title: widget.title, downloadStatus: widget.downloadStatus,),
+      child: PlayerWithControls(
+        title: widget.title,
+        downloadStatus: widget.downloadStatus,
+      ),
     );
   }
 
@@ -83,7 +86,7 @@ class ChewieState extends State<Chewie> {
       Animation<double> animation,
       _ChewieControllerProvider controllerProvider) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomInset: false,
       body: Container(
         alignment: Alignment.center,
         color: Colors.black,
@@ -276,7 +279,7 @@ class ChewieController extends ChangeNotifier {
 
   static ChewieController of(BuildContext context) {
     final chewieControllerProvider =
-        context.inheritFromWidgetOfExactType(_ChewieControllerProvider)
+        context.dependOnInheritedWidgetOfExactType<_ChewieControllerProvider>()
             as _ChewieControllerProvider;
 
     return chewieControllerProvider.controller;

@@ -14,8 +14,10 @@ class ChangePasswordScreen extends StatefulWidget {
 }
 
 class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
-  TextEditingController _editNewPasswordController = new TextEditingController();
-  TextEditingController _editNewConfirmPasswordController = new TextEditingController();
+  TextEditingController _editNewPasswordController =
+      new TextEditingController();
+  TextEditingController _editNewConfirmPasswordController =
+      new TextEditingController();
   final formKey = new GlobalKey<FormState>();
   bool _isOldHidden = true;
   bool _isNewHidden = true;
@@ -24,7 +26,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   var sEmail;
   var sPass;
   var sOldPass;
-
 
 //  Visibility toggle for old password
   void _toggleVisibility1() {
@@ -47,7 +48,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     });
   }
 
-
 //  TextField for new password
   Widget buildNewPasswordTextField(String hintText) {
     return TextFormField(
@@ -64,18 +64,21 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         ),
         contentPadding: EdgeInsets.all(5.0),
         prefixIcon: Icon(Icons.lock_outline),
-        suffixIcon: hintText == "New Password" ?
-        IconButton(
-          onPressed: _toggleVisibility2,
-          icon: _isNewHidden ? Icon(Icons.visibility_off) : Icon(Icons.visibility),) : null,),
-
+        suffixIcon: hintText == "New Password"
+            ? IconButton(
+                onPressed: _toggleVisibility2,
+                icon: _isNewHidden
+                    ? Icon(Icons.visibility_off)
+                    : Icon(Icons.visibility),
+              )
+            : null,
+      ),
       obscureText: hintText == "New Password" ? _isNewHidden : false,
-
       validator: (val) {
         if (val.length < 6) {
-          if(val.length==0){
+          if (val.length == 0) {
             return "Enter Password!";
-          }else{
+          } else {
             return "Password too short!";
           }
         } else {
@@ -102,28 +105,32 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         ),
         contentPadding: EdgeInsets.all(5.0),
         prefixIcon: Icon(Icons.lock),
-        suffixIcon: hintText == "Confirm New Password" ?
-        IconButton(
-          onPressed: _toggleVisibility3,
-          icon: _isConfirmNewHidden ? Icon(Icons.visibility_off) : Icon(Icons.visibility),) : null,
+        suffixIcon: hintText == "Confirm New Password"
+            ? IconButton(
+                onPressed: _toggleVisibility3,
+                icon: _isConfirmNewHidden
+                    ? Icon(Icons.visibility_off)
+                    : Icon(Icons.visibility),
+              )
+            : null,
       ),
-      obscureText: hintText == "Confirm New Password" ? _isConfirmNewHidden : false,
+      obscureText:
+          hintText == "Confirm New Password" ? _isConfirmNewHidden : false,
 
 //      Validation for password
       validator: (val) {
         if (val.length < 6) {
-          if(val.length==0){
+          if (val.length == 0) {
             return 'Enter Password!';
-          }else{
+          } else {
             return 'New Password too short!';
           }
         } else {
-          if(_editNewPasswordController.text == val){
+          if (_editNewPasswordController.text == val) {
             return null;
-          }else{
+          } else {
             return 'New Password & Confirm new password does not match.';
           }
-
         }
       },
       onSaved: (val) => _editNewConfirmPasswordController.text = val,
@@ -131,10 +138,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   }
 
 //  Form that containing text fields to update profile
-  Widget form(){
+  Widget form() {
     return Container(
-      padding: EdgeInsets.only(
-          top: 10.0, right: 20.0, left: 20.0, bottom: 20.0),
+      padding:
+          EdgeInsets.only(top: 10.0, right: 20.0, left: 20.0, bottom: 20.0),
       child: Form(
         key: formKey,
         child: Column(
@@ -168,8 +175,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         height: 50.0,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
-          borderRadius:
-          new BorderRadius.circular(5.0),
+          borderRadius: new BorderRadius.circular(5.0),
           // Box decoration takes a gradient
           gradient: LinearGradient(
             // Where the linear gradient begins and ends
@@ -179,18 +185,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             stops: [0.1, 0.5, 0.7, 0.9],
             colors: [
               // Colors are easy thanks to Flutter's Colors class.
-              Color.fromRGBO(
-                  72, 163, 198, 0.4)
-                  .withOpacity(0.4),
-              Color.fromRGBO(
-                  72, 163, 198, 0.3)
-                  .withOpacity(0.5),
-              Color.fromRGBO(
-                  72, 163, 198, 0.2)
-                  .withOpacity(0.6),
-              Color.fromRGBO(
-                  72, 163, 198, 0.1)
-                  .withOpacity(0.7),
+              Color.fromRGBO(72, 163, 198, 0.4).withOpacity(0.4),
+              Color.fromRGBO(72, 163, 198, 0.3).withOpacity(0.5),
+              Color.fromRGBO(72, 163, 198, 0.2).withOpacity(0.6),
+              Color.fromRGBO(72, 163, 198, 0.1).withOpacity(0.7),
             ],
           ),
           boxShadow: <BoxShadow>[
@@ -202,19 +200,20 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           ],
         ),
         child: Center(
-          child: isShowIndicator == true ? CircularProgressIndicator(
-            backgroundColor: Colors.white,
-          ) : Text(
-            "Change Password",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 14.0,
-            ),
-          ),
+          child: isShowIndicator == true
+              ? CircularProgressIndicator(
+                  backgroundColor: Colors.white,
+                )
+              : Text(
+                  "Change Password",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14.0,
+                  ),
+                ),
         ),
       ),
-
-      onTap: (){
+      onTap: () {
 //     To remove keypad on tapping button
         FocusScope.of(context).requestFocus(FocusNode());
         setState(() {
@@ -222,15 +221,15 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         });
         final form = formKey.currentState;
         form.save();
-//        if (form.validate() == true) {
-//          writeToFile("pass", _editNewPasswordController.text);
-//          sPass= fileContent['pass'];
-//          updatePass();
-//        }else{
-//          setState(() {
-//            isShowIndicator = false;
-//          });
-//        }
+        if (form.validate() == true) {
+          writeToFile("pass", _editNewPasswordController.text);
+          sPass = fileContent['pass'];
+          updatePass();
+        } else {
+          setState(() {
+            isShowIndicator = false;
+          });
+        }
       },
     );
   }
@@ -251,13 +250,20 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   SizedBox(
                     height: 15.0,
                   ),
-                  Text('Your password updated.', style: TextStyle(color: Theme.of(context).backgroundColor),),
+                  Text(
+                    'Your password updated.',
+                    style: TextStyle(color: Theme.of(context).backgroundColor),
+                  ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
                       FlatButton(
-                        child: Text('Ok',style: TextStyle(fontSize: 16.0,color: activeDotColor),),
+                        child: Text(
+                          'Ok',
+                          style:
+                              TextStyle(fontSize: 16.0, color: activeDotColor),
+                        ),
                         onPressed: () {
                           Navigator.pop(context);
                         },
@@ -274,9 +280,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     );
   }
 
-  Future <String> updatePass() async {
-    final updateResponse = await http.post( APIData.userProfileUpdate, body: {
-      "email" : sEmail,
+  Future<String> updatePass() async {
+    final updateResponse = await http.post(APIData.userProfileUpdate, body: {
+      "email": sEmail,
       "current_password": sOldPass,
       "new_password": sPass,
     }, headers: {
@@ -285,11 +291,11 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     setState(() {
       isShowIndicator = false;
     });
-    if(updateResponse.statusCode == 200){
+    if (updateResponse.statusCode == 200) {
       _editNewPasswordController.text = '';
       _editNewConfirmPasswordController.text = '';
       _profileUpdated(context);
-    }else{
+    } else {
       Fluttertoast.showToast(msg: "Password updating failed.");
       setState(() {
         isShowIndicator = false;
@@ -299,7 +305,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
   void writeToFile(String key, String value) {
     Map<String, String> content = {key: value};
-    Map<dynamic, dynamic> jsonFileContent = json.decode(jsonFile.readAsStringSync());
+    Map<dynamic, dynamic> jsonFileContent =
+        json.decode(jsonFile.readAsStringSync());
     jsonFileContent.addAll(content);
     jsonFile.writeAsStringSync(json.encode(jsonFileContent));
 
@@ -310,18 +317,17 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-//    getApplicationDocumentsDirectory().then((Directory directory) {
-//      dir = directory;
-//      jsonFile = new File(dir.path + "/" + fileName);
-//      fileExists = jsonFile.existsSync();
-//      if (fileExists)
-//        this.setState(
-//                () => fileContent = json.decode(jsonFile.readAsStringSync()));
-//      sEmail = fileContent['user'];
-//      sOldPass = fileContent['pass'];
-//      print(sOldPass);
-//    });
-
+    getApplicationDocumentsDirectory().then((Directory directory) {
+      dir = directory;
+      jsonFile = new File(dir.path + "/" + fileName);
+      fileExists = jsonFile.existsSync();
+      if (fileExists)
+        this.setState(
+            () => fileContent = json.decode(jsonFile.readAsStringSync()));
+      sEmail = fileContent['user'];
+      sOldPass = fileContent['pass'];
+      print(sOldPass);
+    });
   }
 
   @override

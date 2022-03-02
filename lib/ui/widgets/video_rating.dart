@@ -9,44 +9,40 @@ class RatingInformation extends StatelessWidget {
   _buildRatingBar(ThemeData theme) {
     var stars = <Widget>[];
     var vRating;
-    if(mVideo.rating is String){
+    if (mVideo.rating is String) {
       double ra = double.parse(mVideo.rating);
-     vRating = ra / 2;
-    }else{
+      vRating = ra / 2;
+    } else {
       vRating = mVideo.rating;
     }
     for (var i = 1; i <= 5; i++) {
       var star;
-      if(  i+1 <= vRating + 1){
+      if (i + 1 <= vRating + 1) {
         var color = theme.accentColor;
-         star = new Icon(
+        star = new Icon(
           Icons.star,
           color: color,
         );
-
-      }else{
-        if(i + 0.5 <= vRating+1){
+      } else {
+        if (i + 0.5 <= vRating + 1) {
           var color = theme.accentColor;
-           star = new Icon(
+          star = new Icon(
             Icons.star_half,
             color: color,
           );
-        }
-        else{
+        } else {
           var color = theme.accentColor;
-           star = new Icon(
+          star = new Icon(
             Icons.star_border,
             color: color,
           );
         }
       }
 
-
-
       stars.add(star);
     }
 
-    return new Flex(direction: Axis.horizontal,children: stars);
+    return new Flex(direction: Axis.horizontal, children: stars);
   }
 
   @override
@@ -55,10 +51,10 @@ class RatingInformation extends StatelessWidget {
     var textTheme = theme.textTheme;
     var ratingCaptionStyle = textTheme.caption.copyWith(color: Colors.white70);
     var vRating;
-    if(mVideo.rating is String){
+    if (mVideo.rating is String) {
       double ra = double.parse(mVideo.rating);
       vRating = ra / 2;
-    }else{
+    } else {
       vRating = mVideo.rating;
     }
     var numericRating = new Column(
@@ -67,7 +63,7 @@ class RatingInformation extends StatelessWidget {
       children: [
         new Text(
           "$vRating",
-          style: textTheme.title.copyWith(
+          style: textTheme.headline6.copyWith(
             fontWeight: FontWeight.w400,
             color: theme.accentColor,
           ),

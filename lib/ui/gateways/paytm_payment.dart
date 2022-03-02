@@ -15,7 +15,7 @@ import 'package:nexthour/providers/user_profile_provider.dart';
 import 'package:nexthour/ui/screens/splash_screen.dart';
 import 'package:nexthour/ui/shared/appbar.dart';
 import 'package:nexthour/ui/shared/success_ticket.dart';
-import 'package:paytm/paytm.dart';
+// import 'package:paytm/paytm.dart';
 import 'package:provider/provider.dart';
 
 class PaytmPayment extends StatefulWidget {
@@ -55,7 +55,7 @@ class _PaytmPaymentState extends State<PaytmPayment> {
     });
   }
 
-  Widget makeListTile1(){
+  Widget makeListTile1() {
     var planDetails = Provider.of<AppConfig>(context, listen: false).planList;
     return ListTile(
       contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
@@ -64,17 +64,23 @@ class _PaytmPaymentState extends State<PaytmPayment> {
         decoration: new BoxDecoration(
             border: new Border(
                 right: new BorderSide(width: 1.0, color: Colors.white24))),
-        child: Icon(FontAwesomeIcons.sortAmountDownAlt, color: Colors.white, size: 20.0,),
+        child: Icon(
+          FontAwesomeIcons.sortAmountDownAlt,
+          color: Colors.white,
+          size: 20.0,
+        ),
       ),
-      title: Padding(padding: EdgeInsets.only(top: 10.0),
+      title: Padding(
+        padding: EdgeInsets.only(top: 10.0),
         child: Text(
           '${planDetails[widget.index].name}',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14.0),
-        ),),
-      subtitle:
-      Container(
+          style: TextStyle(
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14.0),
+        ),
+      ),
+      subtitle: Container(
         height: 40.0,
-        child:  Column(
+        child: Column(
           children: <Widget>[
             SizedBox(
               height: 8.0,
@@ -83,7 +89,10 @@ class _PaytmPaymentState extends State<PaytmPayment> {
               children: <Widget>[
                 Expanded(
                   flex: 1,
-                  child: Text('Min duration '+ '${planDetails[widget.index].intervalCount}'+' days',
+                  child: Text(
+                      'Min duration ' +
+                          '${planDetails[widget.index].intervalCount}' +
+                          ' days',
                       style: TextStyle(color: Colors.white, fontSize: 12.0)),
                 ),
               ],
@@ -91,38 +100,44 @@ class _PaytmPaymentState extends State<PaytmPayment> {
           ],
         ),
       ),
-      trailing:
-      Column(
-          children:<Widget>[
-            widget.payAmount == null ? Text("Amount: "+'\n' +
-                '${planDetails[widget.index].amount} ' + '${planDetails[widget.index].currency}') : Text("Amount: "+'\n' +
-                '${widget.payAmount} ' + '${planDetails[widget.index].currency}'),
-          ]
-      ),
+      trailing: Column(children: <Widget>[
+        widget.payAmount == null
+            ? Text("Amount: " +
+                '\n' +
+                '${planDetails[widget.index].amount} ' +
+                '${planDetails[widget.index].currency}')
+            : Text("Amount: " +
+                '\n' +
+                '${widget.payAmount} ' +
+                '${planDetails[widget.index].currency}'),
+      ]),
     );
   }
 
-  Widget razorLogoContainer(){
+  Widget razorLogoContainer() {
     return Container(
       decoration: BoxDecoration(
           color: Theme.of(context).primaryColorLight,
-          borderRadius: BorderRadius.circular(10.0)
-      ),
-
+          borderRadius: BorderRadius.circular(10.0)),
       child: ListView(
         shrinkWrap: true,
         scrollDirection: Axis.vertical,
         physics: ClampingScrollPhysics(),
         children: <Widget>[
-          Padding(padding: EdgeInsets.all(50.0),
-            child: Image.asset("assets/paytmlogo.png", scale: 1.0, width: 150.0,),
+          Padding(
+            padding: EdgeInsets.all(50.0),
+            child: Image.asset(
+              "assets/paytmlogo.png",
+              scale: 1.0,
+              width: 150.0,
+            ),
           )
         ],
       ),
     );
   }
 
-  Widget paymentDetailsCard(){
+  Widget paymentDetailsCard() {
     return Card(
       elevation: 0.0,
       shape: RoundedRectangleBorder(
@@ -132,15 +147,12 @@ class _PaytmPaymentState extends State<PaytmPayment> {
       child: Container(
         decoration: BoxDecoration(
             color: Theme.of(context).primaryColorLight,
-            borderRadius: BorderRadius.circular(10.0)
-        ),
+            borderRadius: BorderRadius.circular(10.0)),
         child: ListView(
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
           physics: ClampingScrollPhysics(),
-          children: <Widget>[
-            makeListTile1()
-          ],
+          children: <Widget>[makeListTile1()],
         ),
       ),
     );
@@ -148,10 +160,14 @@ class _PaytmPaymentState extends State<PaytmPayment> {
 
   @override
   Widget build(BuildContext context) {
-    var payment = Provider.of<PaymentKeyProvider>(context, listen: false).paymentKeyModel;
+    var payment =
+        Provider.of<PaymentKeyProvider>(context, listen: false).paymentKeyModel;
     var planDetails = Provider.of<AppConfig>(context, listen: false).planList;
-    var userDetails = Provider.of<UserProfileProvider>(context, listen: false).userProfileModel;
-    amount = widget.payAmount == null ? double.tryParse("${planDetails[widget.index].amount}") : double.tryParse("${widget.payAmount}");
+    var userDetails = Provider.of<UserProfileProvider>(context, listen: false)
+        .userProfileModel;
+    amount = widget.payAmount == null
+        ? double.tryParse("${planDetails[widget.index].amount}")
+        : double.tryParse("${widget.payAmount}");
     return Scaffold(
       appBar: customAppBar(context, "Paytm Payment"),
       body: SingleChildScrollView(
@@ -169,15 +185,14 @@ class _PaytmPaymentState extends State<PaytmPayment> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
-                margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+                margin:
+                    new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
                 child: razorLogoContainer(),
               ),
-
               SizedBox(
                 height: 30.0,
               ),
               paymentDetailsCard(),
-
               SizedBox(
                 height: 20.0,
               ),
@@ -186,12 +201,13 @@ class _PaytmPaymentState extends State<PaytmPayment> {
               ),
               RaisedButton(
                 onPressed: () {
-                  if(planDetails[widget.index].currency != "INR")
-                    {
-                      Fluttertoast.showToast(msg: "Paytm supports only INR currency");
-                      return;
-                    }else{
-                    generateTxnToken(0, payment.paytmkey, payment.paytmpass, userDetails.user.id);
+                  if (planDetails[widget.index].currency != "INR") {
+                    Fluttertoast.showToast(
+                        msg: "Paytm supports only INR currency");
+                    return;
+                  } else {
+                    generateTxnToken(0, payment.paytmkey, payment.paytmpass,
+                        userDetails.user.id);
                   }
                 },
                 color: primaryBlue,
@@ -245,11 +261,11 @@ class _PaytmPaymentState extends State<PaytmPayment> {
               ),
               RaisedButton(
                 onPressed: () {
-                  if(planDetails[widget.index].currency != "INR")
-                  {
-                    Fluttertoast.showToast(msg: "Paytm supports only INR currency");
+                  if (planDetails[widget.index].currency != "INR") {
+                    Fluttertoast.showToast(
+                        msg: "Paytm supports only INR currency");
                     return;
-                  }else {
+                  } else {
                     generateTxnToken(3, payment.paytmkey, payment.paytmpass,
                         userDetails.user.id);
                   }
@@ -266,7 +282,6 @@ class _PaytmPaymentState extends State<PaytmPayment> {
       ),
     );
   }
-
 
   @override
   void dispose() {
@@ -304,8 +319,8 @@ class _PaytmPaymentState extends State<PaytmPayment> {
   void generateTxnToken(int mode, mid, mKey, uid) async {
     String orderId = DateTime.now().millisecondsSinceEpoch.toString();
     String callBackUrl = (testing
-        ? 'https://securegw-stage.paytm.in'
-        : 'https://securegw.paytm.in') +
+            ? 'https://securegw-stage.paytm.in'
+            : 'https://securegw.paytm.in') +
         '/theia/paytmCallback?ORDER_ID=' +
         orderId;
 
@@ -339,103 +354,107 @@ class _PaytmPaymentState extends State<PaytmPayment> {
         payment_response = txnToken;
       });
 
-      var paytmResponse = Paytm.payWithPaytm(
-          mid, orderId, txnToken, amount.toString(), callBackUrl, testing);
+      // var paytmResponse = Paytm.payWithPaytm(
+      //     mid, orderId, txnToken, amount.toString(), callBackUrl, testing);
 
-      paytmResponse.then((value) {
-        print(value);
-        setState(() {
-          loading = false;
-          payment_response = value.toString();
-          if("$value" == ''){
-            return;
-          }else{
-            if(value['STATUS'] == "TXN_SUCCESS"){
-              setState(() {
-                isShowing = true;
-              });
-              sendPaymentDetails(value['TXNID']);
-            }else if(value['STATUS'] == "TXN_PENDING"){
-              sendPaymentDetails(value['TXNID']);
-            }
-          }
-        });
-      });
+      // paytmResponse.then((value) {
+      //   print(value);
+      //   setState(() {
+      //     loading = false;
+      //     payment_response = value.toString();
+      //     if("$value" == ''){
+      //       return;
+      //     }else{
+      //       if(value['STATUS'] == "TXN_SUCCESS"){
+      //         setState(() {
+      //           isShowing = true;
+      //         });
+      //         sendPaymentDetails(value['TXNID']);
+      //       }else if(value['STATUS'] == "TXN_PENDING"){
+      //         sendPaymentDetails(value['TXNID']);
+      //       }
+      //     }
+      //   });
+      // });
 
     } catch (e) {
       print(e);
     }
   }
+
   goToDialog(subdate, time, msgResponse, amount) {
     showDialog(
         context: context,
         barrierDismissible: true,
         builder: (context) => new GestureDetector(
-          child: Container(
-            color: Colors.white.withOpacity(0.05),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SuccessTicket(
-                  msgResponse: "Your transaction successful",
-                  subDate: subdate,
-                  time: time,
-                  planAmount: amount,
+              child: Container(
+                color: Colors.white.withOpacity(0.05),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    SuccessTicket(
+                      msgResponse: "Your transaction successful",
+                      subDate: subdate,
+                      time: time,
+                      planAmount: amount,
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    FloatingActionButton(
+                      backgroundColor: Colors.white,
+                      child: Icon(
+                        Icons.clear,
+                        color: Colors.black,
+                      ),
+                      onPressed: () {
+                        Navigator.pushNamed(context, RoutePaths.splashScreen,
+                            arguments: SplashScreen(
+                              token: authToken,
+                            ));
+                      },
+                    )
+                  ],
                 ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                FloatingActionButton(
-                  backgroundColor: Colors.white,
-                  child: Icon(
-                    Icons.clear,
-                    color: Colors.black,
-                  ),
-                  onPressed: () {
-                   Navigator.pushNamed(context, RoutePaths.splashScreen, arguments: SplashScreen(token: authToken,));
-                  },
-                )
-              ],
-            ),
-          ),
-        ));
+              ),
+            ));
   }
 
   sendPaymentDetails(transactionId) async {
     var planDetails = Provider.of<AppConfig>(context, listen: false).planList;
     var planId = Provider.of<AppConfig>(context, listen: false).planList;
     try {
-        final sendResponse = await http.post(APIData.sendRazorDetails, body: {
-          "reference": "$transactionId",
-          "amount": "${planDetails[widget.index].amount}",
-          "plan_id": "$planId",
-          "status": "1",
-          "method": "Paytm",
-        }, headers: {
-          HttpHeaders.authorizationHeader: "Bearer $authToken",
-          "Accept" : "application/json"
-        }
-        );
-        var response = json.decode(sendResponse.body);
-        if(sendResponse.statusCode == 200){
-          var msgResponse = response['message'];
-          var subRes = response['subscription'];
-          var date  = subRes['created_at'];
-          var time = subRes['created_at'];
-          createdDate = DateFormat('d MMM y').format(DateTime.parse(date));
-          createdTime = DateFormat('HH:mm a').format(DateTime.parse(time));
-          setState(() {
-            isShowing = false;
-          });
-          goToDialog(createdDate, createdTime, msgResponse, planDetails[widget.index].amount);
-        } else {
-          setState(() {
-            isShowing = false;
-          });
-          Fluttertoast.showToast(msg: "Your transaction failed.");
-        }
-      } catch (error) {
-        print(error);
+      final sendResponse = await http.post(APIData.sendRazorDetails, body: {
+        "reference": "$transactionId",
+        "amount": "${planDetails[widget.index].amount}",
+        "plan_id": "$planId",
+        "status": "1",
+        "method": "Paytm",
+      }, headers: {
+        HttpHeaders.authorizationHeader: "Bearer $authToken",
+        "Accept": "application/json"
+      });
+      var response = json.decode(sendResponse.body);
+      if (sendResponse.statusCode == 200) {
+        var msgResponse = response['message'];
+        var subRes = response['subscription'];
+        var date = subRes['created_at'];
+        var time = subRes['created_at'];
+        createdDate = DateFormat('d MMM y').format(DateTime.parse(date));
+        createdTime = DateFormat('HH:mm a').format(DateTime.parse(time));
+        setState(() {
+          isShowing = false;
+        });
+        goToDialog(createdDate, createdTime, msgResponse,
+            planDetails[widget.index].amount);
+      } else {
+        setState(() {
+          isShowing = false;
+        });
+        Fluttertoast.showToast(msg: "Your transaction failed.");
       }
+    } catch (error) {
+      print(error);
     }
+  }
 }
