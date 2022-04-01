@@ -37,8 +37,7 @@ class CinetPaymentScreen extends StatefulWidget {
       this.currency,
       this.designation,
       this.cpmCustom,
-      this.planIndex
-      );
+      this.planIndex);
 
   @override
   CinetPaymentScreenState createState() => CinetPaymentScreenState();
@@ -70,7 +69,6 @@ class CinetPaymentScreenState extends State<CinetPaymentScreen> {
               ),
             ),
             onWebViewCreated: (InAppWebViewController controller) {
-
               controller.addJavaScriptHandler(
                   handlerName: 'elementToSend',
                   callback: (args) {
@@ -91,33 +89,38 @@ class CinetPaymentScreenState extends State<CinetPaymentScreen> {
                   callback: (args) async {
                     // Mettre en place un endpoint pour vérifier le statut du paiement
                     // dans votre base de données après le retour et faire les traitement appropriés
-                    await _sendDetails(widget.transactionId,widget.planIndex);
-                    _onAlertWithStylePressed(context, "Succès","Votre paiement a été approuvé avec succès.",'success');
-                  //  return showDialog(barrierDismissible: false, context: context, builder: (context) => AlertDialog(contextIn: context, icon: Icons.check, color: Colors.lightGreenAccent, title: "Succès", description: "Votre paiement a été approuvé avec succès."));
-                   // return showDialog(barrierDismissible: false, context: context, builder: (context) => AlertDialog(contextIn: context, icon: Icons.clear, color: Colors.redAccent, title: "Echec", description: "Votre paiement a echoué."));
+                    await _sendDetails(widget.transactionId, widget.planIndex);
+                    _onAlertWithStylePressed(
+                        context,
+                        "Succès",
+                        "Votre paiement a été approuvé avec succès.",
+                        'success');
+                    //  return showDialog(barrierDismissible: false, context: context, builder: (context) => AlertDialog(contextIn: context, icon: Icons.check, color: Colors.lightGreenAccent, title: "Succès", description: "Votre paiement a été approuvé avec succès."));
+                    // return showDialog(barrierDismissible: false, context: context, builder: (context) => AlertDialog(contextIn: context, icon: Icons.clear, color: Colors.redAccent, title: "Echec", description: "Votre paiement a echoué."));
                   });
 
               controller.addJavaScriptHandler(
                   handlerName: 'error',
                   callback: (args) {
-                    _onAlertWithStylePressed(context,  args[0],args[1],'error');
-                   // return showDialog(barrierDismissible: false, context: context, builder: (context) => AlertDialog(contextIn: context, icon: Icons.clear, color: Colors.redAccent, title: args[0], description: args[1]));
+                    _onAlertWithStylePressed(
+                        context, args[0], args[1], 'error');
+
+                    // return showDialog(barrierDismissible: false, context: context, builder: (context) => AlertDialog(contextIn: context, icon: Icons.clear, color: Colors.redAccent, title: args[0], description: args[1]));
                   });
             },
-            onLoadStart: (InAppWebViewController controller, String url) {
-            },
+            onLoadStart: (InAppWebViewController controller, String url) {},
             onProgressChanged:
                 (InAppWebViewController controller, int progress) {},
             onConsoleMessage:
                 (InAppWebViewController controller, ConsoleMessage message) {
               print("ConsoleMessage ${message.message}");
             },
-
           ),
         ),
       ),
     );
   }
+
   goToDialog(purDate, time, msgRes) {
     setState(() {
       isDataAvailable = true;
@@ -126,35 +129,39 @@ class CinetPaymentScreenState extends State<CinetPaymentScreen> {
         context: context,
         barrierDismissible: true,
         builder: (context) => new GestureDetector(
-          child: Container(
-            color: Colors.transparent,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SuccessTicket(
-                  msgResponse: "$msgRes",
-                  planAmount: widget.amount.toString(),
-                  subDate: purDate,
-                  time: time,
+              child: Container(
+                color: Colors.transparent,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    SuccessTicket(
+                      msgResponse: "$msgRes",
+                      planAmount: widget.amount.toString(),
+                      subDate: purDate,
+                      time: time,
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    FloatingActionButton(
+                      backgroundColor: Colors.black,
+                      child: Icon(
+                        Icons.clear,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        Navigator.pushNamed(context, RoutePaths.splashScreen,
+                            arguments: SplashScreen(
+                              token: authToken,
+                            ));
+                      },
+                    )
+                  ],
                 ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                FloatingActionButton(
-                  backgroundColor: Colors.black,
-                  child: Icon(
-                    Icons.clear,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, RoutePaths.splashScreen, arguments: SplashScreen(token: authToken,));
-                  },
-                )
-              ],
-            ),
-          ),
-        ));
+              ),
+            ));
   }
+
   //  Send payment details
   _sendDetails(transactionId, planId) async {
     try {
@@ -166,14 +173,13 @@ class CinetPaymentScreenState extends State<CinetPaymentScreen> {
         "method": "CinetPay",
       }, headers: {
         HttpHeaders.authorizationHeader: "Bearer $authToken",
-        "Accept" : "application/json"
-      }
-      );
+        "Accept": "application/json"
+      });
       var response = json.decode(sendResponse.body);
-      if(sendResponse.statusCode == 200){
+      if (sendResponse.statusCode == 200) {
         var msgResponse = response['message'];
         var subRes = response['subscription'];
-        var date  = subRes['created_at'];
+        var date = subRes['created_at'];
         var time = subRes['created_at'];
         createdDate = DateFormat('d MMM y').format(DateTime.parse(date));
         createdTime = DateFormat('HH:mm a').format(DateTime.parse(time));
@@ -191,7 +197,8 @@ class CinetPaymentScreenState extends State<CinetPaymentScreen> {
       print(error);
     }
   }
-  _onAlertWithStylePressed(context,title,description,alertType) {
+
+  _onAlertWithStylePressed(context, title, description, alertType) {
     // Reusable alert style
     var alertStyle = AlertStyle(
         animationType: AnimationType.fromTop,
@@ -206,7 +213,7 @@ class CinetPaymentScreenState extends State<CinetPaymentScreen> {
           ),
         ),
         titleStyle: TextStyle(
-          color: alertType=='error'?Colors.red:Colors.green,
+          color: alertType == 'error' ? Colors.red : Colors.green,
         ),
         constraints: BoxConstraints.expand(width: 300),
         //First to chars "55" represents transparency of color
@@ -218,7 +225,7 @@ class CinetPaymentScreenState extends State<CinetPaymentScreen> {
     Alert(
       context: context,
       style: alertStyle,
-      type: alertType=='error'?AlertType.error:AlertType.success,
+      type: alertType == 'error' ? AlertType.error : AlertType.success,
       title: title.toString(),
       desc: description.toString(),
       buttons: [
@@ -228,23 +235,23 @@ class CinetPaymentScreenState extends State<CinetPaymentScreen> {
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
           onPressed: () {
-            alertType!='error'?
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => SplashScreen()),
-                  (Route<dynamic> route) => false,
-            ):
-             Navigator.pop(context);
-            // Navigator.pop(context);
-    },
-    color:
-     Color.fromRGBO(0, 179, 134, 1.0),
+            Navigator.pushNamedAndRemoveUntil(
+                context, RoutePaths.bottomNavigationHome, (route) => false);
+            // alertType != 'error'
+            //     ? Navigator.pushAndRemoveUntil(
+            //         context,
+            //         MaterialPageRoute(builder: (context) => SplashScreen()),
+            //         (Route<dynamic> route) => false,
+            //       )
+            //     : Navigator.pop(context);
+            // // Navigator.pop(context);
+          },
+          color: Color.fromRGBO(0, 179, 134, 1.0),
           radius: BorderRadius.circular(0.0),
         ),
       ],
     ).show();
   }
-
 }
 
 // class AlertDialog extends StatelessWidget {

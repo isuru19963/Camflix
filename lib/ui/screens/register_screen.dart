@@ -395,11 +395,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
             setState(() {
               countryDetails =
                   dataCountry.where((item) => item['name'] == value).toList();
-              countryCode = countryDetails[0]['callingCodes'][0];
-              selectedCountryShortCode = countryDetails[0]['alpha2Code'];
-              selectedCountryName = countryDetails[0]['name'];
-              selectedCountry = value;
-              print(selectedCountryShortCode);
+              if (value != null) {
+                countryCode = countryDetails[0]['callingCodes'][0];
+                selectedCountryShortCode = countryDetails[0]['alpha2Code'];
+                selectedCountryName = countryDetails[0]['name'];
+                selectedCountry = value;
+                print(selectedCountryShortCode);
+              }
             });
           },
         ));

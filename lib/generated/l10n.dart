@@ -12,22 +12,23 @@ import 'intl/messages_all.dart';
 
 class S {
   S();
-  
+
   static S current;
-  
-  static const AppLocalizationDelegate delegate =
-    AppLocalizationDelegate();
+
+  static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
-    final name = (locale.countryCode?.isEmpty ?? false) ? locale.languageCode : locale.toString();
-    final localeName = Intl.canonicalizedLocale(name); 
+    final name = (locale.countryCode?.isEmpty ?? false)
+        ? locale.languageCode
+        : locale.toString();
+    final localeName = Intl.canonicalizedLocale(name);
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
       S.current = S();
-      
+
       return S.current;
     });
-  } 
+  }
 
   static S of(BuildContext context) {
     return Localizations.of<S>(context, S);
@@ -162,6 +163,7 @@ class S {
       args: [],
     );
   }
+
   /// `menuNotifications`
   String get menuNotifications {
     return Intl.message(
@@ -261,6 +263,7 @@ class S {
       args: [],
     );
   }
+
   /// `menuNotifications`
   String get welcomeText {
     return Intl.message(
@@ -270,6 +273,7 @@ class S {
       args: [],
     );
   }
+
   /// `menuNotifications`
   String get signWelcomeText {
     return Intl.message(
@@ -279,6 +283,7 @@ class S {
       args: [],
     );
   }
+
   /// `menuNotifications`
   String get loginWelcomeText {
     return Intl.message(
@@ -298,6 +303,7 @@ class S {
       args: [],
     );
   }
+
   /// `menuNotifications`
   String get loginpWelcomeText {
     return Intl.message(
@@ -332,7 +338,7 @@ class S {
   String get loginpsignupText {
     return Intl.message(
       'Signup',
-      name: 'loginppasswordText',
+      name: 'loginpsignupText',
       desc: '',
       args: [],
     );
@@ -347,10 +353,11 @@ class S {
       args: [],
     );
   }
+
   /// `menuNotifications`
   String get loginpdonthaveaccntText {
     return Intl.message(
-      "If you Don't have an account" ,
+      "If you Don't have an account",
       name: 'loginpdonthaveaccntText',
       desc: '',
       args: [],
@@ -360,7 +367,7 @@ class S {
   /// `menuNotifications`
   String get loginpalreadyhaveaccntText {
     return Intl.message(
-      "Already have an account?" ,
+      "Already have an account?",
       name: 'loginpalreadyhaveaccntText',
       desc: '',
       args: [],
@@ -556,7 +563,6 @@ class S {
       args: [],
     );
   }
-
 
   /// `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.`
   String get formFieldAbout {

@@ -5,8 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:nexthour/common/apipath.dart';
 import 'package:nexthour/common/global.dart';
+import 'package:nexthour/providers/user_profile_provider.dart';
+import 'package:nexthour/ui/screens/login_home.dart';
 import 'package:nexthour/ui/shared/appbar.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   @override
@@ -222,9 +225,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         final form = formKey.currentState;
         form.save();
         if (form.validate() == true) {
-          writeToFile("pass", _editNewPasswordController.text);
-          sPass = fileContent['pass'];
-          updatePass();
+          // writeToFile("pass", _editNewPasswordController.text);
+          // sPass = fileContent['pass'];
+          resetPassword();
         } else {
           setState(() {
             isShowIndicator = false;
@@ -265,7 +268,11 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                               TextStyle(fontSize: 16.0, color: activeDotColor),
                         ),
                         onPressed: () {
-                          Navigator.pop(context);
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LoginHome()),
+                              (route) => false);
                         },
                       ),
                     ],
@@ -280,28 +287,55 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     );
   }
 
-  Future<String> updatePass() async {
-    final updateResponse = await http.post(APIData.userProfileUpdate, body: {
-      "email": sEmail,
-      "current_password": sOldPass,
-      "new_password": sPass,
-    }, headers: {
-      HttpHeaders.authorizationHeader: "Bearer $authToken"
+  Future<String> resetPassword() async {
+    var userDetails = Provider.of<UserProfileProvider>(context, listen: false)
+        .userProfileModel;
+    final sendOtpResponse = await http.post(APIData.resetPasswordApi, body: {
+      "email": userDetails.user.email,
+      "password": _editNewPasswordController.text,
+      "password_confirmation": _editNewConfirmPasswordController.text,
     });
+
     setState(() {
       isShowIndicator = false;
     });
-    if (updateResponse.statusCode == 200) {
-      _editNewPasswordController.text = '';
-      _editNewConfirmPasswordController.text = '';
+
+    print(sendOtpResponse.statusCode);
+    if (sendOtpResponse.statusCode == 200) {
+      Fluttertoast.showToast(msg: "Your password has been updated.");
       _profileUpdated(context);
+//      var route = MaterialPageRoute(
+//          builder: (context) => LoadingPage(isSelected: true, useremail: widget.email, userpass: _newPasswordController.text,));
+//      Navigator.push(context, route);
     } else {
-      Fluttertoast.showToast(msg: "Password updating failed.");
-      setState(() {
-        isShowIndicator = false;
-      });
+      Fluttertoast.showToast(msg: "Password update failed.");
+      isShowIndicator = false;
     }
+    return null;
   }
+
+  // Future<String> updatePass() async {
+  //   final updateResponse = await http.post(APIData.userProfileUpdate, body: {
+  //     "email": sEmail,
+  //     "current_password": sOldPass,
+  //     "new_password": sPass,
+  //   }, headers: {
+  //     HttpHeaders.authorizationHeader: "Bearer $authToken"
+  //   });
+  //   setState(() {
+  //     isShowIndicator = false;
+  //   });
+  //   if (updateResponse.statusCode == 200) {
+  //     _editNewPasswordController.text = '';
+  //     _editNewConfirmPasswordController.text = '';
+  //     _profileUpdated(context);
+  //   } else {
+  //     Fluttertoast.showToast(msg: "Password updating failed.");
+  //     setState(() {
+  //       isShowIndicator = false;
+  //     });
+  //   }
+  // }
 
   void writeToFile(String key, String value) {
     Map<String, String> content = {key: value};
