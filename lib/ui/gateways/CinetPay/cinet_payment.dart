@@ -216,7 +216,7 @@ class PaypalPaymentState extends State<CinetPayment> {
                   color: Colors.green,
                   shape: new RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0)),
-                  child: new Text("Pay by Cinetpay",
+                  child: new Text("Pay Now",
                       style:
                           new TextStyle(color: Colors.white, fontSize: 20.0)),
                 ),

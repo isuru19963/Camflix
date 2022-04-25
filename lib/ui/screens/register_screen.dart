@@ -277,17 +277,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       padding: EdgeInsets.all(15.0),
       child: TextFormField(
         controller: _nameController,
-        validator: (value) {
-          if (value.length < 5) {
-            if (value.length == 0) {
-              return 'Enter name';
-            } else {
-              return 'Enter minimum 5 characters';
-            }
-          } else {
-            return null;
-          }
-        },
         keyboardType: TextInputType.name,
         decoration: InputDecoration(
           prefixIcon: Icon(

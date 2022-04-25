@@ -331,7 +331,7 @@ class _DetailPageState extends State<ContactUsPage> {
 }
 
 openwhatsapp() async {
-  var whatsapp = "+934433433";
+  var whatsapp = "+14435295014";
   var whatsappURl_android = "whatsapp://send?phone=" + whatsapp;
   var whatappURL_ios = "https://wa.me/$whatsapp?}";
   if (Platform.isIOS) {

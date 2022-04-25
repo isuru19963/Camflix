@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -7,7 +10,9 @@ import 'package:nexthour/common/apipath.dart';
 import 'dart:async';
 import 'package:nexthour/common/global.dart';
 import 'package:nexthour/common/route_paths.dart';
+import 'package:nexthour/models/coupon_model.dart';
 import 'package:nexthour/providers/app_config.dart';
+import 'package:nexthour/providers/coupon_provider.dart';
 import 'package:nexthour/providers/payment_key_provider.dart';
 import 'package:nexthour/providers/user_profile_provider.dart';
 import 'package:nexthour/ui/gateways/bank_payment.dart';
@@ -29,6 +34,12 @@ bool isCouponApplied = true;
 var mFlag = 0;
 String couponCode = '';
 var genCoupon;
+final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+final _formKey = new GlobalKey<FormState>();
+final TextEditingController _couponController = new TextEditingController();
+bool _validate = false;
+bool isDataAvailable = false;
+bool _visible = false;
 
 class SelectPaymentScreen extends StatefulWidget {
   SelectPaymentScreen(this.planIndex);
@@ -58,9 +69,134 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
 
   bool loading = true;
 
+  Future<String> _applyCoupon() async {
+    final applyCouponResponse = await http.post(
+        Uri.encodeFull(
+            "https://api.stripe.com/v1/coupons/${_couponController.text}"),
+        headers: {HttpHeaders.authorizationHeader: "Bearer $authToken"});
+    var applyCouponDetails = json.decode(applyCouponResponse.body);
+    if (applyCouponResponse.statusCode == 200) {
+      validCoupon = applyCouponDetails['valid'];
+      percentOFF = applyCouponDetails['percent_off'];
+      Future.delayed(Duration(seconds: 1)).then((_) => Navigator.pop(context));
+
+      if (validCoupon == true) {
+        mFlag = 1;
+        setState(() {
+          couponMSG = 'Coupon Applied';
+          isCouponApplied = false;
+          isDataAvailable = false;
+        });
+      } else {
+        setState(() {
+          couponMSG = 'Coupon has been expired';
+          isCouponApplied = false;
+          isDataAvailable = false;
+        });
+      }
+    } else {
+      validCoupon = false;
+      setState(() {
+        couponMSG = 'Invalid Coupon Code';
+        isCouponApplied = false;
+        isDataAvailable = false;
+      });
+      Future.delayed(Duration(seconds: 1)).then((_) => Navigator.pop(context));
+      setState(() {
+        isDataAvailable = false;
+      });
+    }
+    return null;
+  }
+
+  Future<String> _verifyCoupon(couponCode) async {
+    var couponProvider =
+        Provider.of<CouponProvider>(context, listen: false).couponModel;
+    final applyCouponResponse =
+        await http.post(APIData.applyGeneralCoupon, headers: {
+      HttpHeaders.authorizationHeader: "Bearer $authToken"
+    }, body: {
+      "coupon_code": couponCode,
+    });
+    var applyCouponDetails = json.decode(applyCouponResponse.body);
+    if (applyCouponResponse.statusCode == 200) {
+      for (int i = 0; i < couponProvider.coupon.length; i++) {
+        if (couponProvider.coupon[i].couponCode == couponCode) {
+          if (couponProvider.coupon[i].inStripe == "1" ||
+              couponProvider.coupon[i].inStripe == 1) {
+            _applyCoupon();
+          } else {
+            mFlag = 1;
+            setState(() {
+              validCoupon = true;
+              percentOFF = couponProvider.coupon[i].percentOff;
+              couponMSG = 'Coupon Applied';
+              isCouponApplied = false;
+              isDataAvailable = false;
+            });
+            Future.delayed(Duration(seconds: 1))
+                .then((_) => Navigator.pop(context));
+          }
+        }
+      }
+    } else if (applyCouponResponse.statusCode == 401) {
+      validCoupon = false;
+      setState(() {
+        couponMSG = 'Coupon has been expired';
+        isCouponApplied = false;
+        isDataAvailable = false;
+      });
+      Future.delayed(Duration(seconds: 1)).then((_) => Navigator.pop(context));
+      setState(() {
+        isDataAvailable = false;
+      });
+    }
+    return null;
+  }
+
+  Widget getCouponList(List<Coupon> cList) {
+    List<Widget> list = new List<Widget>();
+    for (int i = 0; i < cList.length; i++) {
+      list.add(Container(
+        height: 50,
+        alignment: Alignment.topLeft,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            cList[i].percentOff == null
+                ? Text(
+                    "${cList[i].couponCode} ${cList[i].amountOff}"
+                    "${cList[i].currency} off",
+                    style: TextStyle(fontSize: 18.0),
+                  )
+                : Text(
+                    "${cList[i].couponCode} ${cList[i].percentOff}"
+                    " ${cList[i].currency} % off",
+                    style: TextStyle(fontSize: 18.0),
+                  )
+          ],
+        ),
+      ));
+    }
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: list,
+    );
+  }
+
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      CouponProvider couponProvider =
+          Provider.of<CouponProvider>(context, listen: false);
+      await couponProvider.getCoupons(context);
+      setState(() {
+        _visible = true;
+      });
+    });
     setState(() {
       loading = true;
     });
@@ -1331,6 +1467,7 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
   Widget _sliverList(dailyAmountAp, afterDiscountAmount, planDetails) {
     return SliverList(
         delegate: SliverChildBuilderDelegate((BuildContext context, int j) {
+      var couponList = Provider.of<CouponProvider>(context).couponModel;
       return Container(
           child: Column(children: <Widget>[
         new Container(
@@ -1379,55 +1516,91 @@ class _SelectPaymentScreenState extends State<SelectPaymentScreen>
                                 ),
                               ),
                               Padding(padding: EdgeInsets.only(top: 40.0)),
-                              InkWell(
-                                child: Container(
-                                  margin:
-                                      EdgeInsets.only(left: 20.0, right: 20.0),
-                                  height: 50.0,
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      Expanded(
-                                        flex: 5,
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 15.0),
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      height: 50.0,
+                                      child: Form(
+                                        key: _formKey,
                                         child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: <Widget>[
-                                            giftIcon(),
-                                            Padding(
+                                          children: [
+                                            Expanded(
+                                              flex: 3,
+                                              child: Container(
+                                                height: 60.0,
+                                                padding: EdgeInsets.all(8.0),
+                                                child: TextFormField(
+                                                  controller: _couponController,
+                                                  decoration: InputDecoration(
+                                                    hintText:
+                                                        "Enter Coupon Code",
+                                                    errorText: _validate
+                                                        ? "Enter Coupon"
+                                                        : null,
+                                                  ),
+                                                  validator: (val) {
+                                                    if (val.length == 0) {
+                                                      return 'Please Enter Coupon Code';
+                                                    } else {
+                                                      return null;
+                                                    }
+                                                  },
+                                                  onSaved: (val) =>
+                                                      _couponController.text =
+                                                          val,
+                                                ),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              flex: 1,
+                                              child: Container(
+                                                height: 60.0,
                                                 padding:
-                                                    EdgeInsets.only(left: 10.0),
-                                                child: isCouponApplied
-                                                    ? Text("Apply Coupon")
-                                                    : Text(
-                                                        couponCode,
-                                                        textAlign:
-                                                            TextAlign.left,
-                                                      ))
+                                                    const EdgeInsets.all(8.0),
+                                                child: isDataAvailable
+                                                    ? Center(
+                                                        child:
+                                                            CircularProgressIndicator(),
+                                                      )
+                                                    : RaisedButton(
+                                                        color: activeDotColor,
+                                                        child: Text("Apply"),
+                                                        onPressed: () {
+                                                          final form = _formKey
+                                                              .currentState;
+                                                          form.save();
+                                                          if (form.validate() ==
+                                                              true) {
+                                                            FocusScope.of(
+                                                                    context)
+                                                                .requestFocus(
+                                                                    FocusNode());
+                                                            setState(() {
+                                                              couponCode =
+                                                                  _couponController
+                                                                      .text;
+                                                            });
+                                                            _verifyCoupon(
+                                                                couponCode);
+                                                            isDataAvailable =
+                                                                true;
+                                                          }
+                                                        },
+                                                      ),
+                                              ),
+                                            ),
                                           ],
                                         ),
                                       ),
-                                      applyCouponIcon(),
-                                    ],
-                                  ),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      width: 2.0,
-                                      color: Colors.white.withOpacity(0.4),
                                     ),
-                                  ),
+                                    SizedBox(
+                                      height: 20.0,
+                                    ),
+                                    getCouponList(couponList.coupon),
+                                  ],
                                 ),
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                      context, RoutePaths.applyCoupon,
-                                      arguments: ApplyCouponScreen(
-                                          planDetails[widget.planIndex]
-                                              .amount));
-                                },
                               ),
                               Container(
                                   height: 30.0,
